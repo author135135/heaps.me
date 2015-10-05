@@ -1,0 +1,58 @@
+{% extends 'heaps_app/base_html.html' %}
+
+{% block content %}
+    <form action="{% url 'heaps_app:add-celebrity' %}" role="form" enctype="multipart/form-data" id="add-celebrity" method="post">
+        {% csrf_token %}
+        <div class="col-lg-3">
+            <div class="thumbnail">
+                <span>Загрузить фото</span>
+                <img src="">
+            </div>
+            <div class="hidden">{{ form.photo }}</div>
+            <div class="form-group {% if form.description.errors %}has-error{% endif %}">
+                <h3>Добавьте краткое описание:</h3>
+                {{ form.description }}
+            </div>
+            {% if form.description.errors %}
+                <div class="form-group errorlist">
+                    {{ form.description.errors }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                {{ form.firstname.label_tag }}
+                {{ form.firstname }}
+            </div>
+            <div class="form-group">
+                {{ form.lastname.label_tag }}
+                {{ form.lastname }}
+            </div>
+            <div class="form-group">
+                {{ form.nickname.label_tag }}
+                {{ form.nickname }}
+            </div>
+            {% if form.non_field_errors %}
+                <div class="form-group errorlist">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <div class="form-group {% if form.social_network.errors %}has-error{% endif %}">
+                <h3>Укажите социальные сети:</h3>
+                <div class="form-group social-network">
+                    {{ form.social_network }}
+                </div>
+                {% if form.social_network.errors %}
+                    <div class="form-group errorlist">
+                        {{ form.social_network.errors }}
+                    </div>
+                {% endif %}
+                <div class="form-group-sm">
+                    <br><a href="#" class="btn btn-default btn-sm pull-right add-field">Добавить еще</a>
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-default btn-block">Создать карточку</button>
+        </div>
+    </form>
+{% endblock %}

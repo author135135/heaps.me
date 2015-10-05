@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Front page{% endblock %}</title>
+    {% block seo %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'heaps_app/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'heaps_app/css/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" href="{% static 'heaps_app/css/style.css' %}">
+</head>
+<body>
+    <div id="main-container" class="container-fluid">
+        <div class="col-lg-2">
+            <a href="/"><img src="{% static 'heaps_app/images/logo.png' %}"></a>
+            <div class="slogan">
+                Будьте в курсе последних
+                новостей из всех социальных
+                сетей раньше остальных
+            </div>
+            <div id="authorization">
+                <a href="#">Зарегистрируйтесь</a><br>
+                <span>или</span><br>
+                <a href="#">Войдите</a>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="col-lg-4">
+                        <form action="#" method="get">
+                            {% csrf_token %}
+                            {% for field in search_form %}
+                                <div class="input-group">
+                                    {{ field }}
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">Go!</button>
+                                    </span>
+                                </div>
+                            {% endfor %}
+                        </form>
+                    </div>
+                    <div class="col-lg-4 pull-right">
+                        <div class="btn-group">
+                            <a href="{% url 'heaps_app:add-celebrity' %}" class="btn btn-default">Добавить карточку знаменитости</a>
+                        </div>
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Фильтры <span class="caret"></span>
+                            </button>
+                            <form class="dropdown-menu filter-tags" action="/" method="get">
+                                {% for field in filter_form %}
+                                    {{ field }}
+                                {% endfor %}
+                                <input type="submit" class="btn btn-default btn-sm btn-block" value="Фильтровать">
+                            </form>
+                        </div>
+                    </div>
+                    {% if current_tags %}
+                        <div class="currect-tags">
+                            <ul>
+                                <li><span>Фильтруются:</span></li>
+                                {% for tag in current_tags %}
+                                    <li>
+                                        <a href="#" data-store-id="{{ tag.pk }}" class="btn btn-default btn-sm">
+                                            {{ tag.title }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                                <li><a href="#" class="btn btn-sm btn-danger" data-store-id="all">Очистить фильтр</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-body">{% block content %}{% endblock %}</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'heaps_app/js/jquery-1.11.3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'heaps_app/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'heaps_app/js/main.js' %}"></script>
+</body>
+</html>

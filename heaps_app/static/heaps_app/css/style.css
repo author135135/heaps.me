@@ -1,0 +1,125 @@
+.panel {
+    box-shadow: none !important;
+}
+
+#main-container {
+    margin-top: 30px;
+}
+
+#main-container > div:first-child {
+    margin-right: 20px;
+    text-align: center;
+}
+
+#main-container > div:first-child .slogan {
+    margin: 85px 0px 0px 0px;
+    font-size: 18px;
+    color: #868686;
+}
+
+#main-container > div:first-child #authorization {
+    margin: 45px 0px 0px 0px;
+}
+
+#main-container > div:first-child #authorization a {
+    font-size: 18px;
+    text-decoration: underline;
+    color: #993333;
+}
+
+#main-container > div:last-child .filter-tags ul {
+    padding: 10px 0px 10px 20px;
+    list-style: none;
+}
+
+#main-container > div:last-child .filter-tags input[type="submit"] {
+    width: 80%;
+    margin: 10px auto;
+}
+
+#main-container > div:last-child .currect-tags {
+    clear: both;
+    padding: 15px 0px 0px 0px;
+}
+
+#main-container > div:last-child .currect-tags ul {
+    float: left;
+    padding: 0 15px;
+    list-style: none;
+}
+
+#main-container > div:last-child .currect-tags ul li {
+    float: left;
+    margin: 0 10px 0 0;
+}
+
+#main-container > div:last-child .currect-tags ul li span {
+    padding: 5px 10px 0 0;
+    line-height: 1.5;
+    display: inline-block;
+}
+
+#main-container > div:last-child .items-container:after {
+    clear: both;
+    display: block;
+    content: "";
+}
+
+#main-container > div:last-child .celeb-item {
+    margin: 0px 0px 30px 0px;
+}
+
+#main-container > div:last-child .celeb-item > a {
+    position: relative;
+    display: block;
+}
+
+#main-container > div:last-child .celeb-item img {
+    max-width: 100%;
+}
+
+#main-container > div:last-child .celeb-item .name {
+    display: block;
+    position: absolute;
+    bottom: -1px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+}
+
+#main-container > div:last-child .celeb-item .name .excerpt {
+    display: none;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+#main-container > div:last-child .celeb-item > a:hover .name .excerpt {
+    display: block;
+}
+
+#main-container > div:last-child .celeb-item .social {
+    margin: 10px 0px 0px 0px;
+}
+
+#main-container > div:last-child #add-celebrity .thumbnail {
+    background: #bcbcbc;
+    font-size: 22px;
+    text-align: center;
+    cursor: pointer !important;
+}
+
+#main-container > div:last-child #add-celebrity .thumbnail span {
+    display: inline-block;
+    margin: 33% 0;
+}
+
+#main-container > div:last-child #add-celebrity .thumbnail input[type="file"] {
+    display: none;
+}
+
+#main-container > div:last-child #add-celebrity .social-network input {
+    margin-bottom: 10px;
+}

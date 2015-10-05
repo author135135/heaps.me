@@ -1,0 +1,15 @@
+{% extends 'heaps_app/base_html.html' %}
+{% load thumbnail %}
+
+{% block content %}
+    {% if celebrities %}
+        <div class="items-container">
+            {% include 'heaps_app/_celebrities_block.html' %}
+        </div>
+        {% if page_obj.has_next %}
+            <div class="paginate">
+                <a href="#" class="btn btn-default btn-block">Загрузить еще</a>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
