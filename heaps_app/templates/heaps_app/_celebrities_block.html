@@ -2,7 +2,7 @@
 
 {% for celebrity in celebrities %}
     <div class="celeb-item col-lg-4">
-        <a href="#">
+        <a href="{{ celebrity.get_absolute_url }}">
             {% thumbnail celebrity.photo_set.all.0.image "355x282" crop="top" as im %}
                 <img src="{{ im.url }}">
             {% endthumbnail %}

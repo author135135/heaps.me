@@ -1,0 +1,61 @@
+{% extends 'heaps_app/base_html.html' %}
+{% load thumbnail %}
+
+{% block content %}
+    <div class="col-lg-12">
+        <h3>{{ celebrity }}</h3>
+    </div>
+    <div class="col-lg-4">
+        <div class="thumbnail">
+            {% thumbnail celebrity.photo_set.all.0.image "355x252" crop="top" as im %}
+                <img src="{{ im.url }}">
+            {% endthumbnail %}
+        </div>
+        <div>
+            <a href="#" class="btn btn-default btn-block">Подписатся</a>
+        </div><br>
+        <div class="short-description">
+            {{ celebrity.description|truncatewords:"80"|safe }}
+            <div class="full-description">
+                {{ celebrity.description|safe }}
+            </div>
+            <br><br>
+            <a href="#" class="btn btn-default btn-block">Загрузить полное описание</a>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        {% if celebrity.socialnetwork_set.count %}
+            <div class="social">
+                {% for social_network in celebrity.socialnetwork_set.all %}
+                    <a href="{{ social_network.url }}" class="btn btn-info">{{ social_network.social_network }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <br><br><br>
+        {% if celebrity.socialnetwork_set.count %}
+                {% for social_network in celebrity.socialnetwork_set.all %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="label label-info">{{ social_network }}</span>
+                            <span class="col-lg-offset-3">Последние новости</span>
+                        </div>
+                        <div class="panel-body">...</div>
+                    </div>
+                {% endfor %}
+        {% endif %}
+    </div>
+    {% if celebrities %}
+        <div style="clear: both;">
+            <br>
+            <div class="col-lg-12"><h3>Знаменитости из похожих категории</h3></div>
+            <div class="items-container">
+                {% include 'heaps_app/_celebrities_block.html' %}
+            </div>
+            {% if page_obj.has_next %}
+                <div class="paginate">
+                    <a href="#" class="btn btn-default btn-block">Загрузить еще</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

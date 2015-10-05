@@ -4,7 +4,7 @@
 
         $(document).on('click', '.paginate a', function (e) {
             e.preventDefault();
-            $.get(window.location.pathname, {page: page}, function (response) {
+            $.get(window.location.href, {page: page}, function (response) {
                 if (response['celebrities']) {
                     $('#main-container .items-container').append(response['celebrities'])
                 }
@@ -32,15 +32,15 @@
                 filter.push(this.value);
             });
 
-            filters = '/?filter_tags=' + filter.join(',');
+            var query_string = set_query_string_param(window.location.search, 'filter_tags', filter.join(','));
 
-            window.location = filters;
+            window.location = form.attr('action') + query_string;
         });
 
-        $('.currect-tags a').click(function (e) {
+        $('.current-tags a').click(function (e) {
             e.preventDefault();
 
-            var current_filters = get_param('filter_tags'),
+            var current_filters = get_query_string_param('filter_tags'),
                 filters = '',
                 remove_tags = $(this).attr('data-store-id');
 
@@ -51,17 +51,21 @@
                 current_filters = [];
             }
 
-            filters = '/?filter_tags=' + current_filters.join(',');
+            var query_string = set_query_string_param(window.location.search, 'filter_tags', current_filters.join(','));
 
-            window.location = filters;
+            if (query_string) {
+                window.location.search = query_string;
+            } else {
+                window.location = window.location.pathname;
+            }
         });
 
         $('#add-celebrity').submit(function (e) {
             /*e.preventDefault();
 
-            $.post($(this).attr('action'), $(this).serialize(), function(response){
-                console.log(response);
-            })*/
+             $.post($(this).attr('action'), $(this).serialize(), function(response){
+             console.log(response);
+             })*/
         });
 
         $('#add-celebrity div.thumbnail').click(function (e) {
@@ -82,7 +86,7 @@
             } else console.log('not isset files data or files API not supordet');
         });
 
-        $('#add-celebrity .add-field').click(function(e){
+        $('#add-celebrity .add-field').click(function (e) {
             e.preventDefault();
 
             var field = $('#add-celebrity input[name="social_network"]').first(),
@@ -91,12 +95,35 @@
             wrapper.append(field.clone().val(''));
         });
 
+        $('.short-description .btn').click(function(e){
+            e.preventDefault();
+
+            var full_description = $('.short-description .full-description').clone();
+
+            $('.short-description').replaceWith(full_description);
+        });
+
         //Helpers
-        function get_param(name) {
+        function get_query_string_param(name) {
             if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search)) {
                 return decodeURIComponent(name[1]);
             } else {
                 return false;
+            }
+        }
+
+        function set_query_string_param(uri, key, value) {
+            var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i"),
+                separator = uri.indexOf('?') !== -1 ? "&" : "?";
+
+            if (uri.match(re)) {
+                if (!value) {
+                    return uri.replace(re, '');
+                } else {
+                    return uri.replace(re, '$1' + key + "=" + value + '$2');
+                }
+            } else {
+                return uri + separator + key + "=" + value;
             }
         }
     });

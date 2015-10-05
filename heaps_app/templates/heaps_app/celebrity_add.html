@@ -1,7 +1,14 @@
 {% extends 'heaps_app/base_html.html' %}
 
 {% block content %}
-    <form action="{% url 'heaps_app:add-celebrity' %}" role="form" enctype="multipart/form-data" id="add-celebrity" method="post">
+    {% if messages %}
+        <div class="alert alert-success" role="alert">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form action="{% url 'heaps_app:celebrity-add' %}" role="form" enctype="multipart/form-data" id="add-celebrity" method="post">
         {% csrf_token %}
         <div class="col-lg-3">
             <div class="thumbnail">

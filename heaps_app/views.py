@@ -1,6 +1,9 @@
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from django.http import JsonResponse
+from django.db.models import Q
 from django.template.loader import get_template
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.paginator import Paginator
 from heaps_app import models, forms
 
 
@@ -8,21 +11,27 @@ class CelebritiesFilterMixin(object):
     def get_queryset(self):
         qs = super(CelebritiesFilterMixin, self).get_queryset()
 
-        if 'filter_tags' in self.request.GET and self.request.GET['filter_tags']:
+        filter_tags = self.request.GET.get('filter_tags', None)
+
+        if filter_tags:
             qs = qs.filter(filter__pk__in=self.request.GET['filter_tags'].split(',')).distinct()
+
+        query = self.request.GET.get('query', None)
+
+        if query:
+            if query.strip():
+                query = query.strip()
+                qs = qs.filter(
+                    Q(firstname__icontains=query) | Q(lastname__icontains=query) | Q(nickname__icontains=query))
+            else:
+                qs = qs.none()
 
         return qs
 
 
-class IndexView(CelebritiesFilterMixin, ListView):
-    template_name = 'heaps_app/index.html'
-    model = models.Celebrity
-    queryset = models.Celebrity.public_records.get_queryset()
-    context_object_name = 'celebrities'
-    paginate_by = 6
-
+class CelebritiesPaginatedAjaxMixin(object):
     def get(self, request, *args, **kwargs):
-        result = super(IndexView, self).get(request, *args, **kwargs)
+        result = super(CelebritiesPaginatedAjaxMixin, self).get(request, *args, **kwargs)
 
         if request.is_ajax():
             celebrities_template = get_template('heaps_app/_celebrities_block.html')
@@ -34,9 +43,37 @@ class IndexView(CelebritiesFilterMixin, ListView):
         return result
 
 
-class AddCelebrityView(CreateView):
-    template_name = 'heaps_app/add_celebrity.html'
+class IndexView(CelebritiesFilterMixin, CelebritiesPaginatedAjaxMixin, ListView):
+    template_name = 'heaps_app/index.html'
+    queryset = models.Celebrity.public_records.get_queryset()
+    context_object_name = 'celebrities'
+    paginate_by = 6
+
+
+class CelebrityView(CelebritiesPaginatedAjaxMixin, DetailView):
+    template_name = 'heaps_app/celebrity_view.html'
+    context_object_name = 'celebrity'
+    queryset = models.Celebrity.public_records.get_queryset()
+
+    def get_context_data(self, **kwargs):
+        context = super(CelebrityView, self).get_context_data(**kwargs)
+
+        related_celebrities = models.Celebrity.public_records.filter(filter__pk__in=self.object.filter.all()).exclude(
+            pk=self.object.pk)
+
+        paginator = Paginator(related_celebrities, 6)
+        page_obj = paginator.page(self.request.GET.get('page', 1))
+
+        context['celebrities'] = page_obj.object_list
+        context['page_obj'] = page_obj
+
+        return context
+
+
+class CelebrityAddView(SuccessMessageMixin, CreateView):
+    template_name = 'heaps_app/celebrity_add.html'
     form_class = forms.CelebrityForm
+    success_message = 'Celebrity record add.'
 
     def get_success_url(self):
         from django.core.urlresolvers import reverse

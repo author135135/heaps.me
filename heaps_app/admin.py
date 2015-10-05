@@ -21,10 +21,11 @@ class CelebrityAdmin(admin.ModelAdmin):
     list_display = ('lastname', 'firstname', 'nickname', 'get_filters', 'created_at', 'status')
     fieldsets = (
         ('Main information', {
-            'fields': ('firstname', 'lastname', 'nickname', 'excerpt', 'description', 'created_at', 'filter', 'status')
+            'fields': ('firstname', 'lastname', 'nickname', 'slug', 'excerpt', 'description', 'created_at', 'filter', 'status')
         }),
         ('Seo information', {'fields': ('meta_title', 'meta_description', 'meta_keywords')}),
     )
+    prepopulated_fields = {'slug': ('lastname', 'firstname')}
     inlines = [SocialNetworksInline, PhotoInline]
     form = forms.CelebrityAdminForm
 

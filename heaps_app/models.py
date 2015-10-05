@@ -4,6 +4,7 @@ import random
 
 from django.db import models
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 
 
 # Custom Managers
@@ -44,6 +45,7 @@ class Celebrity(SeoInformation):
     firstname = models.CharField(max_length=50, blank=True, null=True)
     lastname = models.CharField(max_length=75, blank=True, null=True)
     nickname = models.CharField(max_length=150, blank=True, null=True)
+    slug = models.SlugField(null=True)
     excerpt = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
@@ -66,6 +68,9 @@ class Celebrity(SeoInformation):
 
     _get_filters.short_description = 'Filter'
     get_filters = property(_get_filters)
+
+    def get_absolute_url(self):
+        return reverse('heaps_app:celebrity-view', kwargs={'slug': self.slug})
 
 
 # Helper function to rename uploading file in model

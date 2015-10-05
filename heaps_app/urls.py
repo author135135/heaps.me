@@ -3,5 +3,6 @@ from heaps_app import views
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^celebrity/add/$', views.AddCelebrityView.as_view(), name='add-celebrity'),
+    url(r'^person/add/$', views.CelebrityAddView.as_view(), name='celebrity-add'),
+    url(r'^person/(?P<slug>[\w-]+)/$', views.CelebrityView.as_view(), name='celebrity-view'),
 ]

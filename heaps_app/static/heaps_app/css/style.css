@@ -37,23 +37,23 @@
     margin: 10px auto;
 }
 
-#main-container > div:last-child .currect-tags {
+#main-container > div:last-child .current-tags {
     clear: both;
     padding: 15px 0px 0px 0px;
 }
 
-#main-container > div:last-child .currect-tags ul {
+#main-container > div:last-child .current-tags ul {
     float: left;
     padding: 0 15px;
     list-style: none;
 }
 
-#main-container > div:last-child .currect-tags ul li {
+#main-container > div:last-child .current-tags ul li {
     float: left;
     margin: 0 10px 0 0;
 }
 
-#main-container > div:last-child .currect-tags ul li span {
+#main-container > div:last-child .current-tags ul li span {
     padding: 5px 10px 0 0;
     line-height: 1.5;
     display: inline-block;
@@ -122,4 +122,9 @@
 
 #main-container > div:last-child #add-celebrity .social-network input {
     margin-bottom: 10px;
+}
+
+#main-container > div:last-child .short-description {}
+#main-container > div:last-child .short-description .full-description {
+    display: none;
 }
