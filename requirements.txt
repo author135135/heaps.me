@@ -2,3 +2,4 @@ Django>=1.8
 MySQL-python
 django-ckeditor
 sorl-thumbnail
+python-social-auth

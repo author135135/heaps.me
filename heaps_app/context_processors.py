@@ -24,4 +24,8 @@ def heaps_context_data(request):
     else:
         context['filter_form'] = forms.FilterForm()
 
+    # Login and Register forms
+    if not request.user.is_authenticated():
+        context['login_form'] = forms.LoginForm()
+
     return context

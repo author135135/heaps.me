@@ -11,6 +11,31 @@
     text-align: center;
 }
 
+#main-container > div:first-child .user-avatar {
+    display: inline-block;
+    height: 65px;
+    width: 65px;
+}
+
+#main-container > div:first-child .user-name {
+    color: #8c8c8c;
+    float: right;
+    margin: -10px 27px 0 0;
+}
+
+#main-container > div:first-child .user-avatar img {
+    max-width: 100%;
+}
+
+#main-container > div:first-child .user-actions {
+    margin: 60px 0 0 0 ;
+    text-align: right;
+}
+
+#main-container > div:first-child .user-actions .glyphicon {
+    float: left;
+}
+
 #main-container > div:first-child .slogan {
     margin: 85px 0px 0px 0px;
     font-size: 18px;

@@ -103,6 +103,32 @@
             $('.short-description').replaceWith(full_description);
         });
 
+        // Login and register forms
+        $('#login-modal form').submit(function(e){
+            e.preventDefault();
+
+            var form = $(this);
+
+            $('.has-error', form).removeClass('has-error');
+            $('.error-section *', form).remove();
+
+            $.post(form.attr('action'), form.serialize(), function(response){
+                if (response['authenticated']) {
+                    window.location.pathname = response['redirect_to'];
+                } else {
+                    $.each(response['errors'], function(k, v){
+                        $('input[name="' + k + '"]', form).parent().addClass('has-error');
+
+                        if (k == 'all') {
+                            $('.error-section', form).append('<p class="error">' + 'form-error: ' + v + '</p>');
+                        } else {
+                            $('.error-section', form).append('<p class="error">' + k + ': '+ v + '</p>');
+                        }
+                    });
+                }
+            });
+        });
+
         //Helpers
         function get_query_string_param(name) {
             if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search)) {

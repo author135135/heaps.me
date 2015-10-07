@@ -1,8 +1,10 @@
 from django.views.generic import ListView, CreateView, DetailView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.db.models import Q
 from django.template.loader import get_template
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth import login, authenticate
+from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
 from heaps_app import models, forms
 
@@ -76,6 +78,33 @@ class CelebrityAddView(SuccessMessageMixin, CreateView):
     success_message = 'Celebrity record add.'
 
     def get_success_url(self):
-        from django.core.urlresolvers import reverse
-
         return reverse('heaps_app:add-celebrity')
+
+
+def account_login(request):
+    if request.is_ajax() and request.method == 'POST':
+        form = forms.LoginForm(request.POST)
+        response_data = dict()
+
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(email=email, password=password)
+
+            if user is not None and user.is_active:
+                login(request, user)
+
+                response_data['authenticated'] = True
+                response_data['redirect_to'] = reverse('heaps_app:index')
+            else:
+                response_data['authenticated'] = False
+                response_data['errors'] = {
+                    'all': ['Invalid email or password. Try again.']
+                }
+        else:
+            response_data['authenticated'] = False
+            response_data['errors'] = form.errors
+
+        return JsonResponse(response_data)
+
+    return HttpResponseForbidden("Access denied")

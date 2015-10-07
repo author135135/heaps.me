@@ -7,22 +7,17 @@ from heaps_app.fields import SocialNetworkField
 
 
 # Front forms
-
-# Search form
 class SearchForm(forms.Form):
     query = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search'}))
 
 
-# Filter form
-# FILTER_CHOICES = models.Filter.objects.values_list('pk', 'title')
-
-
 class FilterForm(forms.Form):
-    filter_tags = forms.MultipleChoiceField(choices=[],
+    FILTER_CHOICES = models.Filter.objects.values_list('pk', 'title')
+
+    filter_tags = forms.MultipleChoiceField(choices=FILTER_CHOICES,
                                             widget=forms.CheckboxSelectMultiple())
 
 
-# Add celebrity form
 class CelebrityForm(forms.ModelForm):
     photo = forms.ImageField(required=False)
     social_network = SocialNetworkField()
@@ -61,6 +56,17 @@ class CelebrityForm(forms.ModelForm):
         if upload_photo:
             photo = celebrity.photo_set.create(image=upload_photo)
             photo.save()
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
 
 
 # Admin forms

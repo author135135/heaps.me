@@ -1,0 +1,29 @@
+{% load static %}
+
+<div class="col-lg-2">
+    <a href="/">
+        <span class="user-avatar"><img src="{{ user.avatar.url }}"></span>
+        <img src="{% static 'heaps_app/images/logo.png' %}">
+    </a>
+
+    <div class="user-name">{{ user.get_full_name }}</div>
+
+    <div class="user-actions list-group">
+        <a href="#" class="list-group-item">
+            <span class="glyphicon glyphicon-user"></span>
+            <span class="title">Все</span>
+        </a>
+        <a href="#" class="list-group-item">
+            <span class="glyphicon glyphicon-check"></span>
+            <span class="title">Мои подписки</span>
+        </a>
+        <a href="#" class="list-group-item">
+            <span class="glyphicon glyphicon-cog"></span>
+            <span class="title">Настройки</span>
+        </a>
+        <a href="#" class="list-group-item">
+            <span class="glyphicon glyphicon-off"></span>
+            <span class="title">Выход</span>
+        </a>
+    </div>
+</div>

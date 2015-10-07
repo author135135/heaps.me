@@ -11,19 +11,11 @@
 </head>
 <body>
     <div id="main-container" class="container-fluid">
-        <div class="col-lg-2">
-            <a href="/"><img src="{% static 'heaps_app/images/logo.png' %}"></a>
-            <div class="slogan">
-                Будьте в курсе последних
-                новостей из всех социальных
-                сетей раньше остальных
-            </div>
-            <div id="authorization">
-                <a href="#">Зарегистрируйтесь</a><br>
-                <span>или</span><br>
-                <a href="#">Войдите</a>
-            </div>
-        </div>
+        {% if user.is_authenticated %}
+            {% include 'heaps_app/sidebar_user.html' %}
+        {% else %}
+            {% include 'heaps_app/sidebar_guest.html' %}
+        {% endif %}
         <div class="col-lg-8">
             <div class="panel">
                 <div class="panel-body">

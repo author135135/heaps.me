@@ -1,0 +1,53 @@
+{% load static %}
+
+<div class="col-lg-2">
+    <a href="/"><img src="{% static 'heaps_app/images/logo.png' %}"></a>
+
+    <div class="slogan">
+        Будьте в курсе последних
+        новостей из всех социальных
+        сетей раньше остальных
+    </div>
+    <div id="authorization">
+        <a href="#" data-toggle="modal" data-target="#register-modal">Зарегистрируйтесь</a><br>
+        <span>или</span><br>
+        <a href="#" data-toggle="modal" data-target="#login-modal">Войдите</a>
+    </div>
+</div>
+
+<div class="modal fade" id="register-modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h4 class="modal-title">Регистрация</h4></div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="login-modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{% url 'heaps_app:account-login' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header"><h4 class="modal-title">Вход</h4></div>
+                <div class="modal-body">
+                    {% for field in login_form %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <div class="error-section"></div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Вход" class="btn btn-primary btn-block">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

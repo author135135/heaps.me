@@ -2,6 +2,7 @@ import os
 import hashlib
 import random
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
@@ -38,7 +39,9 @@ class UserManager(BaseUserManager):
 # Rewrite User model
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    avatar = models.ImageField(upload_to='avatars/%Y/%m/%d', blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/%Y/%m/%d',
+                               default=os.path.join(settings.MEDIA_ROOT, 'defaults/default_gravatar.png'), blank=True,
+                               null=True)
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
     is_active = models.BooleanField(default=True)
@@ -58,6 +61,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.is_admin
 
     def get_short_name(self):
+        return self.email
+
+    def get_full_name(self):
+        if self.first_name and self.last_name:
+            return '{} {}'.format(self.last_name, self.first_name)
         return self.email
 
 
