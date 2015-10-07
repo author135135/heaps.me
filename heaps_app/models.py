@@ -40,7 +40,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     avatar = models.ImageField(upload_to='avatars/%Y/%m/%d',
-                               default=os.path.join(settings.MEDIA_ROOT, 'defaults/default_gravatar.png'), blank=True,
+                               default='defaults/default_gravatar.png', blank=True,
                                null=True)
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)

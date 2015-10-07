@@ -69,6 +69,18 @@ class LoginForm(forms.Form):
             self.fields[field].widget.attrs['class'] = 'form-control'
 
 
+class RegistrationForm(LoginForm):
+    def clean_email(self):
+        email = self.cleaned_data['email']
+
+        try:
+            user = models.User.objects.get(email=email)
+        except models.User.DoesNotExist:
+            return email
+
+        raise forms.ValidationError("E-mail address is already taken")
+
+
 # Admin forms
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)

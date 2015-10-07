@@ -104,7 +104,7 @@
         });
 
         // Login and register forms
-        $('#login-modal form').submit(function(e){
+        $('#login-modal form, #registration-modal form').submit(function(e){
             e.preventDefault();
 
             var form = $(this);

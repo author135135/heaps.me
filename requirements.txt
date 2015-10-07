@@ -1,5 +1,6 @@
 Django>=1.8
 MySQL-python
+Pillow
 django-ckeditor
 sorl-thumbnail
 python-social-auth

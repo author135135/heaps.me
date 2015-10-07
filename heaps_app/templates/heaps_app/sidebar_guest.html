@@ -9,22 +9,31 @@
         сетей раньше остальных
     </div>
     <div id="authorization">
-        <a href="#" data-toggle="modal" data-target="#register-modal">Зарегистрируйтесь</a><br>
+        <a href="#" data-toggle="modal" data-target="#registration-modal">Зарегистрируйтесь</a><br>
         <span>или</span><br>
         <a href="#" data-toggle="modal" data-target="#login-modal">Войдите</a>
     </div>
 </div>
 
-<div class="modal fade" id="register-modal" role="dialog">
+<div class="modal fade" id="registration-modal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header"><h4 class="modal-title">Регистрация</h4></div>
-            <div class="modal-body">
-                <p>Some text in the modal.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+            <form action="{% url 'heaps_app:account-registration' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header"><h4 class="modal-title">Регистрация</h4></div>
+                <div class="modal-body">
+                    {% for field in registration_form %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <div class="error-section"></div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Регистрация" class="btn btn-primary btn-block">
+                </div>
+            </form>
         </div>
     </div>
 </div>

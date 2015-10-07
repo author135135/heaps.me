@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'heaps.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': '',
+        'ENGINE': 'django.db.backends.mysql',
         'HOST': '',
         'NAME': '',
         'USER': '',
@@ -102,6 +102,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Auth settings
+AUTH_USER_MODEL = 'heaps_app.User'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

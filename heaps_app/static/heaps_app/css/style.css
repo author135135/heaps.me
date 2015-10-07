@@ -20,7 +20,7 @@
 #main-container > div:first-child .user-name {
     color: #8c8c8c;
     float: right;
-    margin: -10px 27px 0 0;
+    margin: -5px 27px 0 0;
 }
 
 #main-container > div:first-child .user-avatar img {

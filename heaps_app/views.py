@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponseForbidden, HttpResponseRedirec
 from django.db.models import Q
 from django.template.loader import get_template
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
 from heaps_app import models, forms
@@ -106,5 +106,38 @@ def account_login(request):
             response_data['errors'] = form.errors
 
         return JsonResponse(response_data)
+
+    return HttpResponseForbidden("Access denied")
+
+
+def account_registration(request):
+    if request.is_ajax() and request.method == 'POST':
+        form = forms.RegistrationForm(request.POST)
+        response_data = dict()
+
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            if models.User.objects.create_user(email, password):
+                user = authenticate(email=email, password=password)
+
+                login(request, user)
+
+                response_data['authenticated'] = True
+                response_data['redirect_to'] = reverse('heaps_app:index')
+        else:
+            response_data['authenticated'] = False
+            response_data['errors'] = form.errors
+
+        return JsonResponse(response_data)
+
+    return HttpResponseForbidden("Access denied")
+
+
+def account_logout(request):
+    if request.user.is_authenticated():
+        logout(request)
+        return HttpResponseRedirect(reverse('heaps_app:index'))
 
     return HttpResponseForbidden("Access denied")
