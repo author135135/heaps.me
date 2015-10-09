@@ -1,0 +1,40 @@
+{% extends 'heaps_app/base_html.html' %}
+
+{% block content %}
+    <form action="{% url 'heaps_app:account-settings' %}" role="form" enctype="multipart/form-data" id="account-settings" method="post">
+        <div class="messages"></div>
+        {% csrf_token %}
+        <div class="col-lg-4">
+            <div class="account-avatar">
+                <span><img src="{{ user.avatar.url }}"></span>
+                <div class="custom-button">
+                    <div class="text btn btn-primary btn-lg">Загрузить/Сменить фото</div>
+                    <div class="hidden">{{ form.avatar }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+            </div>
+            <div class="form-group">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+            </div>
+            <div class="form-group">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+            </div>
+            <button type="submit" class="btn btn-default btn-block">Редактировать аккаунт</button>
+        </div>
+    </form>
+{% endblock %}

@@ -99,6 +99,11 @@
     display: block;
 }
 
+#main-container > div:last-child .celeb-item > a:focus, #main-container > div:last-child .celeb-item > a:hover,
+#main-container > div:last-child .celeb-item > a:active {
+    text-decoration: none;
+}
+
 #main-container > div:last-child .celeb-item img {
     max-width: 100%;
 }
@@ -129,6 +134,14 @@
     margin: 10px 0px 0px 0px;
 }
 
+#main-container > div:last-child .celeb-item.subscribed > a span.label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 25px;
+    font-size: 16px;
+}
+
 #main-container > div:last-child #add-celebrity .thumbnail {
     background: #bcbcbc;
     font-size: 22px;
@@ -149,7 +162,26 @@
     margin-bottom: 10px;
 }
 
-#main-container > div:last-child .short-description {}
 #main-container > div:last-child .short-description .full-description {
     display: none;
+}
+
+#main-container > div:last-child #account-settings {}
+
+#main-container > div:last-child #account-settings .account-avatar {
+    margin: 0 0 9px 0;
+}
+
+#main-container > div:last-child #account-settings .account-avatar span {
+    display: inline-block;
+    height: 65px;
+    width: 65px;
+}
+
+#main-container > div:last-child #account-settings .account-avatar span img {
+    max-width: 100%;
+}
+
+#main-container > div:last-child #account-settings .account-avatar .custom-button {
+    display: inline-block;
 }

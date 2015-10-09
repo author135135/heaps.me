@@ -1,0 +1,27 @@
+{% load thumbnail %}
+
+{% for celebrity in celebrities %}
+    <div class="celeb-item subscribed col-lg-4">
+        <a href="{{ celebrity.get_absolute_url }}">
+            <span class="label label-success">
+                <span class="glyphicon glyphicon-ok"></span>
+            </span>
+            {% thumbnail celebrity.photo_set.all.0.image "355x282" crop="top" as im %}
+                <img src="{{ im.url }}">
+            {% endthumbnail %}
+            <span class="name">
+                {{ celebrity }}
+                {% if celebrity.excerpt %}
+                    <span class="excerpt">{{ celebrity.excerpt }}</span>
+                {% endif %}
+            </span>
+        </a>
+        {% if celebrity.socialnetwork_set.count %}
+            <div class="social">
+                {% for social_network in celebrity.socialnetwork_set.all %}
+                    <a href="{{ social_network.url }}" class="btn btn-sm btn-info">{{ social_network.social_network }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}

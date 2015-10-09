@@ -9,15 +9,15 @@
     <div class="user-name">{{ user.get_full_name }}</div>
 
     <div class="user-actions list-group">
-        <a href="#" class="list-group-item">
+        <a href="{% url 'heaps_app:index' %}" class="list-group-item">
             <span class="glyphicon glyphicon-user"></span>
             <span class="title">Все</span>
         </a>
-        <a href="#" class="list-group-item">
+        <a href="{% url 'heaps_app:account-my-subscribes' %}" class="list-group-item">
             <span class="glyphicon glyphicon-check"></span>
             <span class="title">Мои подписки</span>
         </a>
-        <a href="#" class="list-group-item">
+        <a href="{% url 'heaps_app:account-settings' %}" class="list-group-item">
             <span class="glyphicon glyphicon-cog"></span>
             <span class="title">Настройки</span>
         </a>

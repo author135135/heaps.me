@@ -47,6 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
+    celebrity_subscribe = models.ManyToManyField('Celebrity')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -65,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_full_name(self):
         if self.first_name and self.last_name:
-            return '{} {}'.format(self.last_name, self.first_name)
+            return u'{} {}'.format(self.last_name, self.first_name)
         return self.email
 
 

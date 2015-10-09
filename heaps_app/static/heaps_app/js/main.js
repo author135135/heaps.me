@@ -60,13 +60,51 @@
             }
         });
 
-        $('#add-celebrity').submit(function (e) {
-            /*e.preventDefault();
+        // Modal handler
+        modal_handler();
 
-             $.post($(this).attr('action'), $(this).serialize(), function(response){
-             console.log(response);
-             })*/
-        });
+        /*$('#add-celebrity').submit(function (e) {
+            e.preventDefault();
+
+            var form = $(this);
+
+            $('.has-error', form).removeClass('has-error');
+            $('.error', form).remove();
+            $('.messages *', form).remove();
+
+            var options = {
+                beforeSubmit: function() {
+                    if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
+                        alert("Please upgrade your browser, because your current browser lacks some new features we need!");
+                    }
+                },
+                success: function(response) {
+                    if (response['errors']) {
+                        $.each(response['errors'], function(k, v){
+                            $('[name="' + k + '"]', form).parent().addClass('has-error');
+                            $('[name="' + k + '"]', form).after('<p class="error">' + k + ': '+ v + '</p>');
+                        });
+                    }
+
+                    if (response['success']) {
+                        var message_html = '<div class="alert alert-info alert-dismissible" role="alert">';
+                            message_html += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+                            message_html += '<span aria-hidden="true">&times;</span></button>';
+                            message_html += response['message'] + '</div>';
+
+                        $('.messages', form).append(message_html);
+
+                        // Reset form after success submit
+                        form.trigger('reset');
+                        $('.social-network input:not(:first-child)', form).remove();
+                        $('#add-celebrity div.thumbnail img').attr('src', '');
+                        $('#add-celebrity div.thumbnail span').show();
+                    }
+                }
+            };
+
+            form.ajaxSubmit(options);
+        });*/
 
         $('#add-celebrity div.thumbnail').click(function (e) {
             $('#add-celebrity input[type="file"]').click();
@@ -114,7 +152,13 @@
 
             $.post(form.attr('action'), form.serialize(), function(response){
                 if (response['authenticated']) {
-                    window.location.pathname = response['redirect_to'];
+                    var redirect_url = get_query_string_param('next');
+
+                    if (!redirect_url) {
+                        redirect_url = response['redirect_to'];
+                    }
+
+                    window.location = redirect_url;
                 } else {
                     $.each(response['errors'], function(k, v){
                         $('input[name="' + k + '"]', form).parent().addClass('has-error');
@@ -127,6 +171,61 @@
                     });
                 }
             });
+        });
+
+        // Account settings form
+        $('#account-settings .account-avatar .btn').click(function(e){
+            $('#account-settings .account-avatar input[type="file"]').click();
+        });
+
+        $('#account-settings .account-avatar input[type="file"]').change(function (e) {
+            var input = $(this)[0];
+            if (input.files && input.files[0]) {
+                if (input.files[0].type.match('image.*')) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#account-settings .account-avatar img').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                } else console.log('is not image mime type');
+            } else console.log('not isset files data or files API not supordet');
+        });
+
+        $('#account-settings').submit(function(e){
+            e.preventDefault();
+
+            var form = $(this);
+
+            $('.has-error', form).removeClass('has-error');
+            $('.error', form).remove();
+            $('.messages *', form).remove();
+
+            var options = {
+                beforeSubmit: function() {
+                    if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
+                        alert("Please upgrade your browser, because your current browser lacks some new features we need!");
+                    }
+                },
+                success: function(response) {
+                    if (response['errors']) {
+                        $.each(response['errors'], function(k, v){
+                            $('input[name="' + k + '"]', form).parent().addClass('has-error');
+                            $('input[name="' + k + '"]', form).after('<p class="error">' + k + ': '+ v + '</p>');
+                        });
+                    }
+
+                    if (response['success']) {
+                        var message_html = '<div class="alert alert-info alert-dismissible" role="alert">';
+                            message_html += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+                            message_html += '<span aria-hidden="true">&times;</span></button>';
+                            message_html += response['message'] + '</div>';
+
+                        $('.messages', form).append(message_html);
+                    }
+                }
+            };
+
+            form.ajaxSubmit(options);
         });
 
         //Helpers
@@ -150,6 +249,14 @@
                 }
             } else {
                 return uri + separator + key + "=" + value;
+            }
+        }
+
+        function modal_handler(){
+            var modal = get_query_string_param('modal');
+
+            if (modal) {
+                $('#' + modal).modal();
             }
         }
     });

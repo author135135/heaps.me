@@ -11,9 +11,15 @@
                 <img src="{{ im.url }}">
             {% endthumbnail %}
         </div>
-        <div>
-            <a href="#" class="btn btn-default btn-block">Подписатся</a>
-        </div><br>
+        {% if user.is_authenticated %}
+            <div>
+                {% if celebrity in user.celebrity_subscribe.all %}
+                    <a href="{% url 'heaps_app:celebrity-unsubscribe' slug=celebrity.slug %}" class="celebrity-unsubscribe btn btn-primary btn-block">Отписаться</a>
+                {% else %}
+                    <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}" class="celebrity-subscribe btn btn-default btn-block">Подписатся</a>
+                {% endif %}
+            </div><br>
+        {% endif %}
         <div class="short-description">
             {{ celebrity.description|truncatewords:"80"|safe }}
             <div class="full-description">
