@@ -63,7 +63,7 @@
         // Modal handler
         modal_handler();
 
-        /*$('#add-celebrity').submit(function (e) {
+        $('#add-celebrity').submit(function (e) {
             e.preventDefault();
 
             var form = $(this);
@@ -104,7 +104,7 @@
             };
 
             form.ajaxSubmit(options);
-        });*/
+        });
 
         $('#add-celebrity div.thumbnail').click(function (e) {
             $('#add-celebrity input[type="file"]').click();
@@ -140,6 +140,15 @@
 
             $('.short-description').replaceWith(full_description);
         });
+
+        // Celebrity subscribe/unsubscribe
+        /*$(document).on('click', '.celebrity-subscribe, .celebrity-unsubscribe', function(e){
+            e.preventDefault();
+
+            $.get($(this).attr('href'), {}, function(response){
+                console.log(response);
+            });
+        });*/
 
         // Login and register forms
         $('#login-modal form, #registration-modal form').submit(function(e){

@@ -1,9 +1,9 @@
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.forms.forms import Form
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, FormView
 from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import redirect
 from django.db.models import Q
 from django.template.loader import get_template
-from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -82,6 +82,18 @@ class IndexView(CelebritiesFilterMixin, CelebritiesPaginatedAjaxMixin, ListView)
     context_object_name = 'celebrities'
     paginate_by = 6
 
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+
+        if 'partial_pipeline' in self.request.session:
+            context['backend'] = self.request.session['partial_pipeline']['backend']
+
+        if 'validation_sent' in self.request.GET:
+            context['validation_sent'] = True
+            context['email'] = self.request.session.get('email_validation_address')
+
+        return context
+
 
 class CelebrityView(CelebritiesPaginatedAjaxMixin, DetailView):
     template_name = 'heaps_app/celebrity_view.html'
@@ -150,6 +162,7 @@ def account_login(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
+
             user = authenticate(email=email, password=password)
 
             if user is not None and user.is_active:

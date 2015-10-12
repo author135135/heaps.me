@@ -1,3 +1,4 @@
+# coding: utf-8
 """
 Django settings for heaps project.
 
@@ -12,6 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import random
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = (
     'heaps_app',
     'ckeditor',
     'sorl.thumbnail',
+    'social.apps.django_app.default',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -67,6 +70,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'heaps_app.context_processors.heaps_context_data',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -80,7 +85,7 @@ WSGI_APPLICATION = 'heaps.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': '',
         'HOST': '',
         'NAME': '',
         'USER': '',
@@ -105,6 +110,15 @@ USE_TZ = True
 # Auth settings
 AUTH_USER_MODEL = 'heaps_app.User'
 
+AUTHENTICATION_BACKENDS = (
+    'social.backends.vk.VKOAuth2',
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'social.backends.instagram.InstagramOAuth2',
+    'social.backends.google.GooglePlusAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
@@ -119,7 +133,6 @@ CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
-"""
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
@@ -130,4 +143,53 @@ CKEDITOR_CONFIGS = {
         'protectedSource': ['/<i[^>]*><\/i>/g']
     },
 }
-"""
+
+# OAuth lib settings
+LOGIN_URL = '/?modal=login-modal'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL = '/login-error/'
+
+SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'heaps_app.mail.send_validation'
+SOCIAL_AUTH_EMAIL_VALIDATION_URL = '?validation_sent=1&modal=validation-sent-modal'
+
+EMAIL_FROM = ''
+
+SOCIAL_AUTH_CREATE_USERS = True
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+SOCIAL_AUTH_FORCE_EMAIL_VALIDATION = True
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'heaps_app.pipeline.require_email',
+    'social.pipeline.social_auth.associate_by_email',
+    'social.pipeline.mail.mail_validation',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+)
+
+# from social.pipeline.mail import mail_validation
+
+# OAuth social networks settings
+SOCIAL_AUTH_VK_OAUTH2_KEY = ''
+SOCIAL_AUTH_VK_OAUTH2_SECRET = ''
+
+SOCIAL_AUTH_FACEBOOK_KEY = ''
+SOCIAL_AUTH_FACEBOOK_SECRET = ''
+
+SOCIAL_AUTH_TWITTER_KEY = ''
+SOCIAL_AUTH_TWITTER_SECRET = ''
+
+SOCIAL_AUTH_INSTAGRAM_KEY = ''
+SOCIAL_AUTH_INSTAGRAM_SECRET = ''
+
+SOCIAL_AUTH_GOOGLE_PLUS_KEY = ''
+SOCIAL_AUTH_GOOGLE_PLUS_SECRET = ''
+SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = []
+
+# Heaps settings

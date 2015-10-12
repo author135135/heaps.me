@@ -1,5 +1,6 @@
 from django.conf.urls import include, url
 from heaps_app import views
+from heaps_app import mail
 
 account_patterns = [
     url(r'^login/$', views.account_login, name='account-login'),
@@ -11,6 +12,7 @@ account_patterns = [
 
 person_patterns = [
     url(r'^add/$', views.CelebrityAddView.as_view(), name='celebrity-add'),
+    url(r'^email-sent/$', mail.send_validation),
     url(r'^(?P<slug>[\w-]+)/$', views.CelebrityView.as_view(), name='celebrity-view'),
     url(r'^(?P<slug>[\w-]+)/subscribe/$', views.celebrity_subscribe, name='celebrity-subscribe'),
     url(r'^(?P<slug>[\w-]+)/unsubscribe/$', views.celebrity_unsubscribe, name='celebrity-unsubscribe'),

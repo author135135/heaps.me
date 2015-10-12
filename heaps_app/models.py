@@ -7,6 +7,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from heaps_app.mail import register_notification
 
 
 # Custom Managers
@@ -17,13 +18,19 @@ class CelebrityManager(models.Manager):
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, *args, **kwargs):
         if not email:
             raise ValueError('Users must have an email address')
 
         user = self.model(email=UserManager.normalize_email(email))
+
+        if not password:
+            password = self.make_random_password()
+
         user.set_password(password)
         user.save()
+
+        register_notification(user.email, password)
 
         return user
 
