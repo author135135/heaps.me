@@ -1,26 +1,39 @@
-# coding: utf8
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 
-REGISTER_NOTIFICATION_TEMPLATE = u"""
-Добро пожаловать на Heaps.me
-Данные для доступа к Вашему аккаунту:
+
+EMAIL_VALIDATION_TEMPLATE = _('Validate your account {0}')
+
+REGISTER_NOTIFICATION_TEMPLATE = _("""
+Welcome to HeapsMe
+Your account settings:
 Email: {0}
 Password: {1}
-"""
+""")
+
+FORGOTTEN_PASSWORD_TEMPLATE = _("""
+Your password have been reset.
+You can change it in the settings of your account.
+New password for your account: {0}
+""")
 
 
-def send_validation(strategy, backend, code):
+def email_validation(strategy, backend, code):
     url = '{0}?verification_code={1}'.format(
         reverse('social:complete', args=(backend.name,)),
         code.code
     )
     url = strategy.request.build_absolute_uri(url)
-    send_mail('Validate your account', 'Validate your account {0}'.format(url),
+    send_mail(_('Validate your account'), EMAIL_VALIDATION_TEMPLATE.format(url),
               settings.EMAIL_FROM, [code.email], fail_silently=False)
 
 
 def register_notification(email, password):
-    send_mail('Welcome to Heaps.me', REGISTER_NOTIFICATION_TEMPLATE.format(email, password),
+    send_mail(_('Welcome to HeapsMe'), REGISTER_NOTIFICATION_TEMPLATE.format(email, password),
               settings.EMAIL_FROM, [email])
+
+
+def forgotten_password(email, password):
+    send_mail(_('Reset password'), FORGOTTEN_PASSWORD_TEMPLATE.format(password), settings.EMAIL_FROM, [email])

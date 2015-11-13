@@ -2,12 +2,14 @@ from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from ckeditor.widgets import CKEditorWidget
 from heaps_app import models
-from heaps_app.fields import SocialNetworkField
+from heaps_app.fields import SocialNetworkField, CroppedImageField
+from heaps_app.widgets import MultiTextInput
+from django.utils.translation import ugettext_lazy as _
 
 
 # Front forms
 class SearchForm(forms.Form):
-    query = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search'}))
+    query = forms.CharField(widget=forms.TextInput(attrs={'placeholder': _('Search'), 'class': 'search'}))
 
 
 class FilterForm(forms.Form):
@@ -17,33 +19,33 @@ class FilterForm(forms.Form):
                                             widget=forms.CheckboxSelectMultiple())
 
 
-class CelebrityForm(forms.ModelForm):
+class CelebrityAddForm(forms.ModelForm):
     photo = forms.ImageField(required=False)
-    social_network = SocialNetworkField()
+    social_network = SocialNetworkField(widget=MultiTextInput(attrs={'placeholder': _('Place for link')}))
 
     class Meta:
         model = models.Celebrity
         fields = ('firstname', 'lastname', 'nickname', 'description')
-
-    def __init__(self, *args, **kwargs):
-        super(CelebrityForm, self).__init__(*args, **kwargs)
-
-        for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'form-control'
+        labels = {
+            'firstname': _('Firstname'),
+            'lastname': _('Lastname'),
+            'nickname': _('Nickname'),
+            'description': _('Short description'),
+        }
 
     def clean(self):
-        cleaned_data = self.cleaned_data
+        cleaned_data = super(CelebrityAddForm, self).clean()
         firstname = cleaned_data['firstname']
         lastname = cleaned_data['lastname']
         nickname = cleaned_data['nickname']
 
         if not any([firstname, lastname, nickname]):
-            self.add_error('firstname', 'One of this field must contain some value')
-            self.add_error('lastname', 'One of this field must contain some value')
-            self.add_error('nickname', 'One of this field must contain some value')
+            self.add_error('firstname', _('One of this field must contain some value'))
+            self.add_error('lastname', _('One of this field must contain some value'))
+            self.add_error('nickname', _('One of this field must contain some value'))
 
     def save(self, commit=True):
-        celebrity = super(CelebrityForm, self).save(commit)
+        celebrity = super(CelebrityAddForm, self).save(commit)
 
         for social_url in self.cleaned_data['social_network']:
             social_network = celebrity.socialnetwork_set.create(url=social_url)
@@ -59,17 +61,17 @@ class CelebrityForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
-
-    def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(*args, **kwargs)
-
-        for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'form-control'
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': _('Email'), 'id': 'login-email'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': _('Password'),
+                                                                 'id': 'login-password'}))
 
 
-class RegistrationForm(LoginForm):
+class RegistrationForm(forms.Form):
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': _('Email'), 'id': 'registration-email'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': _('Password'),
+                                                                 'id': 'registration-password'}))
+    password_repeat = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': _('Password repeat')}))
+
     def clean_email(self):
         email = self.cleaned_data['email']
 
@@ -78,40 +80,63 @@ class RegistrationForm(LoginForm):
         except models.User.DoesNotExist:
             return email
 
-        raise forms.ValidationError("E-mail address is already taken", code='invalid')
+        raise forms.ValidationError(_('E-mail address is already taken'), code='invalid')
+
+    def clean(self):
+        cleaned_data = super(RegistrationForm, self).clean()
+        password = cleaned_data.get('password')
+        password_repeat = cleaned_data.get('password_repeat')
+
+        if password != password_repeat:
+            self.add_error('password_repeat', _('Password and Password repeat not equal'))
+
+
+class EmailVerificationForm(forms.Form):
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': _('Email'), 'id': 'verification-email'}))
+
+
+class PasswordForgottenForm(forms.Form):
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': _('Email'), 'id': 'forgotten-email'}))
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+
+        try:
+            user = models.User.objects.get(email=email)
+        except models.User.DoesNotExist:
+            raise forms.ValidationError(_('E-mail address not found'), code='invalid')
+
+        return email
 
 
 class AccountSettingsForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=False)
-    password2 = forms.CharField(label='Password repeat', widget=forms.PasswordInput, required=False)
-    avatar = forms.ImageField(widget=forms.FileInput, required=False)
+    password = forms.CharField(label=_('Password'), widget=forms.PasswordInput, required=False)
+    password_repeat = forms.CharField(label=_('Password repeat'), widget=forms.PasswordInput, required=False)
+    avatar = CroppedImageField(required=False)
 
     class Meta:
         model = models.User
         fields = ('first_name', 'last_name', 'email')
-
-    def __init__(self, *args, **kwargs):
-        super(AccountSettingsForm, self).__init__(*args, **kwargs)
-
-        for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'form-control'
+        labels = {
+            'first_name': _('Firstname'),
+            'last_name': _('Lastname'),
+        }
 
     def clean(self):
         cleaned_data = super(AccountSettingsForm, self).clean()
-        password1 = cleaned_data.get('password1')
-        password2 = cleaned_data.get('password2')
+        password = cleaned_data.get('password')
+        password_repeat = cleaned_data.get('password_repeat')
 
-        if ((password1 and password2) and password1 != password2) or (password1 or password2):
-            self.add_error('password1', 'Password and Password repeat not equal')
-            self.add_error('password2', 'Password and Password repeat not equal')
+        if (password or password_repeat) and password != password_repeat:
+            self.add_error('password_repeat', _('Password and Password repeat not equal'))
 
     def save(self, commit=True):
         user = super(AccountSettingsForm, self).save(commit=False)
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
+        password = self.cleaned_data.get('password')
+        password_repeat = self.cleaned_data.get('password_repeat')
 
-        if password1 and password2:
-            user.set_password(password1)
+        if password and password_repeat:
+            user.set_password(password)
 
         avatar = self.cleaned_data['avatar']
 
@@ -120,13 +145,14 @@ class AccountSettingsForm(forms.ModelForm):
 
         if commit:
             user.save()
+
         return user
 
 
 # Admin forms
 class UserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password repeat', widget=forms.PasswordInput)
+    password1 = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
+    password2 = forms.CharField(label=_('Password repeat'), widget=forms.PasswordInput)
 
     class Meta:
         model = models.User
@@ -137,7 +163,7 @@ class UserCreationForm(forms.ModelForm):
         password2 = self.cleaned_data.get('password2')
 
         if (password1 and password2) and password1 != password2:
-            raise forms.ValidationError('Password and Password repeat not equal', code='invalid')
+            raise forms.ValidationError(_('Password and Password repeat not equal'), code='invalid')
         return password2
 
     def save(self, commit=True):

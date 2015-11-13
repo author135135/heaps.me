@@ -1,27 +1,40 @@
 {% load thumbnail %}
 
 {% for celebrity in celebrities %}
-    <div class="celeb-item subscribed col-lg-4">
-        <a href="{{ celebrity.get_absolute_url }}">
-            <span class="label label-success">
-                <span class="glyphicon glyphicon-ok"></span>
-            </span>
-            {% thumbnail celebrity.photo_set.all.0.image "355x282" crop="top" as im %}
-                <img src="{{ im.url }}">
-            {% endthumbnail %}
-            <span class="name">
-                {{ celebrity }}
-                {% if celebrity.excerpt %}
-                    <span class="excerpt">{{ celebrity.excerpt }}</span>
-                {% endif %}
-            </span>
-        </a>
-        {% if celebrity.socialnetwork_set.count %}
-            <div class="social">
-                {% for social_network in celebrity.socialnetwork_set.all %}
-                    <a href="{{ social_network.url }}" class="btn btn-sm btn-info">{{ social_network.social_network }}</a>
-                {% endfor %}
+    <div class="col-md-4 col-sm-6 item">
+        <div class="post-wrapper clearfix">
+            <div class="layout-photo">
+                <a href="{{ celebrity.get_absolute_url }}">
+                    {% thumbnail celebrity.photo_set.all.0.image "422x371" crop="top" as img %}
+                        <img src="{{ img.url }}" alt="{{ celebrity }}" title="{{ celebrity }}">
+                    {% endthumbnail %}
+                </a>
+                <div class="ic-check-follow"><i class="fa fa-check"></i></div>
+                <div class="name-post-container">
+                    <div class="person-name">{{ celebrity }}</div>
+                    <div class="person-short-description">{{ celebrity.excerpt }}</div>
+                </div>
             </div>
-        {% endif %}
+            {% if celebrity.socialnetwork_set.count %}
+                <ul class="social-post">
+                    {% for social_network in celebrity.socialnetwork_set.all %}
+                        {% if forloop.counter0 == 4 and celebrity.socialnetwork_set.count > 4 %}
+                            <li class="all"><a href="#"></a></li>
+                        {% endif %}
+                        <li class="{{ social_network.social_network }}">
+                            <a href="{{ social_network.url }}" target="_blank"></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
     </div>
 {% endfor %}
+
+{% if page_obj.has_next %}
+    <div class="col-sm-12 col-md-12 paginate">
+        <div class="but-load clearfix">
+            <button>Загрузить еще</button>
+        </div>
+    </div>
+{% endif %}

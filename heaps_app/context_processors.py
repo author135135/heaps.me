@@ -29,6 +29,7 @@ def heaps_context_data(request):
     if not request.user.is_authenticated():
         context['login_form'] = forms.LoginForm()
         context['registration_form'] = forms.RegistrationForm()
+        context['password_forgotten_form'] = forms.PasswordForgottenForm()
 
         # OAuth Google+ required settings
         context['google_plus_key'] = getattr(settings, 'SOCIAL_AUTH_GOOGLE_PLUS_KEY', None)

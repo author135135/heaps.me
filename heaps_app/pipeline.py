@@ -11,4 +11,4 @@ def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
         if email:
             details['email'] = email
         else:
-            return redirect('/?modal=email-required')
+            return redirect('/?modal=email-verification')

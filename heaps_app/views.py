@@ -1,4 +1,3 @@
-from django.forms.forms import Form
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, FormView
 from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import redirect
@@ -9,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
-
-from heaps_app import models, forms
+from heaps_app import models, forms, mail
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 
 class CelebritiesFilterMixin(object):
@@ -76,7 +75,7 @@ class FormResponseMixin(object):
             return response
 
 
-class IndexView(CelebritiesFilterMixin, CelebritiesPaginatedAjaxMixin, ListView):
+class IndexView(CelebritiesPaginatedAjaxMixin, ListView):
     template_name = 'heaps_app/index.html'
     queryset = models.Celebrity.public_records.get_queryset()
     context_object_name = 'celebrities'
@@ -87,12 +86,24 @@ class IndexView(CelebritiesFilterMixin, CelebritiesPaginatedAjaxMixin, ListView)
 
         if 'partial_pipeline' in self.request.session:
             context['backend'] = self.request.session['partial_pipeline']['backend']
+            context['email_verification_form'] = forms.EmailVerificationForm()
 
         if 'validation_sent' in self.request.GET:
+            email_validation_address = self.request.session.get('email_validation_address')
+
             context['validation_sent'] = True
-            context['email'] = self.request.session.get('email_validation_address')
+            context['validation_message'] = _(
+                'An email validation was sent to {0}. Click the link sent to finish the authentication process.'
+            ).format(email_validation_address)
 
         return context
+
+
+class SearchView(CelebritiesFilterMixin, CelebritiesPaginatedAjaxMixin, ListView):
+    template_name = 'heaps_app/index.html'
+    queryset = models.Celebrity.public_records.get_queryset()
+    context_object_name = 'celebrities'
+    paginate_by = 6
 
 
 class CelebrityView(CelebritiesPaginatedAjaxMixin, DetailView):
@@ -115,17 +126,17 @@ class CelebrityView(CelebritiesPaginatedAjaxMixin, DetailView):
         return context
 
 
-class CelebrityAddView(FormResponseMixin, CreateView):
-    template_name = 'heaps_app/celebrity_add.html'
-    form_class = forms.CelebrityForm
-    success_message = 'Celebrity record add.'
+class AccountCelebrityAddView(FormResponseMixin, CreateView):
+    template_name = 'heaps_app/account_celebrity_add.html'
+    form_class = forms.CelebrityAddForm
+    success_message = ugettext('Celebrity record add.')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(CelebrityAddView, self).dispatch(request, *args, **kwargs)
+        return super(AccountCelebrityAddView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('heaps_app:celebrity-add')
+        return reverse('heaps_app:account-celebrity-add')
 
 
 class AccountMySubscribes(CelebritiesPaginatedAjaxMixin, ListView):
@@ -141,11 +152,22 @@ class AccountMySubscribes(CelebritiesPaginatedAjaxMixin, ListView):
 class AccountSettings(FormResponseMixin, UpdateView):
     template_name = 'heaps_app/account_settings.html'
     form_class = forms.AccountSettingsForm
-    success_message = 'Account saved'
+    success_message = ugettext('Account settings updated')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(AccountSettings, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        response = super(AccountSettings, self).form_valid(form)
+        if form.cleaned_data['password'] and form.cleaned_data['password_repeat']:
+            email = self.request.user.email
+            password = form.cleaned_data['password']
+            user = authenticate(email=email, password=password)
+
+            login(self.request, user)
+
+        return response
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -173,7 +195,7 @@ def account_login(request):
             else:
                 response_data['authenticated'] = False
                 response_data['errors'] = {
-                    'all': ['Invalid email or password. Try again.']
+                    'all': [ugettext('Invalid email or password.')]
                 }
         else:
             response_data['authenticated'] = False
@@ -202,6 +224,31 @@ def account_registration(request):
                 response_data['redirect_to'] = request.META['HTTP_REFERER']
         else:
             response_data['authenticated'] = False
+            response_data['errors'] = form.errors
+
+        return JsonResponse(response_data)
+
+    return HttpResponseForbidden("Access denied")
+
+
+def account_forgotten_password(request):
+    if request.is_ajax() and request.method == 'POST':
+        form = forms.PasswordForgottenForm(request.POST)
+        response_data = dict()
+
+        if form.is_valid():
+            user = models.User.objects.get(email=form.cleaned_data['email'])
+            password = models.User.objects.make_random_password()
+
+            user.set_password(password)
+            user.save()
+
+            mail.forgotten_password(form.cleaned_data['email'], password)
+
+            response_data['success'] = True
+            response_data['message'] = ugettext('To your email has been sent a letter with the recovery password.')
+        else:
+            response_data['success'] = False
             response_data['errors'] = form.errors
 
         return JsonResponse(response_data)

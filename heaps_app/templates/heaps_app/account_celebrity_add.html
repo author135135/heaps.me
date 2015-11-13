@@ -1,0 +1,57 @@
+{% extends 'heaps_app/base_html.html' %}
+{% load static %}
+
+{% block title %}Добавить знаменитость{% endblock %}
+
+{% block additional_scripts %}
+    <script src="{% static 'heaps_app/js/jquery.form.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'heaps_app:account-celebrity-add' %}" role="form" enctype="multipart/form-data"
+          id="add-celebrity" class="f-create-person" method="post">
+        {% csrf_token %}
+        <div class="col-md-10 wrap-info-message">
+            <div class="info-message">Чтобы добавить знаменитость в сеть HeapsMe, загрузите фото,заполните необходимые
+                поля, добавьте ссылки, после чего нажмите "СОЗДАТЬ".
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="create-person clearfix">
+                <div class="upload-photo-box">
+                    <div class="photo-box">
+                        <img src="{% static 'heaps_app/images/default-cr-pers-photo.png' %}">
+                        {{ form.photo }}
+                    </div>
+                    <button type="button" class="upload-btn-photo">Загрузить фото</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div class="cr-pers-info-section">
+                <div class="input-box">
+                    <label for="{{ form.firstname.id_for_label }}"><span>{{ form.firstname.label }}</span></label>
+                    {{ form.firstname }}
+                </div>
+                <div class="input-box">
+                    <label for="{{ form.lastname.id_for_label }}"><span>{{ form.lastname.label }}</span></label>
+                    {{ form.lastname }}
+                </div>
+                <div class="input-box">
+                    <label for="{{ form.nickname.id_for_label }}"><span>{{ form.nickname.label }}</span></label>
+                    {{ form.nickname }}
+                </div>
+                <div class="input-box">
+                    <label for="{{ form.description.id_for_label }}"><span>{{ form.description.label }}</span></label>
+                    {{ form.description }}
+                </div>
+                <div class="input-box">
+                    <span>Укажите одну или более ссылок на соц сети:</span>
+                    {{ form.social_network }}
+                </div>
+                <button type="button" class="more-load-link-box">Добавить еще ссылку</button>
+                <button type="submit" class="create-person-btn">Создать</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

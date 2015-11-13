@@ -1,29 +1,42 @@
-{% load static %}
+<div id="header">
+    <div id="logo"><a href="{% url 'heaps_app:index' %}">HeapsMe</a></div>
 
-<div class="col-lg-2">
-    <a href="/">
-        <span class="user-avatar"><img src="{{ user.avatar.url }}"></span>
-        <img src="{% static 'heaps_app/images/logo.png' %}">
-    </a>
-
-    <div class="user-name">{{ user.get_full_name }}</div>
-
-    <div class="user-actions list-group">
-        <a href="{% url 'heaps_app:index' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-user"></span>
-            <span class="title">Все</span>
-        </a>
-        <a href="{% url 'heaps_app:account-my-subscribes' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-check"></span>
-            <span class="title">Мои подписки</span>
-        </a>
-        <a href="{% url 'heaps_app:account-settings' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-cog"></span>
-            <span class="title">Настройки</span>
-        </a>
-        <a href="{% url 'heaps_app:account-logout' %}" class="list-group-item">
-            <span class="glyphicon glyphicon-off"></span>
-            <span class="title">Выход</span>
-        </a>
+    <div class="user-descrpt-sidebar">
+        <img src="{{ user.avatar.url }}" alt="{{ user }}" title="{{ user }}" style="height: 52px;">
+        <span>{{ user.get_full_name }}</span>
     </div>
+
+    <nav id="nav">
+        <ul>
+            <li>
+                {% url 'heaps_app:index' as index_page %}
+                <a href="{{ index_page }}" class="{% if index_page == request.path %}active{% endif %}">
+                    <span class="icon fa-users">Все</span>
+                </a>
+            </li>
+            <li>
+                {% url 'heaps_app:account-my-subscribes' as account_my_subscribes_page %}
+                <a href="{{ account_my_subscribes_page }}" class="{% if account_my_subscribes_page == request.path %}active{% endif %}">
+                    <span class="icon fa-check-square-o">Мои подписки</span>
+                </a>
+            </li>
+            <li>
+                {% url 'heaps_app:account-celebrity-add' as account_celebrity_add_page %}
+                <a href="{{ account_celebrity_add_page }}" class="{% if account_celebrity_add_page == request.path %}active{% endif %}">
+                    <span class="icon fa-plus">Добавить</span>
+                </a>
+            </li>
+            <li>
+                {% url 'heaps_app:account-settings' as account_settings_page %}
+                <a href="{{ account_settings_page }}" class="{% if account_settings_page == request.path %}active{% endif %}">
+                    <span class="icon fa-cog">Настройки</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'heaps_app:account-logout' %}">
+                    <span class="icon fa-sign-out">Выход</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>

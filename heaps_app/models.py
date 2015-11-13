@@ -2,7 +2,6 @@ import os
 import hashlib
 import random
 
-from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
@@ -75,6 +74,22 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.first_name and self.last_name:
             return u'{} {}'.format(self.last_name, self.first_name)
         return self.email
+
+    def get_social_auth_providers(self):
+        if hasattr(self, 'social_auth_providers'):
+            return self.social_auth_providers
+
+        providers = self.social_auth.all()
+        self.social_auth_providers = []
+
+        provider_classes = {
+            'vk-oauth2': 'vk',
+            'google-plus': 'plus-google',
+        }
+
+        for item in providers:
+            self.social_auth_providers.append(provider_classes.get(item.provider, item.provider))
+        return self.social_auth_providers
 
 
 class SeoInformation(models.Model):
@@ -164,9 +179,24 @@ class Photo(models.Model):
 
 class SocialNetwork(models.Model):
     SOCIAL_NETWORKS = (
-        ('facebook', 'Facebook'),
+        ('ask-fm', 'Ask FM'),
+        ('wikipedia', 'Wikipedia'),
         ('vk', 'Vk'),
-        ('instagram', 'Instagram')
+        ('github', 'Github'),
+        ('plus-google', 'Google +'),
+        ('livejournal', 'Livejournal'),
+        ('instagram', 'Instagram'),
+        ('linkedin', 'Linkedin'),
+        ('myspace', 'Myspace'),
+        ('my-mail', 'My world'),
+        ('ok-ru', 'Odnoklassniki'),
+        ('promodj', 'Promo Dj'),
+        ('soundcloud', 'Soundcloud'),
+        ('twitter', 'Twitter'),
+        ('twitch', 'Twitch'),
+        ('facebook', 'Facebook'),
+        ('youtube', 'Youtube'),
+        ('official-web', 'Official site'),
     )
 
     celebrity = models.ForeignKey(to=Celebrity)
@@ -186,7 +216,7 @@ class SocialNetwork(models.Model):
         social_url = self.url.lower()
 
         for code, name in self.SOCIAL_NETWORKS:
-            if code in social_url:
+            if code.replace('-', '.') in social_url:
                 self.social_network = code
                 return True
         return False

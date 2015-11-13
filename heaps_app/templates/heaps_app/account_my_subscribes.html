@@ -1,15 +1,10 @@
 {% extends 'heaps_app/base_html.html' %}
 
+{% block title %}Мои подписки{% endblock %}
+
 {% block content %}
     {% if celebrities %}
-        <div class="items-container">
-            {% include 'heaps_app/_celebrities_block_subscribed.html' %}
-        </div>
-        {% if page_obj.has_next %}
-            <div class="paginate">
-                <a href="#" class="btn btn-default btn-block">Загрузить еще</a>
-            </div>
-        {% endif %}
+        {% include 'heaps_app/_celebrities_block_subscribed.html' %}
     {% else %}
         <div class="alert alert-info">No results to show</div>
     {% endif %}
