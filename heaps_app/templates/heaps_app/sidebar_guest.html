@@ -18,7 +18,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-3 col-md-5 col-sm-offset-2 col-sm-8">
-                <form action="{% url 'heaps_app:account-login' %}" method="post">
+                <form class="clearfix" action="{% url 'heaps_app:account-login' %}" method="post">
                     {% csrf_token %}
                     <div class="head-form">
                         <span>Вход на сайт</span>
@@ -27,7 +27,8 @@
                     </div>
                     {% for field in login_form %}
                         <div class="input-box">
-                            <label for="{{ field.id_for_label }}" class="ic-input {% cycle 'ic-log' 'ic-parol' %}"></label>
+                            <label for="{{ field.id_for_label }}"
+                                   class="ic-input {% cycle 'ic-log' 'ic-parol' %}"></label>
                             {{ field }}
                         </div>
                         <div class="unrer-dec"></div>
@@ -43,7 +44,9 @@
                             <li><a href="{% url 'social:begin' 'instagram' %}"></a></li>
                         </ul>
                     </div>
-                    <a class="link-forgot-log" href="#" data-toggle="modal" data-target="#forgotten-password">Напомнить пароль</a>
+                    <a class="link-forgot-log" href="#" data-toggle="modal" data-target="#forgotten-password">Напомнить
+                        пароль</a>
+                    <a class="link-reg-log-mod" href="#" data-toggle="modal" data-target="#registration">Регистрация</a>
                 </form>
             </div>
         </div>
@@ -63,7 +66,8 @@
                     </div>
                     {% for field in registration_form %}
                         <div class="input-box">
-                            <label for="{{ field.id_for_label }}" class="ic-input {% cycle 'ic-log' 'ic-parol' 'ic-parol' %}"></label>
+                            <label for="{{ field.id_for_label }}"
+                                   class="ic-input {% cycle 'ic-log' 'ic-parol' 'ic-parol' %}"></label>
                             {{ field }}
                         </div>
                         <div class="unrer-dec"></div>
@@ -82,7 +86,7 @@
                 <form action="{% url 'heaps_app:account-forgotten-password' %}" method="post">
                     {% csrf_token %}
                     <div class="head-form">
-                        <span>Укажите ваш email.</span>
+                        <span>Укажите ваш email:</span>
                     </div>
                     {% for field in password_forgotten_form %}
                         <div class="input-box">
@@ -115,7 +119,7 @@
                             </div>
                             <div class="unrer-dec"></div>
                         {% endfor %}
-                        <button class="send">ОТПРАВИТЬ</button>
+                        <button type="submit" class="send">ОТПРАВИТЬ</button>
                     </form>
                 </div>
             </div>
@@ -123,13 +127,15 @@
     </div>
 {% endif %}
 
-<div id="message-modal" role="dialog" class="modal fade modal-EmailVerif">
+<div id="message-modal" class="mod-basic-info modal fade">
     <div class="container">
         <div class="row">
-            <div class="col-md-offset-3 col-md-5 col-sm-offset-2 col-sm-8">
-                <div class="message">
-                    <div class="head-form">
-                        <span>{{ validation_message }}</span>
+            <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
+                <div class="wrapper clearfix">
+                    <div class="img-inf-mod"></div>
+                    <div class="right-col-inf-mod">
+                        <span>{{ message }}</span>
+                        <button class="but-mod-b-info clearfix" data-dismiss="modal">Ок</button>
                     </div>
                 </div>
             </div>

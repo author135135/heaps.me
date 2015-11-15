@@ -4,12 +4,13 @@
 {% block title %}Настройки аккаунта{% endblock %}
 
 {% block additional_style %}
-    <link rel="stylesheet" href="{% static 'heaps_app/js/jCrop/css/jquery.Jcrop.min.css' %}">
+    <link rel="stylesheet" href="{% static 'heaps_app/js/cropbox/css/jquery.cropbox.css' %}">
 {% endblock %}
 
 {% block additional_scripts %}
     <script src="{% static 'heaps_app/js/jquery.form.min.js' %}"></script>
-    <script src="{% static 'heaps_app/js/jCrop/js/jquery.Jcrop.min.js' %}"></script>
+    <script src="{% static 'heaps_app/js/jquery.mousewheel.min.js' %}"></script>
+    <script src="{% static 'heaps_app/js/cropbox/js/jquery.cropbox.js' %}"></script>
 {% endblock %}
 
 {% block content %}

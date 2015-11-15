@@ -92,7 +92,7 @@ class IndexView(CelebritiesPaginatedAjaxMixin, ListView):
             email_validation_address = self.request.session.get('email_validation_address')
 
             context['validation_sent'] = True
-            context['validation_message'] = _(
+            context['message'] = _(
                 'An email validation was sent to {0}. Click the link sent to finish the authentication process.'
             ).format(email_validation_address)
 
@@ -144,6 +144,10 @@ class AccountMySubscribes(CelebritiesPaginatedAjaxMixin, ListView):
     model = models.Celebrity
     context_object_name = 'celebrities'
     paginate_by = 6
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(AccountMySubscribes, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         return models.Celebrity.public_records.filter(pk__in=self.request.user.celebrity_subscribe.values_list('pk'))
@@ -270,18 +274,9 @@ def celebrity_subscribe(request, slug):
     except models.Celebrity.DoesNotExist:
         return HttpResponseNotFound()
 
-    request.user.celebrity_subscribe.add(celebrity)
+    if celebrity in request.user.celebrity_subscribe.all():
+        request.user.celebrity_subscribe.remove(celebrity)
+    else:
+        request.user.celebrity_subscribe.add(celebrity)
 
-    return redirect(request.META['HTTP_REFERER'])
-
-
-@login_required
-def celebrity_unsubscribe(request, slug):
-    try:
-        celebrity = models.Celebrity.public_records.get(slug=slug)
-    except models.Celebrity.DoesNotExist:
-        return HttpResponseNotFound()
-
-    request.user.celebrity_subscribe.remove(celebrity)
-
-    return redirect(request.META['HTTP_REFERER'])
+    return redirect(reverse('heaps_app:celebrity-view', kwargs={'slug': slug}))

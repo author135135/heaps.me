@@ -13,11 +13,11 @@
             </div>
         </div>
         {% if user.is_authenticated %}
-            {% if celebrity in user.celebrity_subscribe.all %}
-                <a href="{% url 'heaps_app:celebrity-unsubscribe' slug=celebrity.slug %}" class="but-subscribe">Отписаться</a>
-            {% else %}
-                <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}" class="but-subscribe">Подписаться</a>
-            {% endif %}
+            <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}" class="but-subscribe">
+                {% if celebrity in user.celebrity_subscribe.all %}Отписаться{% else %}Подписаться{% endif %}
+            </a>
+        {% else %}
+            <a href="#" class="but-subscribe" data-toggle="modal" data-target="#login">Подписаться</a>
         {% endif %}
     </div>
     <div class="col-md-8 col-sm-6">
@@ -34,9 +34,15 @@
         {% endif %}
     </div>
     {% if celebrities %}
-        <div class="col-md-12"><h3>Знаменитости из похожих категорий</h3></div>
-        <div style="clear: both;">
-            {% include 'heaps_app/_celebrities_block.html' %}
+        <div class="content-similars">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span>Знаменитости из похожей категории</span>
+                    </div>
+                    {% include 'heaps_app/_celebrities_block.html' %}
+                </div>
+            </div>
         </div>
     {% endif %}
 {% endblock %}

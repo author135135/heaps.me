@@ -68,6 +68,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.is_admin
 
     def get_short_name(self):
+        if self.first_name and self.last_name:
+            return u'{} {}.'.format(self.first_name, self.last_name[:1])
         return self.email
 
     def get_full_name(self):

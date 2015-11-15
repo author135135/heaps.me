@@ -54,21 +54,25 @@
 
         var elem = $(this),
             wrapper = elem.parents('.item'),
-            elem_index = wrapper.index();
+            elem_index = $('.item').index(wrapper);
 
-        $('.item:not(:eq(' + elem_index + ')) .open-social').removeClass('open-social');
+        $('.item:not(:eq(' + (elem_index) + ')) .open-social').removeClass('open-social');
         $('.item').attr('style', '');
 
         elem.parent().toggleClass('open-social');
 
         if ($window.innerWidth() >= 992) {
-            $('.item:nth-child(' + ((parseInt(elem_index / 3) + 1) * 3 + 1) + ')').css('clear', 'both');
+            $('.item:eq(' + ((parseInt(elem_index / 3) + 1) * 3) + ')').css('clear', 'both');
         } else if ($window.innerWidth() < 992 && $window.innerWidth() > 769) {
-            $('.item:nth-child(' + ((parseInt(elem_index / 2) + 1) * 2 + 1) + ')').css('clear', 'both');
+            $('.item:eq(' + ((parseInt(elem_index / 2) + 1) * 2) + ')').css('clear', 'both');
         }
     });
 
     // Login and register forms
+    $('#registration').on('show.bs.modal', function (e) {
+        $('#login').modal('hide');
+    });
+
     $('#login form, #registration form').submit(function (e) {
         e.preventDefault();
 
@@ -76,25 +80,20 @@
             emailPat = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             errors = 0;
 
-        $('.input-error', form).removeClass('input-error');
-        $('.ic-log-error', form).removeClass('ic-log-error');
-        $('.ic-parol-error', form).removeClass('ic-parol-error');
+        $('.error-wrap', form).removeClass('error-wrap');
 
         if (!$('input[name="email"]', form).val() || !emailPat.test($('input[name="email"]', form).val())) {
-            $('input[name="email"]', form).addClass('input-error');
-            $('input[name="email"]', form).prev().addClass('ic-log-error');
+            $('input[name="email"]', form).parent().addClass('error-wrap');
             errors = 1;
         }
 
         if (!$.trim($('input[name="password"]', form).val())) {
-            $('input[name="password"]', form).addClass('input-error');
-            $('input[name="password"]', form).prev().addClass('ic-parol-error');
+            $('input[name="password"]', form).parent().addClass('error-wrap');
             errors = 1;
         }
 
         if ($('input[name="password_repeat"]', form).length && $('input[name="password_repeat"]', form).val() != $('input[name="password"]', form).val()) {
-            $('input[name="password_repeat"]', form).addClass('input-error');
-            $('input[name="password_repeat"]', form).prev().addClass('ic-parol-error');
+            $('input[name="password_repeat"]', form).parent().addClass('error-wrap');
             errors = 1;
         }
 
@@ -111,11 +110,9 @@
                 } else {
                     $.each(response['errors'], function (k, v) {
                         if (k == 'all') {
-                            $('input[name="email"]', form).prev().addClass('ic-log-error');
-                            $('input[name="password"]', form).prev().addClass('ic-parol-error');
+                            $('input[name="email"]', form).parent().addClass('error-wrap');
                         } else {
-                            $('input[name="' + k + '"]', form).addClass('input-error');
-                            $('input[name="' + k + '"]', form).prev().addClass(k == 'email' ? 'ic-log-error' : 'ic-parol-error');
+                            $('input[name="' + k + '"]', form).parent().addClass('error-wrap');
                         }
                     });
                 }
@@ -123,13 +120,11 @@
         }
     });
 
-    $('.link-forgot-log').click(function (e) {
-        e.preventDefault();
-
+    // Forgotten password form
+    $('#forgotten-password').on('show.bs.modal', function (e) {
         $('#login').modal('hide');
     });
 
-    // Forgotten password form
     $('#forgotten-password form').submit(function (e) {
         e.preventDefault();
 
@@ -137,9 +132,10 @@
             emailPat = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             errors = 0;
 
+        $('.error-wrap', form).removeClass('error-wrap');
+
         if (!$('input[name="email"]', form).val() || !emailPat.test($('input[name="email"]', form).val())) {
-            $('input[name="email"]', form).addClass('input-error');
-            $('input[name="email"]', form).prev().addClass('ic-log-error');
+            $('input[name="email"]', form).parent().addClass('error-wrap');
             errors = 1;
         }
 
@@ -148,12 +144,11 @@
                 if (response['success']) {
                     $('#forgotten-password form').trigger('reset');
                     $('#forgotten-password').modal('hide');
-                    $('#message-modal .head-form span').text(response['message']);
+                    $('#message-modal .right-col-inf-mod span').text(response['message']);
                     $('#message-modal').modal('show');
                 } else {
                     $.each(response['errors'], function (k, v) {
-                        $('input[name="' + k + '"]', form).addClass('input-error');
-                        $('input[name="' + k + '"]', form).prev().addClass(k == 'email' ? 'ic-log-error' : 'ic-parol-error');
+                        $('input[name="' + k + '"]', form).parent().addClass('error-wrap');
                     });
                 }
             }, 'json');
@@ -202,7 +197,7 @@
 
         var form = $(this);
 
-        $('.input-error', form).removeClass('input-error');
+        //$('.input-error', form).removeClass('input-error');
         $('.error-text', form).removeClass('error-text');
 
         var options = {
@@ -214,8 +209,8 @@
             success: function (response) {
                 if (response['errors']) {
                     $.each(response['errors'], function (k, v) {
-                        $('[name="' + k + '"]', form).addClass('input-error');
-                        $('[name="' + k + '"]', form).prev().children('span').addClass('error-text');
+                        $('[name="' + k + '"]', form).parent().addClass('error-wrap');
+                        //$('[name="' + k + '"]', form).prev().children('span').addClass('error-text');
                         //$('[name="' + k + '"]', form).after('<p class="error">' + k + ': ' + v + '</p>');
                     });
                 }
@@ -255,36 +250,45 @@
     });
 
     // Account settings
-    var jcrop_api;
-
-    $('#account-settings #popup').on('hide.bs.modal', function(e){
-        jcrop_api.destroy();
-    });
-
-    $('#account-settings .upload-photo-box input[type="file"]').change(function (e) {
+    $(document).on('change', '#account-settings .upload-photo-box input[type="file"]', function (e) {
         var input = $(this)[0];
         if (input.files && input.files[0]) {
             if (input.files[0].type.match('image.*')) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    $('#account-settings #popup img').attr('src', e.target.result);
-
-                    $('#account-settings #popup').modal('show');
-
                     var image = new Image();
                     image.src = e.target.result;
 
-                    jcrop_api = $.Jcrop('#account-settings #popup img', {
-                        aspectRatio: 1,
-                        setSelect: [
-                            image.width / 2 - 100,
-                            image.height / 2 - 100,
-                            image.width / 2 + 100,
-                            image.height / 2 + 100
-                        ],
-                        onChange: jcrop_set_data,
-                        onSelect: jcrop_set_data
+                    if (image.width < 50 || image.width > 800) {
+                        var message_wrapper = $('.wrap-info-message');
+
+                        message_wrapper.html('<div class="info-message">Image size to big</div>');
+
+                        $("html, body").stop().animate({scrollTop:0}, '1000', 'swing', function(){
+                            setTimeout(function(){
+                                message_wrapper.empty();
+                            }, 3000);
+                        });
+                        
+                        $(input).replaceWith($(input).clone());
+                        return false;
+                    }
+
+                    $('#account-settings #popup img').attr('src', image.src).cropbox({
+                        width: 200,
+                        height: 200,
+                        showControls: 'always'
+                    }, function() {
+                        //on load
+                        //console.log('Url: ' + this.result);
+                    }).on('cropbox', function(e, data) {
+                        $('#id_crop_attr_x').val(data.cropX);
+                        $('#id_crop_attr_y').val(data.cropY);
+                        $('#id_crop_attr_w').val(data.cropW);
+                        $('#id_crop_attr_h').val(data.cropH);
                     });
+
+                    $('#account-settings #popup').modal('show');
                 }
                 reader.readAsDataURL(input.files[0]);
             } else console.log('is not image mime type');
@@ -293,23 +297,11 @@
 
     $('#account-settings #popup .send').click(function(e){
         $('#account-settings #popup').modal('hide');
-        var x1 = $('#id_crop_attr_x').val();
-        var y1 = $('#id_crop_attr_y').val();
-        var width = $('#id_crop_attr_w').val();
-        var height = $('#id_crop_attr_h').val();
-        var canvas = $("#canvas")[0];
-        var context = canvas.getContext('2d');
-        var img = new Image();
-        img.onload = function () {
-            canvas.height = height;
-            canvas.width = width;
-            context.drawImage(img, x1, y1, width, height, 0, 0, width, height);
-            var avatar = canvas.toDataURL();
 
-            $('.upload-photo-box .photo-box img').attr('src', avatar);
-            $('.user-descrpt-sidebar img').attr('src', avatar);
-        };
-        img.src = $('#account-settings #popup img').attr("src");
+        var crop = $('#account-settings #popup img').data('cropbox');
+
+        $('.upload-photo-box .photo-box img').attr('src', crop.getDataURL());
+        $('.user-descrpt-sidebar img').attr('src', crop.getDataURL());
     });
 
     $('#account-settings').submit(function (e) {
@@ -385,12 +377,4 @@
             $('#' + modal).modal();
         }
     }
-
-    function jcrop_set_data(c) {
-        $('#id_crop_attr_x').val(c.x);
-        $('#id_crop_attr_y').val(c.y);
-        $('#id_crop_attr_w').val(c.w);
-        $('#id_crop_attr_h').val(c.h);
-    }
-
 })(jQuery);
