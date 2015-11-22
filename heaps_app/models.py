@@ -111,6 +111,7 @@ class Filter(models.Model):
 
     title = models.CharField(max_length=75)
     filter_type = models.CharField(max_length=75, choices=TAGS_TYPE)
+    css_class = models.CharField(max_length=75)
 
     def __unicode__(self):
         return self.title
@@ -144,7 +145,8 @@ class Celebrity(SeoInformation):
         return u"{0} {1} {2}".format(self.firstname, self.nickname, self.lastname)
 
     def _get_filters(self):
-        return ', '.join(map(unicode, self.filter.all()))
+        filters = self.filter.all()
+        return ', '.join(map(unicode, filters)) if filters else ''
 
     _get_filters.short_description = 'Filter'
     get_filters = property(_get_filters)

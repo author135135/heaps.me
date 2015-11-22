@@ -27,7 +27,8 @@ class CelebritiesFilterMixin(object):
             if query.strip():
                 query = query.strip()
                 qs = qs.filter(
-                    Q(firstname__icontains=query) | Q(lastname__icontains=query) | Q(nickname__icontains=query))
+                    Q(firstname__icontains=query) | Q(lastname__icontains=query) | Q(nickname__icontains=query)
+                )
             else:
                 qs = qs.none()
 
@@ -114,8 +115,8 @@ class CelebrityView(CelebritiesPaginatedAjaxMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(CelebrityView, self).get_context_data(**kwargs)
 
-        related_celebrities = models.Celebrity.public_records.filter(filter__pk__in=self.object.filter.all()).exclude(
-            pk=self.object.pk)
+        related_celebrities = models.Celebrity.public_records.filter(
+            filter__pk__in=self.object.filter.all()).distinct().exclude(pk=self.object.pk)
 
         paginator = Paginator(related_celebrities, 6)
         page_obj = paginator.page(self.request.GET.get('page', 1))

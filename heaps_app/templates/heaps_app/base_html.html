@@ -7,9 +7,10 @@
     <title>{% block title %}Heaps.me{% endblock %}</title>
     {% block seo %}{% endblock %}
     <!--[if lte IE 8]><script src="{% static 'heaps_app/js/ie/html5shiv.js' %}<![endif]-->
-    <link rel="stylesheet" href="{% static 'heaps_app/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'heaps_app/js/bxslider/css/jquery.bxslider.css' %}">
     <link rel="stylesheet" href="{% static 'heaps_app/css/bootstrap.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'heaps_app/css/style.css' %}">
     <!--[if lte IE 8]><link rel="stylesheet" href="{% static 'heaps_app/css/ie8.css' %}"><![endif]-->
     <!--[if lte IE 9]><link rel="stylesheet" href="{% static 'heaps_app/css/ie9.css' %}"><![endif]-->
     {% block additional_style %}{% endblock %}
@@ -25,22 +26,91 @@
 <div id="main">
     <div id="main-wrapper">
         <div class="header-top-wrapper">
+            <div id="headerToggle"><a href="#header" class="toggle"></a></div>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-8">
                         <form action="{% url 'heaps_app:search' %}" class="form-search" method="get">
                             <div class="search-wrap">
                                 {{ search_form.query }}
-                                <div class="but-filter"><i class="fa fa-chevron-down"></i></div>
+                                <div class="but-filter"><i class="fa fa-chevron-down"></i><span>Фильтр</span></div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        {% if filter_tags_career or filter_tags_social_networks %}
+            <form id="filter-form" action="{% url 'heaps_app:search' %}" class="form-filter-gen">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="filter-gen-wrapper">
+                                {% if filter_tags_career %}
+                                    <div class="filter-wrap-category clearfix">
+                                        <ul>
+                                            {% for item in filter_tags_career %}
+                                                <li class="{{ item.css_class }} {% if item in current_tags %}active{% endif %}">
+                                                    <label>
+                                                        <span class="descr-link-ic">{{ item.title }}</span>
+                                                        {% if item in current_tags %}
+                                                            <input id="filter-tag-{{ item.id }}" type="checkbox" name="filter_tags" value="{{ item.id }}" checked="checked">
+                                                        {% else %}
+                                                            <input id="filter-tag-{{ item.id }}" type="checkbox" name="filter_tags" value="{{ item.id }}">
+                                                        {% endif %}
+                                                    </label>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                {% if filter_tags_social_network %}
+                                    <div class="filter-wrap-social clearfix">
+                                        <ul class="sl-soc-filter-gen">
+                                            {% for item in filter_tags_social_network %}
+                                                <li class="{{ item.css_class }} {% if item in current_tags %}active{% endif %}">
+                                                    <label>
+                                                        {% if item in current_tags %}
+                                                            <input id="filter-tag-{{ item.id }}" type="checkbox" name="filter_tags" value="{{ item.id }}" checked="checked">
+                                                        {% else %}
+                                                            <input id="filter-tag-{{ item.id }}" type="checkbox" name="filter_tags" value="{{ item.id }}">
+                                                        {% endif %}
+                                                    </label>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                <div class="buttons-filter-wrapper clearfix">
+                                    <button type="submit">Применить</button>
+                                    <button type="reset">Сбросить фильтр</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
         <div class="section-content">
             <div class="container-fluid">
-                <div class="row">{% block content %}{% endblock %}</div>
+                <div class="row">
+                    {% if current_tags %}
+                        <div class="col-md-12">
+                            <div class="filter-indicators-wrapper clearfix">
+                                <ul class="clearfix">
+                                    <li>Фильтруется:</li>
+                                    {% for item in current_tags %}
+                                        <li class="{{ item.css_class }}">
+                                            <a href="#" data-store-id="{{ item.id }}">{{ item }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% block content %}{% endblock %}
+                </div>
             </div>
         </div>
     </div>
@@ -48,6 +118,7 @@
 
 <script src="{% static 'heaps_app/js/jquery.min.js' %}"></script>
 <script src="{% static 'heaps_app/js/bootstrap.js' %}"></script>
+<script src="{% static 'heaps_app/js/bxslider/js/jquery.bxslider.min.js' %}"></script>
 <!--[if lte IE 8]><script src="{% static 'heaps_app/js/ie/respond.min.js' %}"></script><![endif]-->
 {% block additional_scripts %}{% endblock %}
 <script src="{% static 'heaps_app/js/main.js' %}"></script>

@@ -12,13 +12,6 @@ class SearchForm(forms.Form):
     query = forms.CharField(widget=forms.TextInput(attrs={'placeholder': _('Search'), 'class': 'search'}))
 
 
-class FilterForm(forms.Form):
-    FILTER_CHOICES = models.Filter.objects.values_list('pk', 'title')
-
-    filter_tags = forms.MultipleChoiceField(choices=FILTER_CHOICES,
-                                            widget=forms.CheckboxSelectMultiple())
-
-
 class CelebrityAddForm(forms.ModelForm):
     photo = forms.ImageField(required=False, show_hidden_initial=True, initial='defaults/default-pers-no-photo.png')
     social_network = SocialNetworkField(widget=MultiTextInput(attrs={'placeholder': _('Place for link')}))

@@ -20,8 +20,7 @@ ol, ul, input {
 }
 
 body {
-    font-size: 20px;
-    background-color: #333;
+    font-size: 16px;
 }
 
 body.header-visible #main {
@@ -217,19 +216,18 @@ input[placeholder] {
 
 /* FILTER */
 
-.filter-wrapper {
-    position: fixed;
-    margin-bottom: 2em;
-    padding: 0 5%;
-    height: 83px;
-    background-color: #1d1d1d;
-    width: 100%;
-    z-index: 1000;
-    top: 85px;
-}
-
 .search-wrap {
     height: 40px;
+}
+
+.search-wrap span {
+    display: block;
+    color: #838383;
+    padding-top: 0px;
+    font: 24px SegoeUIlight;
+    float: right;
+    margin-left: 12px;
+    margin-top: -6px;
 }
 
 .form-search input {
@@ -244,14 +242,17 @@ input[placeholder] {
 }
 
 .but-filter {
-    width: 50px;
     height: 100%;
     float: left;
-    color: #8C8C8C;
+    color: #838383;
     border-radius: 10em;
-    margin: 4px 0 0 15px;
+    margin: 3px 0 0 15px;
     text-decoration: none;
     cursor: pointer;
+}
+
+.but-filter:hover, .but-filter.active {
+    color: #F2F2F2;
 }
 
 .but-search {
@@ -326,7 +327,7 @@ input.search {
 .post-wrapper ul.social-post {
     float: left;
     width: 100%;
-    height: 52px;
+    height: 45px;
     display: block;
     overflow: hidden;
 }
@@ -334,7 +335,7 @@ input.search {
 .post-wrapper li {
     float: left;
     width: 18.4%;
-    height: 46px;
+    height: 39px;
     margin: 6px 2% 0 0;
 }
 
@@ -556,7 +557,7 @@ ul.social-post-znam-page {
 }
 
 .but-start-sdb {
-    font-size: 19px;
+    font-size: 16px;
     color: #1fcdff;
     padding: 12px 24px;
     background: #191919;
@@ -1134,7 +1135,7 @@ span.t-social {
     background: rgb(19, 19, 19);
     border: 0;
     color: #2CABD6;
-    font-size: 1em;
+    font-size: 16px;
     margin: 26px 0 22px 0;
     transition: 0.3s;
     font-family: SegoeUIbold;
@@ -1233,6 +1234,516 @@ a.link-reg-log-mod:hover {
     transition: 0.3s;
 }
 
+/* FILTER GENERAL */
+
+.bx-wrapper .bx-viewport {
+    border: 0;
+    left: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+.form-filter-gen {
+    padding: 100px 6% 0;
+    display: none;
+    background: #f2f2f2;
+    margin-bottom: -104px;
+}
+
+.form-filter-gen.show {
+    display: block;
+}
+
+.form-filter-gen label {
+    font-weight: normal;
+}
+
+.filter-gen-wrapper {
+    margin-bottom: 36px;
+    background: #f2f2f2;
+}
+
+.filter-gen-wrapper > span {
+    display: none;
+    color: #838383;
+    padding-top: 0px;
+    font: 24px SegoeUIlight;
+    padding-bottom: 20px;
+}
+
+.filter-gen-wrapper a.bx-next, .filter-gen-wrapper a.bx-prev {
+    z-index: 500;
+}
+
+.filter-gen-wrapper li, .filter-gen-wrapper ul {
+    display: block;
+    float: left;
+}
+
+.filter-wrap-category .bx-wrapper {
+    margin: 0px 57px !important;
+}
+
+.filter-wrap-category li label {
+    display: block;
+    width: 114px;
+    height: 100px;
+    padding-top: 71px !important;
+    text-align: center;
+    background-image: url(../images/filter-category-sprite.png);
+    background-color: #fff;
+    background-repeat: no-repeat;
+}
+
+.filter-wrap-category li.actors label {
+    background-position: 26px 14px;
+}
+
+.filter-wrap-category li.bloggers label {
+    background-position: -120px 14px;
+}
+
+.filter-wrap-category li.dj label {
+    background-position: -270px 14px;
+}
+
+.filter-wrap-category li.business label {
+    background-position: -431px 14px;
+}
+
+.filter-wrap-category li.game label {
+    background-position: -591px 14px;
+}
+
+.filter-wrap-category li.models label {
+    background-position: -755px 14px;
+}
+
+.filter-wrap-category li.singers label {
+    background-position: -911px 14px;
+}
+
+.filter-wrap-category li.politicians label {
+    background-position: -1080px 14px;
+}
+
+.filter-wrap-category li.sport label {
+    background-position: -1249px 14px;
+}
+
+.filter-wrap-category li.tv-radio label {
+    background-position: -1416px 14px;
+}
+
+.filter-wrap-category li.hip-hop label {
+    background-position: -1603px 14px;
+}
+
+.filter-wrap-category li.humor label {
+    background-position: -1802px 14px;
+}
+
+.filter-wrap-category li:hover label, .filter-wrap-category li.active label {
+    background-position-y: -130px;
+    background-color: #4B4E54;
+}
+
+.filter-wrap-category li:hover label .descr-link-ic, .filter-wrap-category li.active label .descr-link-ic {
+    color: #fff;
+}
+
+.filter-wrap-category a.bx-next {
+    position: absolute;
+    top: 16px;
+    right: -56px;
+    width: 42px;
+    height: 100px;
+    padding: 0px;
+    background: #fff url(../images/controls-filter.png) no-repeat -24px 45px;
+}
+
+.filter-wrap-category a.bx-next:hover {
+    background-position: -24px -32px;
+}
+
+.filter-wrap-category a.bx-prev {
+    position: absolute;
+    top: 16px;
+    left: -56px;
+    width: 42px;
+    height: 100px;
+    padding: 0px;
+    background: #fff url(../images/controls-filter.png) no-repeat 18px 45px;
+}
+
+.filter-wrap-category a.bx-prev:hover {
+    background-position: 18px -32px;
+}
+
+.filter-gen-wrapper a.bx-prev:hover, .filter-gen-wrapper a.bx-next:hover {
+    background-color: #BEC0C5;
+}
+
+.filter-wrap-category .descr-link-ic {
+    display: inline-block;
+    font-size: 14px;
+    font-family: SegoeUIlight;
+    color: #191919;
+}
+
+.filter-wrap-category li input, .filter-wrap-social li input {
+    display: none;
+}
+
+.filter-wrap-category li label, .filter-wrap-social li label {
+    cursor: pointer;
+}
+
+.filter-wrap-social {
+    margin-top: 10px;
+}
+
+.filter-wrap-social .bx-wrapper {
+    margin: 0px 57px !important;
+}
+
+.filter-wrap-social label {
+    display: block;
+    height: 33px;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.filter-wrap-social li {
+    margin-right: 12px;
+}
+
+.filter-wrap-social .ask-fm label {
+    background-image: url(../images/social-icons/ask-fm-ic-dark.png);
+}
+
+.filter-wrap-social .wikipedia label {
+    background-image: url(../images/social-icons/wikipedia-ic-dark.png);
+}
+
+.filter-wrap-social .vk label {
+    background-image: url(../images/social-icons/vk-ic-dark.png);
+}
+
+.filter-wrap-social .github label {
+    background-image: url(../images/social-icons/github-ic-dark.png);
+}
+
+.filter-wrap-social .plus-google label {
+    background-image: url(../images/social-icons/g_plus-ic-dark.png);
+}
+
+.filter-wrap-social .livejournal label {
+    background-image: url(../images/social-icons/livejournal-ic-dark.png);
+}
+
+.filter-wrap-social .instagram label {
+    background-image: url(../images/social-icons/instagram-ic-dark.png);
+}
+
+.filter-wrap-social .linkedin label {
+    background-image: url(../images/social-icons/linkedin-ic-dark.png);
+}
+
+.filter-wrap-social .myspace label {
+    background-image: url(../images/social-icons/myspace-ic-dark.png);
+}
+
+.filter-wrap-social .my-mail label {
+    background-image: url(../images/social-icons/my-mail-ic-dark.png);
+}
+
+.filter-wrap-social .ok-ru label {
+    background-image: url(../images/social-icons/ok-ru-ic-dark.png);
+}
+
+.filter-wrap-social .promodj label {
+    background-image: url(../images/social-icons/promodj-ic-dark.png);
+}
+
+.filter-wrap-social .soundcloud label {
+    background-image: url(../images/social-icons/soundcloud-ic-dark.png);
+}
+
+.filter-wrap-social .twitter label {
+    background-image: url(../images/social-icons/twitter-ic-dark.png);
+}
+
+.filter-wrap-social .twitch label {
+    background-image: url(../images/social-icons/twitch-ic-dark.png);
+}
+
+.filter-wrap-social .facebook label {
+    background-image: url(../images/social-icons/facebook-ic-dark.png);
+}
+
+.filter-wrap-social .youtube label {
+    background-image: url(../images/social-icons/youtube-ic-dark.png);
+}
+
+.filter-wrap-social .official-web label {
+    background-image: url(../images/social-icons/official-web-ic-dark.png);
+}
+
+.filter-wrap-social .ask-fm:hover label, .filter-wrap-social .ask-fm.active label {
+    background-image: url(../images/social-icons/ask-fm-ic.png);
+}
+
+.filter-wrap-social .wikipedia:hover label, .filter-wrap-social .wikipedia.active label {
+    background-image: url(../images/social-icons/wikipedia-ic.png);
+}
+
+.filter-wrap-social .vk:hover label, .filter-wrap-social .vk.active label {
+    background-image: url(../images/social-icons/vk-ic.png);
+}
+
+.filter-wrap-social .github:hover label, .filter-wrap-social .github.active label {
+    background-image: url(../images/social-icons/github-ic.png);
+}
+
+.filter-wrap-social .plus-google:hover label, .filter-wrap-social .plus-google.active label {
+    background-image: url(../images/social-icons/g_plus-ic.png);
+}
+
+.filter-wrap-social .livejournal:hover label, .filter-wrap-social .livejournal.active label {
+    background-image: url(../images/social-icons/livejournal-ic.png);
+}
+
+.filter-wrap-social .instagram:hover label, .filter-wrap-social .instagram.active label {
+    background-image: url(../images/social-icons/instagram-ic.png);
+}
+
+.filter-wrap-social .linkedin:hover label, .filter-wrap-social .linkedin.active label {
+    background-image: url(../images/social-icons/linkedin-ic.png);
+}
+
+.filter-wrap-social .myspace:hover label, .filter-wrap-social .myspace.active label {
+    background-image: url(../images/social-icons/myspace-ic.png);
+}
+
+.filter-wrap-social .my-mail:hover label, .filter-wrap-social .my-mail.active label {
+    background-image: url(../images/social-icons/my-mail-ic.png);
+}
+
+.filter-wrap-social .ok-ru:hover label, .filter-wrap-social .ok-ru.active label {
+    background-image: url(../images/social-icons/ok-ru-ic.png);
+}
+
+.filter-wrap-social .promodj:hover label, .filter-wrap-social .promodj.active label {
+    background-image: url(../images/social-icons/promodj-ic.png);
+}
+
+.filter-wrap-social .soundcloud:hover label, .filter-wrap-social .soundcloud.active label {
+    background-image: url(../images/social-icons/soundcloud-ic.png);
+}
+
+.filter-wrap-social .twitter:hover label, .filter-wrap-social .twitter.active label {
+    background-image: url(../images/social-icons/twitter-ic.png);
+}
+
+.filter-wrap-social .twitch:hover label, .filter-wrap-social .twitch.active label {
+    background-image: url(../images/social-icons/twitch-ic.png);
+}
+
+.filter-wrap-social .facebook:hover label, .filter-wrap-social .facebook.active label {
+    background-image: url(../images/social-icons/facebook-ic.png);
+}
+
+.filter-wrap-social .youtube:hover label, .filter-wrap-social .youtube.active label {
+    background-image: url(../images/social-icons/youtube-ic.png);
+}
+
+.filter-wrap-social .official-web:hover label, .filter-wrap-social .official-web.active label {
+    background-image: url(../images/social-icons/official-web-ic.png);
+}
+
+.filter-wrap-social li label {
+    background-color: #fff;
+}
+
+.filter-wrap-social li:hover label, .filter-wrap-social li.active label {
+    background-color: #4B4E54;
+}
+
+.filter-wrap-social a.bx-prev {
+    top: 16px;
+    height: 33px;
+    width: 42px;
+    left: -56px;
+    background: #fff url(../images/controls-filter.png) no-repeat 16px 11px;
+}
+
+.filter-wrap-social a.bx-prev:hover {
+    background-position: 16px -66px;
+}
+
+.filter-wrap-social a.bx-next {
+    top: 16px;
+    height: 33px;
+    width: 42px;
+    right: -56px;
+    background: #fff url(../images/controls-filter.png) no-repeat -23px 11px;
+}
+
+.filter-wrap-social a.bx-next:hover {
+    background-position: -23px -66px;
+}
+
+.buttons-filter-wrapper {
+    margin: 40px 0 40px 0;
+}
+
+.buttons-filter-wrapper button {
+    display: block;
+    float: left;
+    font-size: 16px;
+    color: #4B4E54;
+    padding: 12px 30px;
+    background: #F2F2F2;
+    border: 0;
+    border: 1px solid rgb(163, 166, 170);
+    font-family: SegoeUIbold;
+}
+
+.buttons-filter-wrapper button:nth-child(2) {
+    color: #6E6E6E;
+    background: rgb(255, 255, 255);
+    margin-left: 20px;
+    border: 1px solid rgba(192, 192, 192, 0);
+    font-family: SegoeUIlight;
+}
+
+.buttons-filter-wrapper button:focus {
+    outline: 0;
+}
+
+.filter-indicators-wrapper {
+    margin-bottom: 15px;
+}
+
+.filter-indicators-wrapper ul li:first-child {
+    margin-top: 0;
+    font-family: SegoeUIlight;
+    font-size: 24px;
+}
+
+.filter-indicators-wrapper ul {
+    display: block;
+}
+
+.filter-indicators-wrapper ul li {
+    display: block;
+    float: left;
+    margin: 7px 14px 4px 0;
+    font-family: SegoeUIbold;
+    font-size: 24px;
+}
+
+.filter-indicators-wrapper ul li a {
+    float: left;
+    display: block;
+    height: 27px;
+    padding: 0 9px;
+    background-color: #F6F6F6;
+}
+
+.filter-indicators-wrapper ul li a {
+    background-image: url(../images/del-indicator-filter.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    font-size: 14px;
+    display: block;
+    float: left;
+    padding: 3px 37px 4px 9px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.filter-indicators-wrapper ul li.actors a, .filter-indicators-wrapper ul li.bloggers a, .filter-indicators-wrapper ul li.dj a,
+.filter-indicators-wrapper ul li.business a, .filter-indicators-wrapper ul li.game a, .filter-indicators-wrapper ul li.models a,
+.filter-indicators-wrapper ul li.singers a, .filter-indicators-wrapper ul li.politicians a, .filter-indicators-wrapper ul li.sport a,
+.filter-indicators-wrapper ul li.tv-radio a, .filter-indicators-wrapper ul li.hip-hop a, .filter-indicators-wrapper ul li.humor a {
+    background-color: #333;
+}
+
+.filter-indicators-wrapper ul li.vk a {
+    background-color: #56789C;
+}
+
+.filter-indicators-wrapper ul li.plus-google a {
+    background-color: #DE4227;
+}
+
+.filter-indicators-wrapper ul li.ask-fm a {
+    background-color: #1F4A88;
+}
+
+.filter-indicators-wrapper ul li.wikipedia a {
+    background-color: #3B3839;
+}
+
+.filter-indicators-wrapper ul li.github a {
+    background-color: #151515;
+}
+
+.filter-indicators-wrapper ul li.livejournal a {
+    background-color: #00a0c0;
+}
+
+.filter-indicators-wrapper ul li.instagram a {
+    background-color: #B15A26;
+}
+
+.filter-indicators-wrapper ul li.linkedin a {
+    background-color: #42c0fb;
+}
+
+.filter-indicators-wrapper ul li.myspace a {
+    background-color: #060606;
+}
+
+.filter-indicators-wrapper ul li.my-mail a {
+    background-color: #3d6cb0;
+}
+
+.filter-indicators-wrapper ul li.ok-ru a {
+    background-color: #FA870D;
+}
+
+.filter-indicators-wrapper ul li.promodj a {
+    background-color: #c6190e;
+}
+
+.filter-indicators-wrapper ul li.soundcloud a {
+    background-color: #FF5510;
+}
+
+.filter-indicators-wrapper ul li.twitter a {
+    background-color: #5ea9dd;
+}
+
+.filter-indicators-wrapper ul li.twitch a {
+    background-color: #6C2498;
+}
+
+.filter-indicators-wrapper ul li.youtube a {
+    background-color: #d72522;
+}
+
+.filter-indicators-wrapper ul li.facebook a {
+    background-color: #3B579D;
+}
+
+.filter-indicators-wrapper ul li.official-web a {
+    background-color: #777;
+}
+
 /* MEDIA */
 
 @media screen and (min-width: 1400px) {
@@ -1312,6 +1823,10 @@ a.link-reg-log-mod:hover {
         margin-bottom: 100px;
     }
 
+    .form-filter-gen {
+        padding: 100px 2% 0;
+        margin-bottom: -82px;
+    }
 }
 
 @media screen and (max-width: 1023px) and (min-width: 768px) {
@@ -1340,6 +1855,11 @@ a.link-reg-log-mod:hover {
         padding: 68px 1% 0;
         margin-bottom: 100px;
     }
+
+    .form-filter-gen {
+        padding: 100px 1% 0;
+        margin-bottom: -82px;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -1365,9 +1885,23 @@ a.link-reg-log-mod:hover {
     }
 
     .section-content {
-        padding: 66px 2% 0;
+        padding: 66px 0 0;
         margin-bottom: 100px;
     }
+
+    .form-filter-gen {
+        padding: 68px 0 0;
+        margin-bottom: -82px;
+    }
+
+    .search-wrap span {
+        display: none;
+    }
+
+    .filter-gen-wrapper > span {
+        display: block;
+    }
+
 }
 
 #headerToggle {
@@ -1491,6 +2025,18 @@ a.link-reg-log-mod:hover {
     .but-mod-b-info {
         margin: 26px auto 0;
         width: 100%;
+    }
+
+    .buttons-filter-wrapper button {
+        display: block;
+        float: left;
+        font-size: 16px;
+        color: #2A2A2A;
+        padding: 12px 9px;
+        background: #F2F2F2;
+        border: 0;
+        border: 1px solid rgb(106, 106, 106);
+        font-family: SegoeUIbold;
     }
 }
 

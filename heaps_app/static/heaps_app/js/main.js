@@ -9,11 +9,10 @@
         $body.removeClass('is-loading');
     });
 
-    // Toggle.
-    $('<div id="headerToggle"><a href="#header" class="toggle"></a></div>').appendTo($body);
-
     // Header.
-    $('#headerToggle').click(function(e){
+    $('#headerToggle').click(function (e) {
+        e.preventDefault();
+
         $('body').toggleClass('header-visible');
     });
 
@@ -36,6 +35,248 @@
         });
     });
 
+    // Filter form
+    $('#filter-form input').click(function (e) {
+        $(this).parent().parent().toggleClass('active');
+    });
+
+    $('#filter-form').submit(function (e) {
+        e.preventDefault();
+
+        var form = $(this),
+            filter = [];
+
+        $('input[name="filter_tags"]:checked', form).each(function (element) {
+            filter.push(this.value);
+        });
+
+        var query_string = set_query_string_param(window.location.search, 'filter_tags', filter.join(','));
+
+        window.location = form.attr('action') + query_string;
+    });
+
+    $('#filter-form button[type="reset"]').click(function (e) {
+        e.preventDefault();
+
+        var query_string = set_query_string_param(window.location.search, 'filter_tags', '');
+        window.location = $('#filter-form').attr('action') + query_string;
+    });
+
+    $('.filter-indicators-wrapper a').click(function (e) {
+        e.preventDefault();
+
+        var current_filters = get_query_string_param('filter_tags'),
+            remove_tag = $(this).attr('data-store-id');
+
+        current_filters = current_filters.split(',');
+        current_filters.splice(current_filters.indexOf(remove_tag), 1);
+
+        var query_string = set_query_string_param(window.location.search, 'filter_tags', current_filters.join(','));
+
+        if (query_string) {
+            window.location.search = query_string;
+        } else {
+            window.location = window.location.pathname;
+        }
+    });
+
+    if ($('.filter-wrap-category').length) {
+        var filter_slider1_settings = function () {
+                var settings_1 = {
+                        maxSlides: 8,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_2 = {
+                        maxSlides: 7,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_3 = {
+                        maxSlides: 6,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_4 = {
+                        maxSlides: 5,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_5 = {
+                        maxSlides: 4,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_6 = {
+                        maxSlides: 3,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_7 = {
+                        maxSlides: 2,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    };
+
+                if (window.innerWidth > 1603) {
+                    return settings_1;
+                } else if (window.innerWidth <= 1603 && window.innerWidth > 1464) {
+                    return settings_2;
+                } else if (window.innerWidth <= 1464 && window.innerWidth > 1280) {
+                    return settings_3;
+                } else if (window.innerWidth <= 1280 && window.innerWidth > 1092) {
+                    return settings_4;
+                } else if (window.innerWidth <= 1092 && window.innerWidth >= 1024) {
+                    return settings_5;
+                } else if (window.innerWidth <= 1023 && window.innerWidth > 924) {
+                    return settings_3;
+                } else if (window.innerWidth <= 923 && window.innerWidth > 798) {
+                    return settings_4;
+                } else if (window.innerWidth <= 797 && window.innerWidth > 655) {
+                    return settings_5;
+                } else if (window.innerWidth <= 654 && window.innerWidth > 532) {
+                    return settings_6;
+                } else if (window.innerWidth <= 531) {
+                    return settings_7;
+                }
+            },
+            filter_slider1 = $('.filter-wrap-category ul').bxSlider(filter_slider1_settings());
+
+        $(window).resize(function (e) {
+            filter_slider1.reloadSlider(filter_slider1_settings());
+        });
+    }
+
+    if ($('.filter-wrap-social').length) {
+        var filter_slider2_settings = function () {
+                var settings_1 = {
+                        maxSlides: 8,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_2 = {
+                        maxSlides: 7,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_3 = {
+                        maxSlides: 6,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_4 = {
+                        maxSlides: 5,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_5 = {
+                        maxSlides: 4,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_6 = {
+                        maxSlides: 3,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    },
+                    settings_7 = {
+                        maxSlides: 2,
+                        slideWidth: 114,
+                        slideMargin: 12,
+                        pager: false,
+                        moveSlides: 2,
+                        infiniteLoop: false
+                    };
+
+                if (window.innerWidth > 1603) {
+                    return settings_1;
+                } else if (window.innerWidth <= 1603 && window.innerWidth > 1464) {
+                    return settings_2;
+                } else if (window.innerWidth <= 1464 && window.innerWidth > 1280) {
+                    return settings_3;
+                } else if (window.innerWidth <= 1280 && window.innerWidth > 1092) {
+                    return settings_4;
+                } else if (window.innerWidth <= 1092 && window.innerWidth >= 1024) {
+                    return settings_5;
+                } else if (window.innerWidth <= 1023 && window.innerWidth > 924) {
+                    return settings_3;
+                } else if (window.innerWidth <= 923 && window.innerWidth > 798) {
+                    return settings_4;
+                } else if (window.innerWidth <= 797 && window.innerWidth > 655) {
+                    return settings_5;
+                } else if (window.innerWidth <= 654 && window.innerWidth > 532) {
+                    return settings_6;
+                } else if (window.innerWidth <= 531) {
+                    return settings_7;
+                }
+            },
+            filter_slider2 = $('.filter-wrap-social ul').bxSlider(filter_slider2_settings());
+
+        $(window).resize(function (e) {
+            filter_slider2.reloadSlider(filter_slider2_settings());
+        });
+    }
+
+    // Filter toggle class and Fix for slider
+    $('.header-top-wrapper .but-filter').click(function (e) {
+        $(this).toggleClass('active');
+        $('#filter-form').toggleClass('show');
+
+        filter_slider1.reloadSlider(filter_slider1_settings());
+        if ($('.filter-wrap-category').length) {
+            if (filter_slider1.active === undefined) {
+                filter_slider1.active = true;
+                filter_slider1.reloadSlider(filter_slider1_settings());
+            }
+        }
+
+        if ($('.filter-wrap-social').length) {
+            if (filter_slider2.active === undefined) {
+                filter_slider2.active = true;
+                filter_slider2.reloadSlider(filter_slider2_settings());
+            }
+        }
+    });
+
     // Celebrity social links
     $('.all').click(function (e) {
         e.preventDefault();
@@ -49,10 +290,12 @@
 
         elem.parent().toggleClass('open-social');
 
-        if ($window.innerWidth() >= 992) {
-            $('.item:eq(' + ((parseInt(elem_index / 3) + 1) * 3) + ')').css('clear', 'both');
-        } else if ($window.innerWidth() < 992 && $window.innerWidth() > 769) {
-            $('.item:eq(' + ((parseInt(elem_index / 2) + 1) * 2) + ')').css('clear', 'both');
+        if (elem.parent().hasClass('open-social')) {
+            if ($window.innerWidth() >= 992) {
+                $('.item:eq(' + ((parseInt(elem_index / 3) + 1) * 3) + ')').css('clear', 'both');
+            } else if ($window.innerWidth() < 992 && $window.innerWidth() >= 768) {
+                $('.item:eq(' + ((parseInt(elem_index / 2) + 1) * 2) + ')').css('clear', 'both');
+            }
         }
     });
 
@@ -214,8 +457,8 @@
                     $('#add-celebrity input[name="social_network"]').not(':first').parent().remove();
                     $('#add-celebrity .photo-box img').attr('src', default_image);
 
-                    $("html, body").stop().animate({scrollTop:0}, '1000', 'swing', function(){
-                        setTimeout(function(){
+                    $("html, body").stop().animate({scrollTop: 0}, '1000', 'swing', function () {
+                        setTimeout(function () {
                             message_wrapper.text(default_message);
                         }, 3000);
                     });
@@ -252,12 +495,12 @@
 
                         message_wrapper.html('<div class="info-message">Image size to big</div>');
 
-                        $("html, body").stop().animate({scrollTop:0}, '1000', 'swing', function(){
-                            setTimeout(function(){
+                        $("html, body").stop().animate({scrollTop: 0}, '1000', 'swing', function () {
+                            setTimeout(function () {
                                 message_wrapper.empty();
                             }, 3000);
                         });
-                        
+
                         $(input).replaceWith($(input).clone());
                         return false;
                     }
@@ -266,10 +509,10 @@
                         width: 200,
                         height: 200,
                         showControls: 'always'
-                    }, function() {
+                    }, function () {
                         //on load
                         //console.log('Url: ' + this.result);
-                    }).on('cropbox', function(e, data) {
+                    }).on('cropbox', function (e, data) {
                         $('#id_crop_attr_x').val(data.cropX);
                         $('#id_crop_attr_y').val(data.cropY);
                         $('#id_crop_attr_w').val(data.cropW);
@@ -283,7 +526,7 @@
         } else console.log('not isset files data or files API not supported');
     });
 
-    $('#account-settings #popup .send').click(function(e){
+    $('#account-settings #popup .send').click(function (e) {
         $('#account-settings #popup').modal('hide');
 
         var crop = $('#account-settings #popup img').data('cropbox');
@@ -320,8 +563,8 @@
 
                     $('input[name="password"], input[name="password_repeat"]', form).val('');
 
-                    $("html, body").stop().animate({scrollTop:0}, '1000', 'swing', function(){
-                        setTimeout(function(){
+                    $("html, body").stop().animate({scrollTop: 0}, '1000', 'swing', function () {
+                        setTimeout(function () {
                             message_wrapper.empty();
                         }, 3000);
                     });
@@ -354,6 +597,10 @@
                 return uri.replace(re, '$1' + key + "=" + value + '$2');
             }
         } else {
+            if (!value) {
+                return uri;
+            }
+
             return uri + separator + key + "=" + value;
         }
     }
