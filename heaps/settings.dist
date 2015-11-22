@@ -1,4 +1,3 @@
-# coding: utf-8
 """
 Django settings for heaps project.
 
@@ -46,6 +45,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    # 'heaps_app.middleware.BasicAuthMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -97,7 +97,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'Europe/Kiev'
 
@@ -145,12 +145,12 @@ CKEDITOR_CONFIGS = {
 }
 
 # OAuth lib settings
-LOGIN_URL = '/?modal=login-modal'
+LOGIN_URL = '/?modal=login'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/login-error/'
 
-SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'heaps_app.mail.send_validation'
-SOCIAL_AUTH_EMAIL_VALIDATION_URL = '?validation_sent=1&modal=validation-sent-modal'
+SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'heaps_app.mail.email_validation'
+SOCIAL_AUTH_EMAIL_VALIDATION_URL = '/?validation_sent=1&modal=message-modal'
 
 EMAIL_FROM = ''
 
@@ -173,7 +173,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.user_details',
 )
 
-# from social.pipeline.mail import mail_validation
 
 # OAuth social networks settings
 SOCIAL_AUTH_VK_OAUTH2_KEY = ''
@@ -193,3 +192,5 @@ SOCIAL_AUTH_GOOGLE_PLUS_SECRET = ''
 SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = []
 
 # Heaps settings
+BASICAUTH_USERNAME = ''
+BASICAUTH_PASSWORD = ''
