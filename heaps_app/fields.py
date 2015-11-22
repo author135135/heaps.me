@@ -35,13 +35,13 @@ class CroppedImageField(ImageField):
             crop_attr_w = data['crop_attr_w']
             crop_attr_h = data['crop_attr_h']
 
-            if any([crop_attr_x, crop_attr_y, crop_attr_w, crop_attr_h]):
+            if all([crop_attr_x, crop_attr_y, crop_attr_w, crop_attr_h]):
                 crop_attr_x = int(crop_attr_x)
                 crop_attr_y = int(crop_attr_y)
                 crop_attr_w = int(crop_attr_w)
                 crop_attr_h = int(crop_attr_h)
 
-                image = Image.open(StringIO(image_file.read()))
+                image = Image.open(image_file)
 
                 crop_image = image.crop([
                     crop_attr_x,

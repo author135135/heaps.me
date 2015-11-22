@@ -5,7 +5,7 @@
         <div class="post-wrapper clearfix">
             <div class="layout-photo">
                 <a href="{{ celebrity.get_absolute_url }}">
-                    {% thumbnail celebrity.photo_set.all.0.image "422x371" crop="top" as img %}
+                    {% thumbnail celebrity.photo_set.all.0.image "370x325" crop="top" as img %}
                         <img src="{{ img.url }}" alt="{{ celebrity }}" title="{{ celebrity }}">
                     {% endthumbnail %}
                 </a>

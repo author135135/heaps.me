@@ -20,7 +20,7 @@ class FilterForm(forms.Form):
 
 
 class CelebrityAddForm(forms.ModelForm):
-    photo = forms.ImageField(required=False)
+    photo = forms.ImageField(required=False, show_hidden_initial=True, initial='defaults/default-pers-no-photo.png')
     social_network = SocialNetworkField(widget=MultiTextInput(attrs={'placeholder': _('Place for link')}))
 
     class Meta:

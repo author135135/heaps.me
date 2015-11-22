@@ -13,20 +13,8 @@
     $('<div id="headerToggle"><a href="#header" class="toggle"></a></div>').appendTo($body);
 
     // Header.
-    $('#header').panel({
-        delay: 0,
-        hideOnClick: true,
-        hideOnSwipe: true,
-        resetScroll: true,
-        resetForms: true,
-        side: 'left',
-        target: $body,
-        visibleClass: 'header-visible'
-    });
-
-    // Login/register buttons handler
-    $('.but-log-reg-sdb button').click(function (e) {
-        $('' + $(this).attr('data-target') + '').modal();
+    $('#headerToggle').click(function(e){
+        $('body').toggleClass('header-visible');
     });
 
     // Paginate
