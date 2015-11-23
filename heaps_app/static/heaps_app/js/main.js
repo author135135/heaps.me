@@ -263,7 +263,7 @@
         if (!button.hasClass('active') && button.offset().top > 200) {
             $('body').animate({
                 scrollTop: 0
-            }, 300, function(){
+            }, 0, function(){
                 button.toggleClass('active');
                 $('#filter-form').toggleClass('show');
 
