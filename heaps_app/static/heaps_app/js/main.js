@@ -260,7 +260,7 @@
     $('.header-top-wrapper .but-filter').click(function (e) {
         var button = $(this);
 
-        if (!button.hasClass('active') && button.offset().top > 200) {
+        if (!button.hasClass('active')) {
             $('body').animate({
                 scrollTop: 0
             }, 0, function(){
@@ -281,6 +281,10 @@
                     }
                 }
             });
+        } else if (button.hasClass('active') && button.offset().top > 400) {
+            $('body').animate({
+                scrollTop: 0
+            }, 0);
         } else {
             button.toggleClass('active');
             $('#filter-form').toggleClass('show');
@@ -600,6 +604,13 @@
     });
 
     modal_handler();
+
+    // For mobile device fixes
+    $('#registration, #login').on('show.bs.modal', function(e) {
+        if (window.innerWidth < 768) {
+            $('body').removeClass('header-visible');
+        }
+    });
 
     // Helpers
     function get_query_string_param(name) {
