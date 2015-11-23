@@ -578,6 +578,12 @@
     modal_handler();
 
     // For mobile device fixes
+    $(window).resize(function(e) {
+        if (window.innerWidth >= 1024) {
+            $('body').removeClass('header-visible');
+        }
+    });
+
     $('#registration, #login').on('show.bs.modal', function(e) {
         if (window.innerWidth < 768) {
             $('body').removeClass('header-visible');

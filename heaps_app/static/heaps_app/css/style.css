@@ -1812,11 +1812,10 @@ a.link-reg-log-mod:hover {
         -webkit-backface-visibility: hidden;
         -ms-backface-visibility: hidden;
         backface-visibility: hidden;
-        -moz-transition: -moz-transform 0.5s ease;
-        -webkit-transition: -webkit-transform 0.5s ease;
-        -ms-transition: -ms-transform 0.5s ease;
-        transition: transform 0.5s ease;
-        transition: 0.5s;
+        -moz-transform: none !important;
+        -webkit-transform: none !important;
+        -ms-transform: none !important;
+        transform: none !important;
     }
 
     .section-content {
@@ -1827,6 +1826,15 @@ a.link-reg-log-mod:hover {
     .form-filter-gen {
         padding: 100px 2% 0;
         margin-bottom: -82px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #main {
+        -moz-transform: none !important;
+        -webkit-transform: none !important;
+        -ms-transform: none !important;
+        transform: none !important;
     }
 }
 
