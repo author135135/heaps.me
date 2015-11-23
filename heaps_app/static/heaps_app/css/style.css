@@ -1954,7 +1954,7 @@ a.link-reg-log-mod:hover {
         display: block;
         height: 2.25em;
         left: 0;
-        position: fixed;
+        position: absolute;
         top: 0;
         width: 3.25em;
         z-index: 10001;
