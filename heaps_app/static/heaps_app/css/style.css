@@ -100,7 +100,7 @@ input[placeholder] {
     font-size: 13px;
     color: #fff;
     font-family: SegoeUIlight;
-    margin: 18px 30px 0 0;
+    margin: 18px 36px 0 0;
 }
 
 #logo {
@@ -168,7 +168,7 @@ input[placeholder] {
 #nav ul li a span {
     position: relative;
     display: block;
-    font-size: 0.9em;
+    font-size: 0.8em;
 }
 
 #nav ul li a span:before {
@@ -685,7 +685,7 @@ ul.social-post-znam-page {
 .settings-section input, .cr-pers-info-section input {
     float: left;
     border: 0;
-    height: 62px;
+    height: 52px;
     padding: 20px;
     font-size: 20px;
 }
@@ -728,7 +728,7 @@ span.t-social {
 }
 
 .settings-section .input-box, .cr-pers-info-section .input-box {
-    margin-bottom: 40px;
+    margin-bottom: 4px;
     padding: 0 30px;
 }
 
@@ -809,18 +809,18 @@ span.t-social {
 }
 
 .ic-check-follow {
-    width: 50px;
-    height: 50px;
+    width: 36px;
+    height: 36px;
     position: absolute;
     top: 7px;
     right: 7px;
-    font-size: 1.5em;
-    background-color: rgba(0, 0, 0, 0.3);
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 1em;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.6);
     text-align: center;
     vertical-align: middle;
     border-radius: 100px;
-    padding-top: 10px;
+    padding-top: 9px;
 }
 
 /* LOAD BUTTON */

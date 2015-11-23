@@ -9,7 +9,7 @@
     <!--[if lte IE 8]><script src="{% static 'heaps_app/js/ie/html5shiv.js' %}<![endif]-->
     <link rel="stylesheet" href="{% static 'heaps_app/js/bxslider/css/jquery.bxslider.css' %}">
     <link rel="stylesheet" href="{% static 'heaps_app/css/bootstrap.css' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'heaps_app/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'heaps_app/css/style.css' %}">
     <!--[if lte IE 8]><link rel="stylesheet" href="{% static 'heaps_app/css/ie8.css' %}"><![endif]-->
     <!--[if lte IE 9]><link rel="stylesheet" href="{% static 'heaps_app/css/ie9.css' %}"><![endif]-->
@@ -46,6 +46,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="filter-gen-wrapper">
+                                <span>Фильтр</span>
                                 {% if filter_tags_career %}
                                     <div class="filter-wrap-category clearfix">
                                         <ul>
