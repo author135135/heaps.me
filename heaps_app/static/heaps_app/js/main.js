@@ -266,42 +266,14 @@
             }, 0, function(){
                 button.toggleClass('active');
                 $('#filter-form').toggleClass('show');
-
-                if ($('.filter-wrap-category').length) {
-                    if (filter_slider1.active === undefined) {
-                        filter_slider1.active = true;
-                        filter_slider1.reloadSlider(filter_slider1_settings());
-                    }
-                }
-
-                if ($('.filter-wrap-social').length) {
-                    if (filter_slider2.active === undefined) {
-                        filter_slider2.active = true;
-                        filter_slider2.reloadSlider(filter_slider2_settings());
-                    }
-                }
-            });
+            }).stop();
         } else if (button.hasClass('active') && button.offset().top > 400) {
             $('body').animate({
                 scrollTop: 0
-            }, 0);
+            }, 0).stop();
         } else {
             button.toggleClass('active');
             $('#filter-form').toggleClass('show');
-        }
-
-        if ($('.filter-wrap-category').length) {
-            if (filter_slider1.active === undefined) {
-                filter_slider1.active = true;
-                filter_slider1.reloadSlider(filter_slider1_settings());
-            }
-        }
-
-        if ($('.filter-wrap-social').length) {
-            if (filter_slider2.active === undefined) {
-                filter_slider2.active = true;
-                filter_slider2.reloadSlider(filter_slider2_settings());
-            }
         }
     });
 
