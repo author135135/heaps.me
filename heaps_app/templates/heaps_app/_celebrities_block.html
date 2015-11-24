@@ -9,7 +9,7 @@
                         <img src="{{ img.url }}" alt="{{ celebrity }}" title="{{ celebrity }}">
                     {% endthumbnail %}
                 </a>
-                {% if user.is_authenticated and celebrity in user.get_my_subscribes %}
+                {% if request.user.is_authenticated and celebrity in request.user.get_my_subscribes %}
                     <div class="ic-check-follow"><i class="fa fa-check"></i></div>
                 {% endif %}
                 <div class="name-post-container">

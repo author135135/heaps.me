@@ -45,7 +45,10 @@ class CelebritiesPaginatedAjaxMixin(object):
             celebrities_template = get_template(self.celebrities_template)
 
             return JsonResponse({
-                'celebrities': celebrities_template.render({'celebrities': result.context_data['celebrities']}),
+                'celebrities': celebrities_template.render({
+                    'celebrities': result.context_data['celebrities'],
+                    'request': request,
+                }),
                 'paginate_has_next': result.context_data['page_obj'].has_next(),
             })
         return result
