@@ -80,7 +80,7 @@ class IndexView(CelebritiesPaginatedAjaxMixin, ListView):
     template_name = 'heaps_app/index.html'
     queryset = models.Celebrity.public_records.get_queryset()
     context_object_name = 'celebrities'
-    paginate_by = 6
+    paginate_by = 12
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
@@ -104,7 +104,7 @@ class SearchView(CelebritiesFilterMixin, CelebritiesPaginatedAjaxMixin, ListView
     template_name = 'heaps_app/index.html'
     queryset = models.Celebrity.public_records.get_queryset()
     context_object_name = 'celebrities'
-    paginate_by = 6
+    paginate_by = 12
 
 
 class CelebrityView(CelebritiesPaginatedAjaxMixin, DetailView):
@@ -118,7 +118,7 @@ class CelebrityView(CelebritiesPaginatedAjaxMixin, DetailView):
         related_celebrities = models.Celebrity.public_records.filter(
             filter__pk__in=self.object.filter.all()).distinct().exclude(pk=self.object.pk)
 
-        paginator = Paginator(related_celebrities, 6)
+        paginator = Paginator(related_celebrities, 12)
         page_obj = paginator.page(self.request.GET.get('page', 1))
 
         context['celebrities'] = page_obj.object_list
