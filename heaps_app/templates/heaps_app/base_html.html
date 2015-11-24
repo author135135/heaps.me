@@ -55,9 +55,12 @@
                                                     <label>
                                                         <span class="descr-link-ic">{{ item.title }}</span>
                                                         {% if item in current_tags %}
-                                                            <input id="filter-tag-{{ item.id }}" type="checkbox" name="filter_tags" value="{{ item.id }}" checked="checked">
+                                                            <input id="filter-tag-{{ item.id }}" type="checkbox"
+                                                                   name="filter_tags" value="{{ item.id }}"
+                                                                   checked="checked">
                                                         {% else %}
-                                                            <input id="filter-tag-{{ item.id }}" type="checkbox" name="filter_tags" value="{{ item.id }}">
+                                                            <input id="filter-tag-{{ item.id }}" type="checkbox"
+                                                                   name="filter_tags" value="{{ item.id }}">
                                                         {% endif %}
                                                     </label>
                                                 </li>
@@ -72,9 +75,12 @@
                                                 <li class="{{ item.css_class }} {% if item in current_tags %}active{% endif %}">
                                                     <label>
                                                         {% if item in current_tags %}
-                                                            <input id="filter-tag-{{ item.id }}" type="checkbox" name="filter_tags" value="{{ item.id }}" checked="checked">
+                                                            <input id="filter-tag-{{ item.id }}" type="checkbox"
+                                                                   name="filter_tags" value="{{ item.id }}"
+                                                                   checked="checked">
                                                         {% else %}
-                                                            <input id="filter-tag-{{ item.id }}" type="checkbox" name="filter_tags" value="{{ item.id }}">
+                                                            <input id="filter-tag-{{ item.id }}" type="checkbox"
+                                                                   name="filter_tags" value="{{ item.id }}">
                                                         {% endif %}
                                                     </label>
                                                 </li>
@@ -111,6 +117,28 @@
                     {% endif %}
 
                     {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="container-fluid">
+                <div class="row ">
+                    <div class="col-md-12">
+                        <ul>
+                            <li><a href="https://vk.com/board79890758">Вопрос-Ответ</a></li>
+                            <li><a href="https://vk.com/heapsme">Официальное сообщество vk</a></li>
+                            <li>© {% now 'Y' %} HeapsMe</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div class="up-button">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        <i class="fa fa-caret-up fa-lg"><span>Наверх</span></i>
+                    </div>
                 </div>
             </div>
         </div>

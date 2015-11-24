@@ -16,6 +16,21 @@
         $('body').toggleClass('header-visible');
     });
 
+    $(window).scroll(function (e) {
+        // Up button show/hide
+        if ($(this).scrollTop() > 700) {
+            $('.up-button').fadeIn();
+        } else {
+            $('.up-button').fadeOut();
+        }
+    });
+
+    $('.up-button').click(function (e) {
+        $('body, html').animate({
+            scrollTop: 0
+        }, 500);
+    });
+
     // Paginate
     var page = 2;
 
@@ -263,7 +278,7 @@
         if (!button.hasClass('active')) {
             $('body').animate({
                 scrollTop: 0
-            }, 0, function(){
+            }, 0, function () {
                 button.toggleClass('active');
                 $('#filter-form').toggleClass('show');
             }).stop();
@@ -578,13 +593,13 @@
     modal_handler();
 
     // For mobile device fixes
-    $(window).resize(function(e) {
+    $(window).resize(function (e) {
         if (window.innerWidth >= 1024) {
             $('body').removeClass('header-visible');
         }
     });
 
-    $('#registration, #login').on('show.bs.modal', function(e) {
+    $('#registration, #login').on('show.bs.modal', function (e) {
         if (window.innerWidth < 768) {
             $('body').removeClass('header-visible');
         }

@@ -3,9 +3,5 @@
 {% block title %}Мои подписки{% endblock %}
 
 {% block content %}
-    {% if celebrities %}
-        {% include 'heaps_app/_celebrities_block_subscribed.html' %}
-    {% else %}
-        <div class="alert alert-info">No results to show</div>
-    {% endif %}
+    {% include 'heaps_app/_celebrities_block.html' %}
 {% endblock %}

@@ -154,7 +154,7 @@ class AccountMySubscribes(CelebritiesPaginatedAjaxMixin, ListView):
         return super(AccountMySubscribes, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return models.Celebrity.public_records.filter(pk__in=self.request.user.celebrity_subscribe.values_list('pk'))
+        return models.Celebrity.public_records.filter(pk__in=self.request.user.get_my_subscribes())
 
 
 class AccountSettings(FormResponseMixin, UpdateView):
