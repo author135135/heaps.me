@@ -115,6 +115,9 @@ class CelebrityView(CelebritiesPaginatedAjaxMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(CelebrityView, self).get_context_data(**kwargs)
 
+        # Update object stat
+        self.object.update_stat(self.request)
+
         related_celebrities = models.Celebrity.public_records.filter(
             filter__pk__in=self.object.filter.all()).distinct().exclude(pk=self.object.pk)
 

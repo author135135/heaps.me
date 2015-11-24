@@ -132,6 +132,7 @@ class Celebrity(SeoInformation):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=15, choices=RECORD_STATUSES, default='draft')
+    views = models.IntegerField(default=0)
     filter = models.ManyToManyField(to=Filter, blank=True)
 
     object = models.Manager()
@@ -139,7 +140,7 @@ class Celebrity(SeoInformation):
 
     class Meta:
         verbose_name_plural = 'celebrities'
-        ordering = ('-created_at',)
+        ordering = ('-views',)
 
     def __unicode__(self):
         return u"{0} {1} {2}".format(self.firstname, self.nickname, self.lastname)
@@ -153,6 +154,22 @@ class Celebrity(SeoInformation):
 
     def get_absolute_url(self):
         return reverse('heaps_app:celebrity-view', kwargs={'slug': self.slug})
+
+    def update_stat(self, request):
+        # Update views stat for ip address and date
+        ip = request.META['REMOTE_ADDR']
+        date = timezone.now().date()
+
+        if not self.celebrityviewsstat_set.filter(ip=ip, date=date):
+            self.views += 1
+            self.save()
+            self.celebrityviewsstat_set.create(ip=ip).save()
+
+
+class CelebrityViewsStat(models.Model):
+    celebrity = models.ForeignKey(to=Celebrity)
+    ip = models.GenericIPAddressField()
+    date = models.DateField(auto_now_add=True)
 
 
 # Helper function to rename uploading file in model
@@ -170,7 +187,7 @@ def rename_file(instance, filename):
 
 
 class Photo(models.Model):
-    celebrity = models.ForeignKey(Celebrity)
+    celebrity = models.ForeignKey(to=Celebrity)
     title = models.CharField(max_length=150, blank=True, null=True)
     image = models.ImageField(upload_to=rename_file)
 
