@@ -10,7 +10,7 @@
     });
 
     // Header.
-    $('#headerToggle').click(function (e) {
+    $('#sidebarToggle').click(function (e) {
         e.preventDefault();
 
         $('body').toggleClass('header-visible');

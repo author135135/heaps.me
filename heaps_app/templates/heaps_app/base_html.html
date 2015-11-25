@@ -16,6 +16,21 @@
     {% block additional_style %}{% endblock %}
 </head>
 <body>
+<div id="header">
+    <div id="sidebarToggle"><a href="#sidebar" class="toggle"></a></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <form action="{% url 'heaps_app:search' %}" class="form-search" method="get">
+                    <div class="search-wrap">
+                        {{ search_form.query }}
+                        <div class="but-filter"><i class="fa fa-chevron-down"></i><span>Фильтр</span></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% if user.is_authenticated %}
     {% include 'heaps_app/sidebar_user.html' %}
@@ -25,21 +40,6 @@
 
 <div id="main">
     <div id="main-wrapper">
-        <div class="header-top-wrapper">
-            <div id="headerToggle"><a href="#header" class="toggle"></a></div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8">
-                        <form action="{% url 'heaps_app:search' %}" class="form-search" method="get">
-                            <div class="search-wrap">
-                                {{ search_form.query }}
-                                <div class="but-filter"><i class="fa fa-chevron-down"></i><span>Фильтр</span></div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
         {% if filter_tags_career or filter_tags_social_networks %}
             <form id="filter-form" action="{% url 'heaps_app:search' %}" class="form-filter-gen">
                 <div class="container-fluid">

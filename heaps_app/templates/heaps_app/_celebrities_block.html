@@ -12,10 +12,10 @@
                 {% if request.user.is_authenticated and celebrity in request.user.get_my_subscribes %}
                     <div class="ic-check-follow"><i class="fa fa-check"></i></div>
                 {% endif %}
-                <div class="name-post-container">
-                    <div class="person-name">{{ celebrity }}</div>
-                    <div class="person-short-description">{{ celebrity.excerpt }}</div>
-                </div>
+                <a href="{{ celebrity.get_absolute_url }}" class="name-post-container">
+                    <span class="person-name">{{ celebrity }}</span>
+                    <span class="person-short-description">{{ celebrity.excerpt }}</span>
+                </a>
             </div>
             {% if celebrity.socialnetwork_set.count %}
                 <ul class="social-post">

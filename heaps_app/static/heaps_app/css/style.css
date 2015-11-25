@@ -23,11 +23,18 @@ body {
 	font-size: 16px;
 }
 
-body.header-visible #main {
+body.header-visible #main, body.header-visible #header {
 	-moz-transform: translateX(275px);
 	-webkit-transform: translateX(275px);
 	-ms-transform: translateX(275px);
 	transform: translateX(275px);
+}
+
+#header {
+	-moz-transition: -moz-transform 0.5s ease;
+	-webkit-transition: -webkit-transform 0.5s ease;
+	-ms-transition: -ms-transform 0.5s ease;
+	transition: transform 0.5s ease;	
 }
 
 form input[type="text"],
@@ -64,7 +71,7 @@ input[placeholder] {
 	max-width: 1200px;
 }
 
-#header {
+#sidebar {
 	position: fixed;
 	top:0;
 	left: 0;
@@ -190,7 +197,7 @@ input[placeholder] {
   margin-bottom: 100px;
 }
 
-.header-top-wrapper {
+#header {
 	position: fixed;
   margin-bottom: 2em;
   padding: 18px 6% 0;
@@ -273,7 +280,8 @@ input.search {
 	width: 100%;
 }
 
-.name-post-container {
+a.name-post-container {
+	display: block;
 	position: absolute;
 	width: 100%;
 	bottom: 0px;
@@ -283,11 +291,13 @@ input.search {
 	font-size: 18px;
 	font-family: SegoeUILight;
 	color: #fff;
+	text-decoration: none;
 	background-color: rgba(0, 0, 0, 0.7);
 	transition: 0.3s;
 }
 
 .person-name {
+	display: block;
    width: 100%;
    padding: 10px 0;
    font-size: 24px;
@@ -301,6 +311,7 @@ input.search {
 }
 
 .person-short-description {
+	display: block;
 	width: 100%;
 	height: 1px;
 	transition: 0.6s;
@@ -1484,7 +1495,7 @@ footer li a {
 
 @media screen and (min-width: 1400px) {
 
-	#header {
+	#sidebar {
 	  width: 290px;
 	  background-color: #1A1B1D;
 	}
@@ -1512,7 +1523,7 @@ footer li a {
 
 @media screen and (max-width: 1399px) and (min-width: 1024px) {
 
-	.header-top-wrapper {
+	#header {
 		position: fixed;
 	  margin-bottom: 2em;
 		padding: 20px 2% 0;
@@ -1530,7 +1541,7 @@ footer li a {
     right: 0;
 	}
 
-	#header {
+	#sidebar {
 		transition: 0.7s;
 	  width: 280px;
 	  background: #1A1B1D;
@@ -1585,7 +1596,7 @@ footer li a {
 
 @media screen and (max-width: 1023px) and (min-width: 768px) {
 
-	.header-top-wrapper {
+	#header {
 		position: fixed;
 	  margin-bottom: 2em;
     padding: 20px 1% 0;
@@ -1599,7 +1610,7 @@ footer li a {
     background: rgba(255, 255, 255, 0.81);
 	}
 
-	#header {
+	#sidebar {
 	  background: #1A1B1D;
 	}
 
@@ -1624,7 +1635,7 @@ footer li a {
 
 @media screen and (max-width: 767px) {
 
-	.header-top-wrapper {
+	#header {
 		position: fixed;
 	  margin-bottom: 2em;
     padding: 20px 1% 0;
@@ -1638,7 +1649,7 @@ footer li a {
     background: rgba(255, 255, 255, 0.81);
 	}
 
-	#header {
+	#sidebar {
 		background: #1A1B1D;
 	}
 
@@ -1680,20 +1691,20 @@ footer li a {
 
 }
 
-	#headerToggle {
+	#sidebarToggle {
 		display: none;
 	}
 
 @media screen and (max-width: 1023px) {
 
-	body.header-visible #header {
+	body.header-visible #sidebar {
 		-moz-transform: translateX(0);
 		-webkit-transform: translateX(0);
 		-ms-transform: translateX(0);
 		transform: translateX(0);
 	}
 
-	#header {
+	#sidebar {
 		-moz-backface-visibility: hidden;
 		-webkit-backface-visibility: hidden;
 		-ms-backface-visibility: hidden;
@@ -1717,7 +1728,7 @@ footer li a {
 		width: 275px;
 	}
 
-	#headerToggle {
+	#sidebarToggle {
 		-moz-backface-visibility: hidden;
 		-webkit-backface-visibility: hidden;
 		-ms-backface-visibility: hidden;
@@ -1735,7 +1746,7 @@ footer li a {
 		z-index: 10001;
 	}
 
-	#headerToggle .toggle {
+	#sidebarToggle .toggle {
 		position: absolute;
 		left: 0;
 		top: 0;
@@ -1745,7 +1756,7 @@ footer li a {
 		border: 0;
 	}
 
-	#headerToggle .toggle:before {
+	#sidebarToggle .toggle:before {
 		font-family: FontAwesome;
 		text-decoration: none;
 		font-style: normal;
