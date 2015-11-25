@@ -272,7 +272,7 @@
     }
 
     // Filter toggle class and Fix for slider
-    $('.header-top-wrapper .but-filter').click(function (e) {
+    $('#header .but-filter').click(function (e) {
         var button = $(this);
 
         if (!button.hasClass('active')) {
