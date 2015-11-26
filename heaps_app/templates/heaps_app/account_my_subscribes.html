@@ -3,5 +3,15 @@
 {% block title %}Мои подписки{% endblock %}
 
 {% block content %}
-    {% include 'heaps_app/_celebrities_block.html' %}
+    {% if celebrities %}
+        {% include 'heaps_app/_celebrities_block.html' %}
+    {% else %}
+        <div class="col-md-10 wrap-info-message">
+            <div class="info-message">
+                Вы еще ни на кого не подписаны.
+                Подпишитесь на знаменитость из общего списка, и глобальная социальная сеть HeapsMe,
+                в будущем, будет собирать для вас самые последние новости знаменитостей из всех социальных сетей мира.
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

@@ -293,7 +293,7 @@
     });
 
     // Celebrity social links
-    $('.all').click(function (e) {
+    $(document).on('click', '.all', function (e) {
         e.preventDefault();
 
         var elem = $(this),
