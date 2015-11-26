@@ -122,7 +122,8 @@ class CelebrityView(CelebritiesPaginatedAjaxMixin, DetailView):
         self.object.update_stat(self.request)
 
         related_celebrities = models.Celebrity.public_records.filter(
-            filter__pk__in=self.object.filter.all()).distinct().exclude(pk=self.object.pk)
+            filter__pk__in=self.object.filter.all(),
+            filter__filter_type='career').distinct().exclude(pk=self.object.pk)
 
         paginator = Paginator(related_celebrities, 6)
         page_obj = paginator.page(self.request.GET.get('page', 1))
