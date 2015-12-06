@@ -343,6 +343,10 @@
         $('#login').modal('hide');
     });
 
+    $('#login').on('show.bs.modal', function (e) {
+        $('#registration').modal('hide');
+    });
+
     $('#login form, #registration form').submit(function (e) {
         e.preventDefault();
 
