@@ -181,4 +181,9 @@ class UserChangeForm(forms.ModelForm):
 
 class CelebrityAdminForm(forms.ModelForm):
     excerpt = forms.CharField(widget=forms.Textarea(attrs={'cols': 116, 'rows': 10}), required=False)
-    description = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        widgets = {
+            'description': CKEditorWidget(),
+            'filter': forms.SelectMultiple(attrs={'size': 15})
+        }
