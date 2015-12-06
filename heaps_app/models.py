@@ -121,6 +121,9 @@ class Filter(models.Model):
     filter_type = models.CharField(max_length=75, choices=TAGS_TYPE)
     css_class = models.CharField(max_length=75)
 
+    class Meta:
+        ordering = ('title',)
+
     def __unicode__(self):
         return self.title
 
