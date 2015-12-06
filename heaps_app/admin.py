@@ -43,6 +43,8 @@ class FilterAdmin(admin.ModelAdmin):
 class CelebrityAdmin(admin.ModelAdmin):
     list_display = ('lastname', 'firstname', 'nickname', 'get_filters', 'created_at', 'status')
     list_per_page = 20
+    list_filter = ('status',)
+    search_fields = ('lastname', 'firstname', 'nickname')
     fieldsets = (
         ('Main information', {
             'fields': ('firstname', 'lastname', 'nickname', 'slug', 'excerpt', 'description', 'created_at', 'filter', 'status')

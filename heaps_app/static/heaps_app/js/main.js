@@ -32,22 +32,46 @@
     });
 
     // Paginate
-    var page = 2;
+    var page = 2,
+        in_progress = false,
+        has_next = false;
 
     $(document).on('click', '.paginate button', function (e) {
         e.preventDefault();
 
-        $.get(window.location.href, {page: page}, function (response) {
-            if (response['celebrities']) {
-                $('.paginate').before(response['celebrities']);
-            }
+        $('.paginate').remove();
 
-            if (response['paginate_has_next']) {
-                page++;
-            } else {
-                $('.paginate').remove();
-            }
-        });
+        if (!in_progress) {
+            in_progress = true;
+
+            $.get(window.location.href, {page: page}, function (response) {
+                if (response['celebrities']) {
+                    $('.item:last').after(response['celebrities']);
+                }
+
+                if (response['paginate_has_next']) {
+                    page++;
+                    in_progress = false;
+                    has_next = true;
+
+                    $(window).scroll(function(e) {
+                        if (!in_progress && has_next && $(window).scrollTop() >= ($(document).height() - $(window).height() - $('footer').innerHeight())) {
+                            in_progress = true;
+
+                            $.get(window.location.href, {page: page}, function (response) {
+                                if (response['celebrities']) {
+                                    $('.item:last').after(response['celebrities']);
+                                }
+
+                                page++;
+                                has_next = response['paginate_has_next'];
+                                in_progress = false;
+                            }, 'json');
+                        }
+                    });
+                }
+            }, 'json');
+        }
     });
 
     // Filter form

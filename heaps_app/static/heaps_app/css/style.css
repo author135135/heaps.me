@@ -9,6 +9,11 @@
 }
 
 @font-face {
+    font-family: SegoeUIRegular;
+    src: url(../fonts/SegoeUIRegular.ttf);
+}
+
+@font-face {
     font-family: SegoeUIBold;
     src: url(../fonts/SegoeUIBold.ttf);
 }
@@ -75,11 +80,11 @@ label {
 
 input[placeholder] {
     color: #999;
-    font: 16px SegoeUIlight;
+    font: 16px SegoeUIregular;
 }
 
 .container-fluid {
-    max-width: 1200px;
+    max-width: 1100px;
 }
 
 #sidebar {
@@ -87,32 +92,34 @@ input[placeholder] {
     top: 0;
     left: 0;
     height: 100%;
-    padding-top: 20px;
+    background-color: #F3F3F3;
 }
 
 #logo a {
     font-family: custom-font;
-    font-size: 30px;
-    color: #fff;
+    font-size: 32px;
+    color: #242424;
     text-decoration: none;
 }
 
 .user-descrpt-sidebar {
-    background: #212326;
+    background: #e4e4e4;
 }
 
 .user-descrpt-sidebar span {
     display: block;
     float: right;
     font-size: 13px;
-    color: #fff;
-    font-family: SegoeUIlight;
+    color: #363636;
+    font-family: SegoeUIbold;
     margin: 18px 36px 0 0;
 }
 
 #logo {
+    background-color: #f3f3f3;
+    padding-top: 20px;
+    height: 79px;
     text-align: center;
-    height: 60px;
 }
 
 #nav {
@@ -121,13 +128,13 @@ input[placeholder] {
 
 #nav ul {
     display: block;
-    background: #161719;
+    background: #FFFFFF;
     padding-bottom: 2px;
 }
 
 #nav ul li {
     display: block;
-    height: 50px;
+    height: 42px;
     margin-bottom: 2px;
 }
 
@@ -137,7 +144,7 @@ input[placeholder] {
     position: absolute;
     width: 53px;
     height: 50px;
-    background: #1E2123;
+    background: #f3f3f3;
 }
 
 #nav ul li:last-child {
@@ -147,15 +154,14 @@ input[placeholder] {
 #nav ul li a {
     display: block;
     padding: 15px 2em 14px 0.8em;
-    font-family: SegoeUIbold;
+    font-family: SegoeUIregular;
     font-size: 1.2em;
-    color: #696969;
+    color: #2A2A2A;
     text-decoration: none;
     outline: 0;
     border: 0;
     text-align: right;
-    background: #161719;
-    text-transform: uppercase;
+    background: #EAEAEA;
     -moz-transition: 0.3s;
     -webkit-transition: 0.3s;
     -ms-transition: 0.3s;
@@ -163,33 +169,34 @@ input[placeholder] {
 }
 
 #nav ul li a:hover {
-    color: #fff;
-    background: #191B1D;
+		color: #3C3C3C;
+    background: #EAEAEA;
 }
 
 #nav .active {
-    color: #EFEFEF;
-    background: #191B1D;
+		color: #3C3C3C;
+    background: #EAEAEA;
 }
 
 #nav ul li a span {
     position: relative;
     display: block;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 
 #nav ul li a span:before {
     position: absolute;
     left: 0;
     text-align: center;
-    width: 1.25em;
+    width: 1.05em;
     line-height: 1.4em;
+    color: #333;
 }
 
 .icon:before {
     display: inline-block;
     font-family: FontAwesome;
-    font-size: 1.25em;
+    font-size: 24px;
     text-decoration: none;
     font-style: normal;
     font-weight: normal;
@@ -201,7 +208,7 @@ input[placeholder] {
 /* MAIN */
 
 #main-wrapper {
-    background-color: #fff;
+    background-color: #FAFAFA;
 }
 
 .section-content {
@@ -212,13 +219,13 @@ input[placeholder] {
 #header {
     position: fixed;
     margin-bottom: 2em;
-    padding: 18px 6% 0;
-    background-color: rgba(30, 32, 35, 0.99);
+    padding: 18px 5% 0;
+    background-color: #FAFAFA;
     height: 80px;
     z-index: 1000;
     top: 0;
     right: 0;
-    left: 290px;
+    left: 270px;
 }
 
 /* FILTER */
@@ -229,19 +236,18 @@ input[placeholder] {
 
 .search-wrap span {
     display: block;
-    color: #838383;
+    color: #313131;
     padding-top: 0px;
-    font: 24px SegoeUIlight;
+    font: 16px SegoeUIregular;
     float: right;
     margin-left: 12px;
-    margin-top: -6px;
 }
 
 .form-search input {
     float: left;
-    background: #1A1B1D;
-    border-radius: 10em;
-    padding: 0.75em 1em 0.75em 2.9em;
+    background: transparent;
+    border-radius: 0;
+    padding: 0.75em 1em 0.75em 2.2em;
 }
 
 .but-filter {
@@ -259,7 +265,7 @@ input[placeholder] {
 }
 
 .but-filter:hover, .but-filter.active {
-    color: #F2F2F2;
+    color: #525252;
 }
 
 .but-search {
@@ -273,7 +279,7 @@ input.search {
     outline: none;
     border: 0;
     background-image: url(../images/search-icon-gen.png);
-    background-position: 14px 13px;
+    background-position: 3px 13px;
     background-repeat: no-repeat;
 }
 
@@ -285,6 +291,8 @@ input.search {
     overflow: hidden;
     position: relative;
     cursor: pointer;
+		min-height: 180px;
+    background: #FAFAFA url(../images/loader-circle2.gif) no-repeat center;
 }
 
 .layout-photo img {
@@ -539,16 +547,15 @@ ul.social-post-znam-page {
 }
 
 .subtitle-sdb {
-    font-size: 11px;
-    text-transform: uppercase;
-    color: #dfdfdf;
+    font-size: 13px;
+    color: #292929;
 }
 
 .subtitle-sdb-2 {
     margin-top: 90px;
     font-size: 20px;
     text-transform: uppercase;
-    color: #d8d8d8;
+    color: #000;
 }
 
 .subtitle-sdb-3 {
@@ -558,6 +565,7 @@ ul.social-post-znam-page {
 }
 
 .subtitle-sdb-4 {
+		display: none;
     margin-top: 34px;
     font-size: 18px;
     color: #f1f1f1;
@@ -568,20 +576,21 @@ ul.social-post-znam-page {
 }
 
 .but-start-sdb {
-    color: #BCBCBC;
-    padding: 12px 24px;
+		margin: 24px auto;
+    display: block;
+    color: #000000;
+    padding: 10px 24px;
     background: #212325;
     border: 0;
-    outline: 2px solid transparent;
+    background-color: #F3F3F3;
+    font-family: SegoeUIbold;
+    border: 1px solid #CACACA;
+    font-size: 13px;
+    text-transform: uppercase;
 }
 
 .but-start-sdb:focus {
     outline: 0;
-}
-
-.but-start-sdb:hover {
-    transition: 0.3s;
-    outline: 2px solid #1fcdff;
 }
 
 /* USER-SETTINGS CREATE-PERSON */
@@ -639,6 +648,7 @@ ul.social-post-znam-page {
 .change-data-btn, .upload-btn-photo {
     background-color: #545454;
     font-family: SegoeUIlight;
+    border-bottom: 3px solid #333;
 }
 
 .change-data-btn:hover, .upload-btn-photo:hover {
@@ -734,12 +744,15 @@ span.t-social {
 .input-box {
     vertical-align: middle;
     float: left;
-    width: 100%;
+    width: 80%;
+    margin: 0 10%;
 }
 
 .settings-section .input-box, .cr-pers-info-section .input-box {
-    margin-bottom: 4px;
+    margin: 0 0 4px;
     padding: 0 30px;
+    background-color: #E7E9EE;
+    width: 100%;
 }
 
 .more-load-link-box {
@@ -809,17 +822,19 @@ span.t-social {
 }
 
 .but-load button {
-    width: 100%;
+		width: 100%;
     height: 56px;
     border: 0;
-    font-size: 18px;
-    background: #E4E4E4;
+    color: #5A5A5A;
+    background: #F1F1F1;
     font-family: SegoeUIbold;
+    font-size: 19px;
 }
 
 .but-load button:hover {
-    border: 1px solid #9E9E9E;
-    background: #fff;
+    color: #2C2C2C;
+    background: #D4D4D4;
+    transition: 0.3s;
 }
 
 .but-load button:focus {
@@ -984,7 +999,7 @@ span.t-social {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.92);
+    background: rgba(0, 0, 0, 0.77);
     z-index: 2000;
 }
 
@@ -992,8 +1007,9 @@ span.t-social {
     margin-top: 100px;
     display: block;
     width: 100%;
-    background-color: rgba(25, 25, 25, 0.94);
+    background-color: #E7E7E7;
     padding: 0 16px;
+    border-radius: 6px;
 }
 
 .modal form .head-form {
@@ -1004,8 +1020,8 @@ span.t-social {
 
 .modal form .head-form span {
     font-size: 24px;
-    font-family: SegoeUIlight;
-    color: #dedede;
+    font-family: SegoeUIregular;
+    color: #242424;
     display: block;
     padding-top: 14px;
 }
@@ -1030,8 +1046,8 @@ span.t-social {
     width: 64px;
     background: transparent url(../images/close-forms.png) no-repeat center;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -8px;
+    right: -19px;
     cursor: pointer;
 }
 
@@ -1040,14 +1056,14 @@ span.t-social {
 }
 
 .input-box {
-    background: transparent;
+    background: #fff;
     vertical-align: middle;
     float: left;
 }
 
 .ic-input {
     float: left;
-    height: 64px;
+    height: 58px;
     width: 17%;
 }
 
@@ -1100,35 +1116,28 @@ span.t-social {
     font-size: 18px;
     font-family: SegoeUIlight;
     width: 83%;
-    height: 64px;
+    height: 58px;
     padding: 0 30px 0 18px;
 }
 
 .unrer-dec {
     float: right;
-    width: 90%;
-    margin: 0 5%;
-    height: 2px;
-    background: #1d1d1d;
+    width: 100%;
+    height: 16px;
+    background: #E7E7E7;
 }
 
 .send {
-    width: 100%;
-    height: 64px;
-    background: rgb(19, 19, 19);
+    width: 80%;
+    height: 58px;
+    background: #fff;
     border: 0;
-    color: #2CABD6;
+    color: #000;
     font-size: 16px;
-    margin: 26px 0 22px 0;
+    margin: 2px 10% 21px;
     transition: 0.3s;
     font-family: SegoeUIbold;
-    border: 2px solid rgb(19, 19, 19);
-}
-
-.send:hover {
-    transition: 0.3s;
-    color: #21C5FD;
-    border: 2px solid #4CC3EB;
+    border: 1px solid rgb(217, 217, 217);
 }
 
 .social-form-box {
@@ -1138,10 +1147,10 @@ span.t-social {
 
 .title-social-log-in {
     width: 100%;
-    color: #fff;
+    color: #333;
     text-align: center;
     padding: 3px 0 16px;
-    font-family: SegoeUIlight;
+    font-family: SegoeUIregular;
 }
 
 .social-log-in {
@@ -1152,29 +1161,29 @@ span.t-social {
 .social-log-in li {
     display: block;
     width: 19%;
-    height: 54px;
+    height: 40px;
     float: left;
     margin-right: 1.25%;
 }
 
 .social-log-in li:nth-child(1) {
-    background: #3c77a4 url(../images/social-icons/vk-ic.png) no-repeat center;
+    background: #fff url(../images/social-icons/vk-ic-dark.png) no-repeat center;
 }
 
 .social-log-in li:nth-child(2) {
-    background: #4cc3eb url(../images/social-icons/twitter-ic.png) no-repeat center;
+    background: #fff url(../images/social-icons/twitter-ic-dark.png) no-repeat center;
 }
 
 .social-log-in li:nth-child(3) {
-    background: #4f6adc url(../images/social-icons/facebook-ic.png) no-repeat center;
+    background: #fff url(../images/social-icons/facebook-ic-dark.png) no-repeat center;
 }
 
 .social-log-in li:nth-child(4) {
-    background: #d53a2f url(../images/social-icons/g_plus-ic.png) no-repeat center;
+    background: #fff url(../images/social-icons/g_plus-ic-dark.png) no-repeat center;
 }
 
 .social-log-in li:nth-child(5) {
-    background: #93522f url(../images/social-icons/instagram-ic.png) no-repeat center;
+    background: #fff url(../images/social-icons/instagram-ic-dark.png) no-repeat center;
     margin-right: 0;
 }
 
@@ -1187,7 +1196,7 @@ a.link-forgot-log, a.link-reg-log-mod {
     float: left;
     width: 49%;
     display: block;
-    font-family: SegoeUIlight;
+    font-family: SegoeUIregular;
     font-size: 1em;
     transition: 0.3s;
     padding: 8px 0;
@@ -1207,8 +1216,9 @@ a.link-forgot-log:hover {
 
 a.link-reg-log-mod {
     margin: 12px 0 16px;
-    background: rgb(19, 19, 19);
-    color: #2CABD6;
+    background: #fff;
+    color: #333;
+    border: 1px solid rgb(141, 141, 141);
 }
 
 a.link-reg-log-mod:hover {
@@ -1228,7 +1238,7 @@ a.link-reg-log-mod:hover {
 
 .form-filter-gen {
     padding: 100px 6% 0;
-    background: #ffffff;
+    background: #FAFAFA;
     margin-bottom: -104px;
     height: 0;
     overflow: hidden;
@@ -1236,7 +1246,7 @@ a.link-reg-log-mod:hover {
 
 .form-filter-gen.show {
     height: auto;
-    background: #f2f2f2;
+    background: #FFFFFF;
 }
 
 .form-filter-gen label {
@@ -1245,7 +1255,7 @@ a.link-reg-log-mod:hover {
 
 .filter-gen-wrapper {
     margin-bottom: 36px;
-    background: #f2f2f2;
+    background: #FFFFFF;
 }
 
 .filter-gen-wrapper > span {
@@ -1344,7 +1354,7 @@ a.link-reg-log-mod:hover {
     width: 42px;
     height: 100px;
     padding: 0px;
-    background: #fff url(../images/controls-filter.png) no-repeat -24px 45px;
+    background: #BEC0C5 url(../images/controls-filter.png) no-repeat -24px -32px;
 }
 
 .filter-wrap-category a.bx-next:hover {
@@ -1358,7 +1368,7 @@ a.link-reg-log-mod:hover {
     width: 42px;
     height: 100px;
     padding: 0px;
-    background: #fff url(../images/controls-filter.png) no-repeat 18px 45px;
+    background: #BEC0C5 url(../images/controls-filter.png) no-repeat 18px -32px;
 }
 
 .filter-wrap-category a.bx-prev:hover {
@@ -1561,7 +1571,7 @@ a.link-reg-log-mod:hover {
     height: 33px;
     width: 42px;
     left: -56px;
-    background: #fff url(../images/controls-filter.png) no-repeat 16px 11px;
+    background: #BEC0C5 url(../images/controls-filter.png) no-repeat 16px -66px;
 }
 
 .filter-wrap-social a.bx-prev:hover {
@@ -1573,7 +1583,7 @@ a.link-reg-log-mod:hover {
     height: 33px;
     width: 42px;
     right: -56px;
-    background: #fff url(../images/controls-filter.png) no-repeat -23px 11px;
+    background: #BEC0C5 url(../images/controls-filter.png) no-repeat -23px -66px;
 }
 
 .filter-wrap-social a.bx-next:hover {
@@ -1588,12 +1598,16 @@ a.link-reg-log-mod:hover {
     display: block;
     float: left;
     font-size: 16px;
-    color: #4B4E54;
+    color: #FFFFFF;
     padding: 12px 30px;
-    background: #F2F2F2;
     border: 0;
-    border: 1px solid rgb(163, 166, 170);
-    font-family: SegoeUIbold;
+    background-color: #545454;
+    font-family: SegoeUIlight;
+}
+
+.buttons-filter-wrapper button:nth-child(1):hover {
+    background-color: #2B2B2B;
+    transition: 0.3s;
 }
 
 .buttons-filter-wrapper button:nth-child(2) {
@@ -1733,7 +1747,7 @@ a.link-reg-log-mod:hover {
 
 footer {
     background: #F2F2F2;
-    padding: 18px 6% 60px;
+    padding: 18px 5% 60px;
 }
 
 footer li {
@@ -1791,8 +1805,7 @@ footer li a {
 @media screen and (min-width: 1400px) {
 
     #sidebar {
-        width: 290px;
-        background-color: #1A1B1D;
+        width: 270px;
     }
 
     #main-wrapper {
@@ -1807,7 +1820,7 @@ footer li a {
     }
 
     #main {
-        margin-left: 290px;
+        margin-left: 270px;
     }
 
     .section-content {
@@ -1839,7 +1852,6 @@ footer li a {
     #sidebar {
         transition: 0.7s;
         width: 280px;
-        background: #1A1B1D;
     }
 
     #main-wrapper {
@@ -1905,10 +1917,6 @@ footer li a {
         background: rgba(255, 255, 255, 0.81);
     }
 
-    #sidebar {
-        background: #1A1B1D;
-    }
-
     #main-wrapper {
         padding-top: 3em;
     }
@@ -1942,10 +1950,6 @@ footer li a {
         left: 0;
         padding: 18px 0 20px;
         background: rgba(255, 255, 255, 0.81);
-    }
-
-    #sidebar {
-        background: #1A1B1D;
     }
 
     #main-wrapper {
@@ -2035,7 +2039,7 @@ footer li a {
         display: block;
         height: 2.25em;
         left: 0;
-        position: fixed;
+        position: absolute;
         top: 0;
         width: 3.25em;
         z-index: 10001;
@@ -2059,10 +2063,10 @@ footer li a {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         content: '\f0c9';
-        color: #fff;
+        color: #292929;
         font-size: 18px;
         line-height: 2.25em;
-        background: rgb(31, 33, 36);
+        background: transparent;
         border-radius: 0.35em;
         text-align: center;
         position: absolute;
