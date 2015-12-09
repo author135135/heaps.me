@@ -5,19 +5,28 @@
 
 {% block content %}
     <div class="col-md-4 col-sm-6">
-        <div class="post-wrapper clearfix">
-            <div class="layout-photo">
-                {% thumbnail celebrity.photo_set.all.0.image "427x374" crop="top" as img %}
-                    <img src="{{ img.url }}" alt="{{ celebrity }}" title="{{ celebrity }}">
-                {% endthumbnail %}
-            </div>
-        </div>
         {% if user.is_authenticated %}
             {% if celebrity in user.celebrity_subscribe.all %}
-                <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}" class="but-subscribe but-remove-subscribe">
+                <div class="post-wrapper clearfix">
+                    <div class="layout-photo">
+                        {% thumbnail celebrity.photo_set.all.0.image "427x374" crop="top" as img %}
+                            <img src="{{ img.url }}" alt="{{ celebrity }}" title="{{ celebrity }}">
+                        {% endthumbnail %}
+                        <div class="ic-check-follow" title="Вы подписаны"><i class="fa fa-check"></i></div>
+                    </div>
+                </div>
+                <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}"
+                   class="but-subscribe but-remove-subscribe">
                     Отписаться
                 </a>
             {% else %}
+                <div class="post-wrapper clearfix">
+                    <div class="layout-photo">
+                        {% thumbnail celebrity.photo_set.all.0.image "427x374" crop="top" as img %}
+                            <img src="{{ img.url }}" alt="{{ celebrity }}" title="{{ celebrity }}">
+                        {% endthumbnail %}
+                    </div>
+                </div>
                 <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}" class="but-subscribe">
                     Подписаться
                 </a>

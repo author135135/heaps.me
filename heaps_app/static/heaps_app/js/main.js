@@ -533,7 +533,7 @@
                     var image = new Image();
                     image.src = e.target.result;
 
-                    if (image.width < 50 || image.width > 800) {
+                    /*if (image.width < 50 || image.width > 800) {
                         var message_wrapper = $('.wrap-info-message');
 
                         message_wrapper.html('<div class="info-message">Image size to big</div>');
@@ -546,7 +546,7 @@
 
                         $(input).replaceWith($(input).clone());
                         return false;
-                    }
+                    }*/
 
                     $('#account-settings #popup img').attr('src', image.src).cropbox({
                         width: 200,
