@@ -17,6 +17,9 @@ class CelebrityManager(models.Manager):
 
 
 class UserManager(BaseUserManager):
+    def get_queryset(self):
+        return super(UserManager, self).get_queryset().prefetch_related('celebrity_subscribe')
+
     def create_user(self, email, password=None, *args, **kwargs):
         if not email:
             raise ValueError('Users must have an email address')
