@@ -179,7 +179,7 @@
                     };
 
                 if (window.innerWidth > 1603) {
-                    return settings_1;
+                    return settings_2;
                 } else if (window.innerWidth <= 1603 && window.innerWidth > 1464) {
                     return settings_2;
                 } else if (window.innerWidth <= 1464 && window.innerWidth > 1280) {
@@ -267,7 +267,7 @@
                     };
 
                 if (window.innerWidth > 1603) {
-                    return settings_1;
+                    return settings_2;
                 } else if (window.innerWidth <= 1603 && window.innerWidth > 1464) {
                     return settings_2;
                 } else if (window.innerWidth <= 1464 && window.innerWidth > 1280) {
