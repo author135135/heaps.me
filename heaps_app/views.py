@@ -1,6 +1,6 @@
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, FormView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.db.models import Q
 from django.template.loader import get_template
 from django.contrib.auth import login, authenticate, logout
@@ -288,3 +288,8 @@ def celebrity_subscribe(request, slug):
         request.user.celebrity_subscribe.add(celebrity)
 
     return redirect(reverse('heaps_app:celebrity-view', kwargs={'slug': slug}))
+
+
+# Custom server errors handlers
+def handler404(request):
+    return render(request, 'heaps_app/404.html')

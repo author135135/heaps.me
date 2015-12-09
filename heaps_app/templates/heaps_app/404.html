@@ -1,0 +1,11 @@
+{% extends 'heaps_app/base_html.html' %}
+
+{% block title %}404 Not Found{% endblock %}
+
+{% block content %}
+    <div class="wrap-404 clearfix">
+        <span>404</span>
+        <span>Конкретно такой страницы не существует</span>
+        <a class="back-home" href="{% url 'heaps_app:index' %}">Перейти на главную HeapsMe</a>
+    </div>
+{% endblock %}
