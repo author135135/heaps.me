@@ -39,7 +39,7 @@
     $(document).on('click', '.paginate button', function (e) {
         e.preventDefault();
 
-        $('.paginate').remove();
+        $('.paginate').hide();
 
         if (!in_progress) {
             in_progress = true;
@@ -54,21 +54,27 @@
                     in_progress = false;
                     has_next = true;
 
-                    $(window).scroll(function(e) {
-                        if (!in_progress && has_next && $(window).scrollTop() >= ($(document).height() - $(window).height() - $('footer').innerHeight())) {
-                            in_progress = true;
+                    if ($('.section-content').height() > ($(window).height() - $('footer').height())) {
+                        $('.paginate').remove();
 
-                            $.get(window.location.href, {page: page}, function (response) {
-                                if (response['celebrities']) {
-                                    $('.item:last').after(response['celebrities']);
-                                }
+                        $(window).scroll(function (e) {
+                            if (!in_progress && has_next && $(window).scrollTop() >= ($(document).height() - $(window).height() - $('footer').innerHeight())) {
+                                in_progress = true;
 
-                                page++;
-                                has_next = response['paginate_has_next'];
-                                in_progress = false;
-                            }, 'json');
-                        }
-                    });
+                                $.get(window.location.href, {page: page}, function (response) {
+                                    if (response['celebrities']) {
+                                        $('.item:last').after(response['celebrities']);
+                                    }
+
+                                    page++;
+                                    has_next = response['paginate_has_next'];
+                                    in_progress = false;
+                                }, 'json');
+                            }
+                        });
+                    } else {
+                        $('.paginate').show();
+                    }
                 }
             }, 'json');
         }
