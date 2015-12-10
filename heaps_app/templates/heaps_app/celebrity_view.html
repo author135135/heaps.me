@@ -16,9 +16,15 @@
             </div>
         </div>
         {% if user.is_authenticated %}
-            <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}" class="but-subscribe">
-                {% if celebrity in user.celebrity_subscribe.all %}Отписаться{% else %}Подписаться{% endif %}
-            </a>
+            {% if celebrity in user.celebrity_subscribe.all %}
+                <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}" class="but-subscribe but-remove-subscribe">
+                    Отписаться
+                </a>
+            {% else %}
+                <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}" class="but-subscribe">
+                    Подписаться
+                </a>
+            {% endif %}
         {% else %}
             <a href="#" class="but-subscribe" data-toggle="modal" data-target="#login">Подписаться</a>
         {% endif %}
