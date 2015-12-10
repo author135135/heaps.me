@@ -124,7 +124,7 @@ button:focus {
 }
 
 .descr-user-photo img {
-    height: 72px;
+    max-width: 100%;
 }
 
 .user-descrpt-sidebar span {
