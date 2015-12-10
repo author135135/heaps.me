@@ -85,7 +85,7 @@ input[placeholder] {
 }
 
 button:focus {
-	outline: none;
+    outline: none;
 }
 
 .container-fluid {
@@ -109,21 +109,37 @@ button:focus {
 
 .user-descrpt-sidebar {
     background: #e4e4e4;
+    text-align: center;
+}
+
+.descr-user-photo {
+    height: 72px;
+    width: 72px;
+    overflow: hidden;
+    margin: 0 auto;
+    border: 3px solid #fff;
+    border-radius: 50px;
+    margin-top: -36px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+}
+
+.descr-user-photo img {
+    height: 72px;
 }
 
 .user-descrpt-sidebar span {
     display: block;
-    float: right;
     font-size: 13px;
     color: #363636;
     font-family: SegoeUIbold;
-    margin: 18px 36px 0 0;
+    margin: 15px 0 22px;
+    padding: 0 20px;
 }
 
 #logo {
     background-color: #f3f3f3;
     padding-top: 20px;
-    height: 79px;
+    height: 111px;
     text-align: center;
 }
 
@@ -174,12 +190,12 @@ button:focus {
 }
 
 #nav ul li a:hover {
-		color: #3C3C3C;
+    color: #3C3C3C;
     background: #EAEAEA;
 }
 
 #nav .active {
-		color: #3C3C3C;
+    color: #3C3C3C;
     background: #EAEAEA;
     font-family: SegoeUIbold;
 }
@@ -297,7 +313,7 @@ input.search {
     overflow: hidden;
     position: relative;
     cursor: pointer;
-		min-height: 180px;
+    min-height: 180px;
     background: #FAFAFA url(../images/loader-circle2.gif) no-repeat center;
 }
 
@@ -482,11 +498,11 @@ a.but-subscribe {
     text-decoration: none;
     padding: 12px 54px;
     width: 100%;
-		font-size: 12px;
+    font-size: 12px;
     font-family: SegoeUIbold;
     color: #212121;
     background: #FAFAFA url(../images/chek-ic-but.png) no-repeat 10px 8px;
-		margin-top: -22px;
+    margin-top: -22px;
     margin-bottom: 20px;
     text-align: center;
     text-transform: uppercase;
@@ -585,7 +601,7 @@ ul.social-post-znam-page {
 }
 
 .subtitle-sdb-4 {
-		display: none;
+    display: none;
     margin-top: 34px;
     font-size: 18px;
     color: #f1f1f1;
@@ -596,7 +612,7 @@ ul.social-post-znam-page {
 }
 
 .but-start-sdb {
-		margin: 24px auto;
+    margin: 24px auto;
     display: block;
     color: #000000;
     padding: 10px 24px;
@@ -672,7 +688,7 @@ ul.social-post-znam-page {
 }
 
 .upload-btn-photo:hover {
-		background-color: #C5C5C5;
+    background-color: #C5C5C5;
     transition: 0.3s;
     color: #232323;
 }
@@ -748,7 +764,7 @@ span.t-social {
 }
 
 .settings-section button.change-data-btn:hover {
-		transition: 0.3s;
+    transition: 0.3s;
     background: #1D1D1D;
 }
 
@@ -839,7 +855,7 @@ span.t-social {
     text-align: center;
     vertical-align: middle;
     border-radius: 100px;
-		padding-top: 7px;
+    padding-top: 7px;
 }
 
 /* LOAD BUTTON */
@@ -941,7 +957,7 @@ span.t-social {
 }
 
 .but-mod-back {
-		float: right;
+    float: right;
     height: 58px;
     background: #202020;
     border: 0;
@@ -1635,7 +1651,7 @@ a.link-reg-log-mod:hover {
     padding: 10px 25px;
     border: 0;
     background-color: #545454;
-		font-family: SegoeUIregular;
+    font-family: SegoeUIregular;
 }
 
 .buttons-filter-wrapper button:nth-child(1):hover {
@@ -1650,7 +1666,7 @@ a.link-reg-log-mod:hover {
 }
 
 .buttons-filter-wrapper button:nth-child(2):hover {
-		background: rgb(232, 232, 232);
+    background: rgb(232, 232, 232);
 }
 
 .buttons-filter-wrapper button:focus {
@@ -1838,17 +1854,17 @@ footer li a {
 /* 404 */
 
 .wrap-404 span, .wrap-404 a {
-	display: block;
+    display: block;
 }
 
 .wrap-404 span:nth-child(1) {
-	font-size: 150px;
-	color: #afadad;
+    font-size: 150px;
+    color: #afadad;
 }
 
 .wrap-404 span:nth-child(2) {
-	font-size: 16px;
-	color: #818181;
+    font-size: 16px;
+    color: #818181;
 }
 
 a.back-home {
@@ -2171,7 +2187,7 @@ a.back-home:hover {
     footer li:last-child {
         padding: 10px 0 30px 0;
     }
-    
+
     .wrap-404 {
         text-align: center;
     }

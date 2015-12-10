@@ -1,6 +1,6 @@
 *.py[cod]
 .idea
-heaps/settings.py
-heaps/urls.py
+/heaps/urls.py
+/heaps/settings.py
 /media/*
 /static/*
