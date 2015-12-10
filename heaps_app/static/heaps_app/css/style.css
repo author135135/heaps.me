@@ -203,7 +203,7 @@ button:focus {
 #nav ul li a span {
     position: relative;
     display: block;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 #nav ul li a span:before {
@@ -500,7 +500,7 @@ a.but-subscribe {
     width: 100%;
     font-size: 12px;
     font-family: SegoeUIbold;
-    color: #212121;
+    color: #444;
     background: #FAFAFA url(../images/chek-ic-but.png) no-repeat 10px 8px;
     margin-top: -22px;
     margin-bottom: 20px;
@@ -516,17 +516,21 @@ a.but-subscribe:hover, a.but-subscribe:focus {
     color: #000;
     transition: 0.3s;
     border-color: #BEBEBE;
-    background: #F5F5F5 url(../images/chek-ic-but-w.png) no-repeat 10px 8px;
+    background: #F5F5F5 url(../images/chek-ic-but-d.png) no-repeat 10px 8px;
 }
 
 a.but-remove-subscribe {
-    color: #808080;
-    background: #E4E4E4 url(../images/rem-sub.png) no-repeat 10px 8px;
+    color: #ADADAD;
+    background: none;
+    padding: 5px 54px;
+    font-family: SegoeUIbold;
 }
 
-a.but-remove-subscribe:hover {
-    color: #FAFAFA;
-    background: #5B5B5B url(../images/rem-sub-w.png) no-repeat 10px 8px;
+a.but-remove-subscribe:hover, a.but-remove-subscribe:focus {
+    color: #333333;
+    background: none;
+    border-color: #B9B9B9;
+    font-family: SegoeUIbold;
 }
 
 ul.social-post-znam-page {
@@ -861,7 +865,7 @@ span.t-social {
 /* LOAD BUTTON */
 
 .but-load {
-    padding-top: 60px;
+    padding-top: 40px;
     text-align: center;
 }
 
@@ -873,7 +877,7 @@ span.t-social {
     font-family: SegoeUIbold;
     font-size: 13px;
     text-transform: uppercase;
-    padding: 20px 0;
+    padding: 16px 0;
     border: 1px solid #D0D0D0;
     border-radius: 2px;
 }
@@ -995,7 +999,7 @@ span.t-social {
     margin-top: 100px;
     display: block;
     width: 100%;
-    background: rgba(36, 36, 36, 0.86);
+    background: rgb(255, 255, 255);
     padding: 15px;
 }
 
@@ -1016,28 +1020,27 @@ span.t-social {
 .right-col-inf-mod span {
     display: block;
     float: left;
-    font-size: 20px;
-    font-family: SegoeUIlight;
-    color: #fff;
+    font-size: 16px;
+    color: #6F6F6F;
     margin: 20px 0 16px;
 }
 
 .but-mod-b-info {
     display: block;
     float: right;
-    height: 43px;
-    background: #151515;
+    background: #383838;
     border: 0;
-    color: #23C4D3;
+    color: #FFFFFF;
     font-size: 16px;
     transition: 0.3s;
     width: 35%;
-    font-family: SegoeUIlight;
     border: 2px solid transparent;
+    padding: 7px;
+    border-radius: 2px;
 }
 
 .but-mod-b-info:hover {
-    background: #191919;
+    background: #4A4A4A;
     outline: none;
 }
 
@@ -1090,8 +1093,7 @@ span.t-social {
 
 .modal-EmailVerif form .head-form span {
     font-size: 24px;
-    font-family: SegoeUIlight;
-    color: #dedede;
+    color: #1F1F1F;
     display: block;
     padding: 0;
 }
@@ -1180,7 +1182,6 @@ span.t-social {
 
 .send {
     width: 80%;
-    height: 58px;
     background: #fff;
     border: 0;
     color: #000;
@@ -1189,6 +1190,7 @@ span.t-social {
     transition: 0.3s;
     font-family: SegoeUIbold;
     border-radius: 2px;
+    padding: 18px;
 }
 
 .social-form-box {
@@ -1920,12 +1922,12 @@ a.back-home:hover {
         margin-bottom: 2em;
         padding: 20px 2% 0;
         height: 80px;
-        left: 280px;
+        left: 260px;
     }
 
     .up-button {
         z-index: 1000;
-        left: 280px;
+        left: 260px;
         position: fixed;
         padding: 18px 2% 20px;
         background: rgba(255, 255, 255, 0.81);
@@ -1935,7 +1937,7 @@ a.back-home:hover {
 
     #sidebar {
         transition: 0.7s;
-        width: 280px;
+        width: 260px;
     }
 
     #main-wrapper {
@@ -1950,7 +1952,7 @@ a.back-home:hover {
     }
 
     #main {
-        margin-left: 280px;
+        margin-left: 260px;
         -moz-backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         -ms-backface-visibility: hidden;
