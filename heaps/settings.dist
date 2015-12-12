@@ -114,7 +114,8 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.vk.VKOAuth2',
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.twitter.TwitterOAuth',
-    'social.backends.instagram.InstagramOAuth2',
+    # 'social.backends.instagram.InstagramOAuth2',
+    'heaps_app.social.backends.InstagramOAuth2Override',
     'social.backends.google.GooglePlusAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -147,7 +148,7 @@ CKEDITOR_CONFIGS = {
 # OAuth lib settings
 LOGIN_URL = '/?modal=login'
 LOGIN_REDIRECT_URL = '/'
-LOGIN_ERROR_URL = '/login-error/'
+LOGIN_ERROR_URL = '/'
 
 SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'heaps_app.mail.email_validation'
 SOCIAL_AUTH_EMAIL_VALIDATION_URL = '/?validation_sent=1&modal=message-modal'
@@ -157,6 +158,7 @@ EMAIL_FROM = ''
 SOCIAL_AUTH_CREATE_USERS = True
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 SOCIAL_AUTH_FORCE_EMAIL_VALIDATION = True
+SOCIAL_AUTH_PROTECTED_FIELDS = ('first_name', 'last_name')
 
 SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_details',
@@ -166,17 +168,18 @@ SOCIAL_AUTH_PIPELINE = (
     'heaps_app.pipeline.require_email',
     'social.pipeline.social_auth.associate_by_email',
     'social.pipeline.mail.mail_validation',
-    'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.create_user',
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
+    'heaps_app.pipeline.save_user_photo',
 )
 
 
 # OAuth social networks settings
 SOCIAL_AUTH_VK_OAUTH2_KEY = ''
 SOCIAL_AUTH_VK_OAUTH2_SECRET = ''
+SOCIAL_AUTH_VK_OAUTH2_EXTRA_DATA = ['photo_200']
 
 SOCIAL_AUTH_FACEBOOK_KEY = ''
 SOCIAL_AUTH_FACEBOOK_SECRET = ''
