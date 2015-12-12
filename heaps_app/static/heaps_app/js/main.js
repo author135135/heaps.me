@@ -611,6 +611,7 @@
                     message_wrapper.html('<div class="info-message">' + response['message'] + '</div>');
 
                     $('input[name="password"], input[name="password_repeat"]', form).val('');
+                    $('.photo-box input', form).val('');
 
                     $("html, body").stop().animate({scrollTop: 0}, '1000', 'swing', function () {
                         setTimeout(function () {
