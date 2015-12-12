@@ -10,5 +10,5 @@ def user_pre_save_handler(sender, instance, raw, using, update_fields, **kwargs)
     if instance.pk is not None:
         user = models.User.objects.get(pk=instance.pk)
 
-        if os.path.basename(user.avatar.path) != os.path.basename(instance.avatar.path):
+        if os.path.exists(user.avatar.path) and (user.avatar.path != instance.avatar.path):
             os.remove(user.avatar.path)

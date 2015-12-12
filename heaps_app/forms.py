@@ -133,8 +133,6 @@ class AccountSettingsForm(forms.ModelForm):
 
         avatar = self.cleaned_data['avatar']
 
-        print avatar
-
         if avatar:
             user.avatar = avatar
 
