@@ -35,8 +35,8 @@ def save_user_photo(strategy, backend, response, details, user=None, is_new=Fals
 
             if user_photo_url:
                 user_photo_url = user_photo_url.replace('sz=50', 'sz=200')
-        elif backend.name == '':
-            pass
+        elif backend.name == 'instagram':
+            user_photo_url = response['data'].get('profile_picture')
 
         if user_photo_url:
             try:
