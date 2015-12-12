@@ -5,7 +5,7 @@ from heaps_app import models
 
 
 @receiver(pre_save, sender=models.User)
-def my_callback(sender, instance, raw, using, update_fields, **kwargs):
+def user_pre_save_handler(sender, instance, raw, using, update_fields, **kwargs):
     # Delete old user avatar image
     if instance.pk is not None:
         user = models.User.objects.get(pk=instance.pk)
