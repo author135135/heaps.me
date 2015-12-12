@@ -131,9 +131,8 @@ button:focus {
     display: block;
     font-size: 13px;
     color: #363636;
-    font-family: SegoeUIbold;
-    margin: 15px 0 22px;
-    padding: 0 20px;
+    margin: 9px 0 22px;
+    padding: 0 36px;
 }
 
 #logo {
@@ -642,24 +641,23 @@ ul.social-post-znam-page {
     float: left;
 }
 
-.wrap-info-message {
-    min-height: 60px !important;
-}
-
 .wrap-info-message .info-message {
-    width: 100%;
-    background: #D7FF9A;
-    color: #465334;;
+		width: 100%;
+    background: #DCFFDA;
+    color: #677866;
     font-size: 16px;
     padding: 10px 15px;
     text-align: center;
-    margin-bottom: 15px;
+		margin-bottom: 26px;
+    border-radius: 2px;
+    border: 1px solid #D4F5D2;
 }
 
 .upload-photo-box {
     width: 100%;
     padding-top: 15px;
     background: #E7E9EE;
+    border-radius: 2px;
 }
 
 .upload-photo-box input {
@@ -668,7 +666,6 @@ ul.social-post-znam-page {
 
 .change-data-btn, .create-person-btn, .upload-btn-photo {
     margin-top: 15px;
-    width: 100%;
     display: block;
     border: 1px solid #BDBDBD;
     padding: 10px 0;
@@ -679,6 +676,7 @@ ul.social-post-znam-page {
     background: #2B2B2B;
     color: #3D3D3D;
     transition: 0.3s;
+    border-radius: 2px;
 }
 
 .change-data-btn:focus, .upload-btn-photo:focus, .create-person-btn:focus {
@@ -744,9 +742,8 @@ ul.social-post-znam-page {
 .settings-section input, .cr-pers-info-section input {
     float: left;
     border: 0;
-    height: 52px;
-    padding: 20px;
-    font-size: 20px;
+    padding: 14px;
+    font-size: 16px;
 }
 
 .settings-section span, .cr-pers-info-section span {
@@ -773,7 +770,6 @@ span.t-social {
 }
 
 .settings-section input[placeholder], .cr-pers-info-section input[placeholder] {
-    font-family: SegoeUIbold;
     color: #1F1F1F;
     font-size: 16px;
 }
@@ -817,6 +813,7 @@ span.t-social {
     font-family: SegoeUIbold;
     transition: 0.3s;
     text-transform: uppercase;
+    border-radius: 2px;
 }
 
 .more-load-link-box:hover {
@@ -825,6 +822,7 @@ span.t-social {
 
 .settings-section .input-box input {
     width: 100%;
+    border-radius: 2px;
 }
 
 .settings-section .input-box:nth-child(5) {
@@ -833,6 +831,7 @@ span.t-social {
 
 .cr-pers-info-section .input-box input {
     width: 100%;
+    border-radius: 2px;
 }
 
 .cr-pers-info-section textarea {
@@ -841,10 +840,10 @@ span.t-social {
     box-shadow: none;
     line-height: 30px;
     color: #424242;
-    font-size: 20px;
+    font-size: 16px;
     height: 124px;
     resize: none;
-    padding: 20px;
+    padding: 14px;
 }
 
 .ic-check-follow {
@@ -1186,7 +1185,7 @@ span.t-social {
     border: 0;
     color: #000;
     font-size: 16px;
-    margin: 2px 10% 21px;
+    margin: 2px 10% 38px;
     transition: 0.3s;
     font-family: SegoeUIbold;
     border-radius: 2px;
@@ -1199,11 +1198,10 @@ span.t-social {
 }
 
 .title-social-log-in {
-    width: 100%;
-    color: #333;
+		color: #1C1C1C;
     text-align: center;
     padding: 3px 0 16px;
-    font-family: SegoeUIregular;
+    font-size: 18px;
 }
 
 .social-log-in {
@@ -1428,7 +1426,7 @@ a.link-reg-log-mod:hover {
 }
 
 .filter-gen-wrapper a.bx-prev:hover, .filter-gen-wrapper a.bx-next:hover {
-    background-color: #BEC0C5;
+		background-color: #E7E7E7;
 }
 
 .filter-wrap-category .descr-link-ic {
@@ -1654,6 +1652,7 @@ a.link-reg-log-mod:hover {
     border: 0;
     background-color: #545454;
     font-family: SegoeUIregular;
+    border-radius: 2px;
 }
 
 .buttons-filter-wrapper button:nth-child(1):hover {
@@ -2174,6 +2173,45 @@ a.back-home:hover {
         -ms-transition: -ms-transform 0.5s ease;
         transition: transform 0.5s ease;
     }
+
+		#logo {
+		    text-align: left;
+		    padding-left: 28px;
+		    height: 74px;
+		}
+
+		#nav {
+		    margin: 0 0 16px 0;
+		    padding-left: 18px;
+		    position: relative;
+		    z-index: -1;
+		}
+
+		#nav ul li a span {
+		    position: relative;
+		    display: block;
+		    font-size: 16px;
+		    text-align: left;
+		    padding-left: 60px;
+		}
+
+		.user-descrpt-sidebar {
+		    background: #F3F3F3;
+		    text-align: left;
+		}
+
+		.descr-user-photo {
+		    margin: 0 10px;
+		}
+
+		.user-descrpt-sidebar span {
+		    display: block;
+		    font-size: 13px;
+		    color: #363636;
+		    font-family: SegoeUIregular;
+		    margin: -57px 0px 24px 30px;
+    		padding: 6px 30px 15px 65px;
+		}
 }
 
 @media screen and (max-width: 500px) {

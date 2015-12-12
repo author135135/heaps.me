@@ -131,7 +131,7 @@ msgstr ""
 
 #: views.py:132
 msgid "Celebrity record add."
-msgstr "Запись добавлена."
+msgstr "Вы создали публичную страницу знаменитости. Наши модераторы проверят данные и в ближайшее время страница появится в сети HeapsMe."
 
 #: views.py:155
 msgid "Account settings updated"

@@ -477,7 +477,7 @@
 
         var form = $(this);
 
-        //$('.input-error', form).removeClass('input-error');
+        $('.error-wrap', form).removeClass('error-wrap');
         $('.error-text', form).removeClass('error-text');
 
         var options = {
@@ -509,7 +509,7 @@
                     $("html, body").stop().animate({scrollTop: 0}, '1000', 'swing', function () {
                         setTimeout(function () {
                             message_wrapper.text(default_message);
-                        }, 3000);
+                        }, 5000);
                     });
                 }
             }
