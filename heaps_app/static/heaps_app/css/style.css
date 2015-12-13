@@ -142,6 +142,12 @@ button:focus {
     text-align: center;
 }
 
+.start-content-sdb #logo {
+    height: 61px;
+    text-align: center;
+    padding: 20px 0 0 0;
+}
+
 #nav {
     margin: 0 0 16px 0;
 }
@@ -154,8 +160,7 @@ button:focus {
 
 #nav ul li {
     display: block;
-    height: 42px;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
 #nav ul li:before {
@@ -217,7 +222,7 @@ button:focus {
 .icon:before {
     display: inline-block;
     font-family: FontAwesome;
-    font-size: 24px;
+    font-size: 22px;
     text-decoration: none;
     font-style: normal;
     font-weight: normal;
@@ -328,7 +333,7 @@ a.name-post-container {
     right: 0px;
     padding: 0 20px;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     font-family: SegoeUILight;
     color: #fff;
     text-decoration: none;
@@ -519,10 +524,10 @@ a.but-subscribe:hover, a.but-subscribe:focus {
 }
 
 a.but-remove-subscribe {
-    color: #ADADAD;
+    color: #A6A6A6;
     background: none;
-    padding: 5px 54px;
-    font-family: SegoeUIbold;
+    background-color: #F3F3F3;
+    border-color: #F3F3F3;
 }
 
 a.but-remove-subscribe:hover, a.but-remove-subscribe:focus {
@@ -577,7 +582,6 @@ ul.social-post-znam-page {
 
 .start-content-sdb {
     width: 100%;
-    margin-top: -20px;
 }
 
 .subtitle-sdb, .subtitle-sdb-2, .subtitle-sdb-3, .subtitle-sdb-4, .but-log-reg-sdb {
@@ -642,13 +646,13 @@ ul.social-post-znam-page {
 }
 
 .wrap-info-message .info-message {
-		width: 100%;
+    width: 100%;
     background: #DCFFDA;
     color: #677866;
     font-size: 16px;
     padding: 10px 15px;
     text-align: center;
-		margin-bottom: 26px;
+    margin-bottom: 26px;
     border-radius: 2px;
     border: 1px solid #D4F5D2;
 }
@@ -1198,7 +1202,7 @@ span.t-social {
 }
 
 .title-social-log-in {
-		color: #1C1C1C;
+    color: #1C1C1C;
     text-align: center;
     padding: 3px 0 16px;
     font-size: 18px;
@@ -1426,7 +1430,7 @@ a.link-reg-log-mod:hover {
 }
 
 .filter-gen-wrapper a.bx-prev:hover, .filter-gen-wrapper a.bx-next:hover {
-		background-color: #E7E7E7;
+    background-color: #E7E7E7;
 }
 
 .filter-wrap-category .descr-link-ic {
@@ -2174,44 +2178,44 @@ a.back-home:hover {
         transition: transform 0.5s ease;
     }
 
-		#logo {
-		    text-align: left;
-		    padding-left: 28px;
-		    height: 74px;
-		}
+    #logo {
+        text-align: left;
+        padding-left: 28px;
+        height: 74px;
+    }
 
-		#nav {
-		    margin: 0 0 16px 0;
-		    padding-left: 18px;
-		    position: relative;
-		    z-index: -1;
-		}
+    #nav {
+        margin: 0 0 16px 0;
+        padding-left: 18px;
+        position: relative;
+        z-index: -1;
+    }
 
-		#nav ul li a span {
-		    position: relative;
-		    display: block;
-		    font-size: 16px;
-		    text-align: left;
-		    padding-left: 60px;
-		}
+    #nav ul li a span {
+        position: relative;
+        display: block;
+        font-size: 16px;
+        text-align: left;
+        padding-left: 60px;
+    }
 
-		.user-descrpt-sidebar {
-		    background: #F3F3F3;
-		    text-align: left;
-		}
+    .user-descrpt-sidebar {
+        background: #F3F3F3;
+        text-align: left;
+    }
 
-		.descr-user-photo {
-		    margin: 0 10px;
-		}
+    .descr-user-photo {
+        margin: 0 10px;
+    }
 
-		.user-descrpt-sidebar span {
-		    display: block;
-		    font-size: 13px;
-		    color: #363636;
-		    font-family: SegoeUIregular;
-		    margin: -57px 0px 24px 30px;
-    		padding: 6px 30px 15px 65px;
-		}
+    .user-descrpt-sidebar span {
+        display: block;
+        font-size: 13px;
+        color: #363636;
+        font-family: SegoeUIregular;
+        margin: -57px 0px 24px 30px;
+        padding: 6px 30px 15px 65px;
+    }
 }
 
 @media screen and (max-width: 500px) {

@@ -509,7 +509,7 @@
                     $("html, body").stop().animate({scrollTop: 0}, '1000', 'swing', function () {
                         setTimeout(function () {
                             message_wrapper.text(default_message);
-                        }, 5000);
+                        }, 10000);
                     });
                 }
             }

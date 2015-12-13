@@ -104,6 +104,20 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         return self.my_subscribes
 
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.pk:
+            user = User.objects.get(pk=self.pk)
+
+            if (user.avatar.path != self.avatar.path) and (
+                    (user.avatar.field.default not in user.avatar.path) and os.path.exists(user.avatar.path)):
+                os.remove(user.avatar.path)
+        return super(User, self).save(force_insert, force_update, using, update_fields)
+
+    def delete(self, using=None):
+        if (self.avatar.field.default not in self.avatar.path) and os.path.exists(self.avatar.path):
+            os.remove(self.avatar.path)
+        return super(User, self).delete(using)
+
 
 class SeoInformation(models.Model):
     meta_title = models.CharField(max_length=100, blank=True, null=True)
@@ -149,7 +163,7 @@ class Celebrity(SeoInformation):
     views = models.IntegerField(default=0)
     filter = models.ManyToManyField(to=Filter, blank=True)
 
-    object = models.Manager()
+    objects = models.Manager()
     public_records = CelebrityManager()
 
     class Meta:
@@ -192,11 +206,11 @@ def rename_file(instance, filename):
         filename = filename.replace('.', '_', filename.count('.') - 1)
 
     name, ext = filename.split('.')
+    name = unicode(name).encode('utf-8')
     if instance.pk:
-        filename = '{0}.{1}'.format(hashlib.sha1(name + str(instance.pk + random.randrange(0, 9999))).hexdigest(),
-                                    ext)
+        filename = u'{0}.{1}'.format(hashlib.sha1(name + str(instance.pk + random.randrange(0, 9999))).hexdigest(), ext)
     else:
-        filename = '{0}.{1}'.format(hashlib.sha1(name + str(random.randrange(0, 9999))).hexdigest(), ext)
+        filename = u'{0}.{1}'.format(hashlib.sha1(name + str(random.randrange(0, 9999))).hexdigest(), ext)
     return os.path.join('photo', filename)
 
 
@@ -210,6 +224,19 @@ class Photo(models.Model):
 
     def __unicode__(self):
         return self.title if self.title else 'Untitled image'
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.pk:
+            photo = Photo.objects.get(pk=self.pk)
+
+            if (self.image.path != photo.image.path) and os.path.exists(photo.image.path):
+                os.remove(photo.image.path)
+        return super(Photo, self).save(force_insert, force_update, using, update_fields)
+
+    def delete(self, using=None):
+        if os.path.exists(self.image.path):
+            os.remove(self.image.path)
+        return super(Photo, self).delete(using)
 
 
 class SocialNetwork(models.Model):

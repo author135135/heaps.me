@@ -1,7 +1,6 @@
 <div id="sidebar">
-    <div id="logo"><a href="{% url 'heaps_app:index' %}">HeapsMe</a></div>
-
     <div class="user-descrpt-sidebar clearfix">
+        <div id="logo"><a href="{% url 'heaps_app:index' %}">HeapsMe</a></div>
         <div class="descr-user-photo">
             <img src="{{ user.avatar.url }}" alt="{{ user }}" title="{{ user }}">
         </div>
