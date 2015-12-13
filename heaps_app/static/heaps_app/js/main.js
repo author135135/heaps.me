@@ -58,7 +58,7 @@
                         $('.paginate').remove();
 
                         $(window).scroll(function (e) {
-                            if (!in_progress && has_next && $(window).scrollTop() >= ($(document).height() - $(window).height() - $('footer').innerHeight())) {
+                            if (!in_progress && has_next && $(window).scrollTop() >= ($('.section-content').height() - $(window).height())) {
                                 in_progress = true;
 
                                 $.get(window.location.href, {page: page}, function (response) {
