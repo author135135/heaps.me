@@ -39,7 +39,8 @@
     $(document).on('click', '.paginate button', function (e) {
         e.preventDefault();
 
-        $('.paginate').hide();
+        $('.paginate .but-load button').hide();
+        $('.paginate .but-load .load-motion').show();
 
         if (!in_progress) {
             in_progress = true;
@@ -73,9 +74,11 @@
                             }
                         });
                     } else {
-                        $('.paginate').show();
+                        $('.paginate .but-load button').show();
                     }
                 }
+
+                $('.paginate .but-load .load-motion').hide();
             }, 'json');
         }
     });
@@ -530,7 +533,7 @@
     });
 
     // Account settings
-    $(document).on('change', '#account-settings .upload-photo-box input[type="file"]', function (e) {
+    $(document).on('change', '#settings-avatar-form .upload-photo-box input[type="file"]', function (e) {
         var input = $(this)[0];
         if (input.files && input.files[0]) {
             if (input.files[0].type.match('image.*')) {
@@ -539,22 +542,7 @@
                     var image = new Image();
                     image.src = e.target.result;
 
-                    /*if (image.width < 50 || image.width > 800) {
-                        var message_wrapper = $('.wrap-info-message');
-
-                        message_wrapper.html('<div class="info-message">Image size to big</div>');
-
-                        $("html, body").stop().animate({scrollTop: 0}, '1000', 'swing', function () {
-                            setTimeout(function () {
-                                message_wrapper.empty();
-                            }, 3000);
-                        });
-
-                        $(input).replaceWith($(input).clone());
-                        return false;
-                    }*/
-
-                    $('#account-settings #popup img').attr('src', image.src).cropbox({
+                    $('#settings-avatar-form #popup img').attr('src', image.src).cropbox({
                         width: 200,
                         height: 200,
                         showControls: 'always'
@@ -568,28 +556,17 @@
                         $('#id_crop_attr_h').val(data.cropH);
                     });
 
-                    $('#account-settings #popup').modal('show');
+                    $('#settings-avatar-form #popup').modal('show');
                 }
                 reader.readAsDataURL(input.files[0]);
             } else console.log('is not image mime type');
         } else console.log('not isset files data or files API not supported');
     });
 
-    $('#account-settings #popup .send').click(function (e) {
-        $('#account-settings #popup').modal('hide');
+    $('#settings-avatar-form #popup .send').click(function (e) {
+        var form = $('#settings-avatar-form');
 
-        var crop = $('#account-settings #popup img').data('cropbox');
-
-        $('.upload-photo-box .photo-box img').attr('src', crop.getDataURL());
-        $('.user-descrpt-sidebar img').attr('src', crop.getDataURL());
-    });
-
-    $('#account-settings').submit(function (e) {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $('.has-error', form).removeClass('has-error');
+        $('#settings-avatar-form #popup').modal('hide');
 
         var options = {
             beforeSubmit: function () {
@@ -598,31 +575,60 @@
                 }
             },
             success: function (response) {
-                if (response['errors']) {
-                    $.each(response['errors'], function (k, v) {
-                        $('[name="' + k + '"]', form).addClass('input-error');
-                        $('[name="' + k + '"]', form).prev().children('span').addClass('error-text');
-                    });
-                }
-
                 if (response['success']) {
+                    console.log(response);
+
+                    var crop = $('#settings-avatar-form #popup img').data('cropbox');
+
+                    $('.upload-photo-box .photo-box img').attr('src', crop.getDataURL());
+                    $('.user-descrpt-sidebar img').attr('src', crop.getDataURL());
+
                     var message_wrapper = $('.wrap-info-message');
 
                     message_wrapper.html('<div class="info-message">' + response['message'] + '</div>');
 
-                    $('input[name="password"], input[name="password_repeat"]', form).val('');
                     $('.photo-box input', form).val('');
 
                     $("html, body").stop().animate({scrollTop: 0}, '1000', 'swing', function () {
                         setTimeout(function () {
                             message_wrapper.empty();
-                        }, 3000);
+                        }, 5000);
                     });
                 }
             }
         };
 
         form.ajaxSubmit(options);
+    });
+
+    $('#settings-info-form').submit(function (e) {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $('.error-wrap', form).removeClass('error-wrap');
+
+        $.post(form.attr('action'), form.serialize(), function (response) {
+            if (response['errors']) {
+                $.each(response['errors'], function (k, v) {
+                    $('[name="' + k + '"]', form).parents('.input-box').addClass('error-wrap');
+                });
+            }
+
+            if (response['success']) {
+                var message_wrapper = $('.wrap-info-message');
+
+                message_wrapper.html('<div class="info-message">' + response['message'] + '</div>');
+
+                $('input[name="password"], input[name="password_repeat"]', form).val('');
+
+                $("html, body").stop().animate({scrollTop: 0}, '1000', 'swing', function () {
+                    setTimeout(function () {
+                        message_wrapper.empty();
+                    }, 3000);
+                });
+            }
+        }, 'json');
     });
 
     modal_handler();

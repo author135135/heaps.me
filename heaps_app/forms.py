@@ -102,10 +102,19 @@ class PasswordForgottenForm(forms.Form):
         return email
 
 
-class AccountSettingsForm(forms.ModelForm):
+class AccountSettingsAvatarForm(forms.ModelForm):
+    avatar = CroppedImageField()
+    form_type = forms.CharField(widget=forms.HiddenInput(), initial='settings_avatar_form')
+
+    class Meta:
+        model = models.User
+        fields = ('avatar',)
+
+
+class AccountSettingsInfoForm(forms.ModelForm):
     password = forms.CharField(label=_('Password'), widget=forms.PasswordInput, required=False)
     password_repeat = forms.CharField(label=_('Password repeat'), widget=forms.PasswordInput, required=False)
-    avatar = CroppedImageField(required=False)
+    form_type = forms.CharField(widget=forms.HiddenInput(), initial='settings_info_form')
 
     class Meta:
         model = models.User
@@ -116,7 +125,7 @@ class AccountSettingsForm(forms.ModelForm):
         }
 
     def clean(self):
-        cleaned_data = super(AccountSettingsForm, self).clean()
+        cleaned_data = super(AccountSettingsInfoForm, self).clean()
         password = cleaned_data.get('password')
         password_repeat = cleaned_data.get('password_repeat')
 
@@ -124,17 +133,12 @@ class AccountSettingsForm(forms.ModelForm):
             self.add_error('password_repeat', _('Password and Password repeat not equal'))
 
     def save(self, commit=True):
-        user = super(AccountSettingsForm, self).save(commit=False)
+        user = super(AccountSettingsInfoForm, self).save(commit=False)
         password = self.cleaned_data.get('password')
         password_repeat = self.cleaned_data.get('password_repeat')
 
         if password and password_repeat:
             user.set_password(password)
-
-        avatar = self.cleaned_data['avatar']
-
-        if avatar:
-            user.avatar = avatar
 
         if commit:
             user.save()

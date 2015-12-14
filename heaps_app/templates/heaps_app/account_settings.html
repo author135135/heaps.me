@@ -15,52 +15,21 @@
 {% endblock %}
 
 {% block content %}
+    <div class="col-md-10 wrap-info-message"></div>
     <form action="{% url 'heaps_app:account-settings' %}" role="form" enctype="multipart/form-data"
-          id="account-settings" class="f-user-setting" method="post">
+          id="settings-avatar-form" method="post">
         {% csrf_token %}
-        <div class="col-md-10 wrap-info-message"></div>
         <div class="col-md-4 col-sm-6">
             <div class="l-col-user-settings clearfix">
                 <div class="upload-photo-box">
                     <div class="photo-box">
                         <img src="{{ user.avatar.url }}">
-                        {{ form.avatar }}
+                        {% for field in settings_avatar_form %}
+                            {{ field }}
+                        {% endfor %}
                     </div>
                     <button type="button" class="upload-btn-photo">Загрузить фото</button>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-6">
-            <div class="settings-section">
-                <div class="input-box">
-                    <label for="{{ form.first_name.id_for_label }}"><span>{{ form.first_name.label }}</span></label>
-                    {{ form.first_name }}
-                </div>
-                <div class="input-box">
-                    <label for="{{ form.last_name.id_for_label }}"><span>{{ form.last_name.label }}</span></label>
-                    {{ form.last_name }}
-                </div>
-                <div class="input-box">
-                    <label for="{{ form.email.id_for_label }}"><span>{{ form.email.label }}</span></label>
-                    {{ form.email }}
-                </div>
-                <div class="input-box">
-                    <label for="{{ form.password.id_for_label }}"><span>{{ form.password.label }}</span></label>
-                    {{ form.password }}
-                </div>
-                <div class="input-box">
-                    <label for="{{ form.password_repeat.id_for_label }}"><span>{{ form.password_repeat.label }}</span></label>
-                    {{ form.password_repeat }}
-                </div>
-                <button type="submit" class="change-data-btn">Изменить данные</button>
-                {% if user.get_social_auth_providers %}
-                    <span class="t-social">Ваш аккаунт привязан к таким социальным сетям:</span>
-                    <ul class="social-post-znam-page">
-                        {% for social_provider in user.get_social_auth_providers %}
-                            <li class="{{ social_provider }}"><a></a></li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
             </div>
         </div>
         <div id="popup" class="mod-user-photo-upload modal fade" role="dialog">
@@ -81,6 +50,33 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </form>
+    <form action="{% url 'heaps_app:account-settings' %}" role="form" id="settings-info-form" method="post">
+        {% csrf_token %}
+        {% for hidden_field in settings_info_form.hidden_fields %}
+            {{ hidden_field }}
+        {% endfor %}
+        <div class="col-md-6 col-sm-6">
+            <div class="settings-section">
+                {% for field in settings_info_form %}
+                    {% if not field.is_hidden %}
+                        <div class="input-box">
+                            <label for="{{ field.id_for_label }}"><span>{{ field.label }}</span></label>
+                            {{ field }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" class="change-data-btn">Изменить данные</button>
+                {% if user.get_social_auth_providers %}
+                    <span class="t-social">Ваш аккаунт привязан к таким социальным сетям:</span>
+                    <ul class="social-post-znam-page">
+                        {% for social_provider in user.get_social_auth_providers %}
+                            <li class="{{ social_provider }}"><a></a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </form>

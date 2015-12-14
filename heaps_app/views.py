@@ -163,16 +163,40 @@ class AccountMySubscribes(CelebritiesPaginatedAjaxMixin, ListView):
 
 class AccountSettings(FormResponseMixin, UpdateView):
     template_name = 'heaps_app/account_settings.html'
-    form_class = forms.AccountSettingsForm
+    form_class = forms.AccountSettingsInfoForm
+    second_form_class = forms.AccountSettingsAvatarForm
     success_message = ugettext('Account settings updated')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        if not hasattr(self, 'object'):
+            setattr(self, 'object', self.get_object())
         return super(AccountSettings, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountSettings, self).get_context_data(**kwargs)
+
+        context['settings_info_form'] = context.pop('form')
+        context['settings_avatar_form'] = self.second_form_class()
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if request.POST['form_type'] == 'settings_avatar_form':
+            form_class = self.second_form_class
+        else:
+            form_class = self.form_class
+
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def form_valid(self, form):
         response = super(AccountSettings, self).form_valid(form)
-        if form.cleaned_data['password'] and form.cleaned_data['password_repeat']:
+        if isinstance(form, self.form_class) and form.cleaned_data['password'] and form.cleaned_data['password_repeat']:
             email = self.request.user.email
             password = form.cleaned_data['password']
             user = authenticate(email=email, password=password)
