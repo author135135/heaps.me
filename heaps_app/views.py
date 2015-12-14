@@ -92,9 +92,9 @@ class IndexView(CelebritiesPaginatedAjaxMixin, ListView):
             context['backend'] = self.request.session['partial_pipeline']['backend']
             context['email_verification_form'] = forms.EmailVerificationForm()
 
-        if 'validation_sent' in self.request.GET:
-            email_validation_address = self.request.session.get('email_validation_address')
+        email_validation_address = self.request.session.get('email_validation_address')
 
+        if 'validation_sent' in self.request.GET and email_validation_address:
             context['validation_sent'] = True
             context['message'] = _(
                 'An email validation was sent to {0}. Click the link sent to finish the authentication process.'
