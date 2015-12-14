@@ -455,6 +455,13 @@
         }
     });
 
+    // Email verification send
+    $('#message-modal button').click(function(e) {
+        $('#message-modal').modal('hide');
+
+        window.open($(this).attr('data-url'), '_blank');
+    });
+
     // Celebrity add form
     var default_image = $('#add-celebrity .photo-box img').attr('src');
 

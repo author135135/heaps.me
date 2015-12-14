@@ -99,6 +99,7 @@ class IndexView(CelebritiesPaginatedAjaxMixin, ListView):
             context['message'] = _(
                 'An email validation was sent to {0}. Click the link sent to finish the authentication process.'
             ).format(email_validation_address)
+            context['email_url'] = '//{0}'.format(email_validation_address.split('@')[1])
 
         return context
 

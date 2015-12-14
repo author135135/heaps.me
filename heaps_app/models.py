@@ -113,11 +113,6 @@ class User(AbstractBaseUser, PermissionsMixin):
                 os.remove(user.avatar.path)
         return super(User, self).save(force_insert, force_update, using, update_fields)
 
-    def delete(self, using=None):
-        if (self.avatar.field.default not in self.avatar.path) and os.path.exists(self.avatar.path):
-            os.remove(self.avatar.path)
-        return super(User, self).delete(using)
-
 
 class SeoInformation(models.Model):
     meta_title = models.CharField(max_length=100, blank=True, null=True)
