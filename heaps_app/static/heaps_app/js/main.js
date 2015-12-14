@@ -56,11 +56,11 @@
                     has_next = true;
 
                     if ($('.section-content').height() > ($(window).height() - $('footer').height())) {
-                        $('.paginate').remove();
-
                         $(window).scroll(function (e) {
                             if (!in_progress && has_next && $(window).scrollTop() >= ($('.section-content').height() - $(window).height())) {
                                 in_progress = true;
+
+                                $('.paginate .but-load .load-motion').show();
 
                                 $.get(window.location.href, {page: page}, function (response) {
                                     if (response['celebrities']) {
