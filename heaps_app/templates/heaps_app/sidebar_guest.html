@@ -126,23 +126,21 @@
     </div>
 {% endif %}
 
-{% if validation_sent %}
-    <div id="message-modal" class="mod-go-mail">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
-                    <div class="wrapper clearfix">
-                        <div class="img-inf-mail"></div>
-                        <div class="go-mail-info">
-                            <span>{{ message }}</span>
-                            <button class="but-go-mail clearfix" data-url="{{ email_url }}">Перейти на почту</button>
-                        </div>
+<div id="message-modal" class="mod-go-mail">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
+                <div class="wrapper clearfix">
+                    <div class="img-inf-mail"></div>
+                    <div class="go-mail-info">
+                        <span>{{ message }}</span>
+                        <button class="but-go-mail clearfix" data-url="{{ email_url }}">Перейти на почту</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-{% endif %}
+</div>
 
 <script src="https://apis.google.com/js/api:client.js"></script>
 

@@ -67,6 +67,8 @@
                                         $('.item:last').after(response['celebrities']);
                                     }
 
+                                    $('.paginate .but-load .load-motion').hide();
+
                                     page++;
                                     has_next = response['paginate_has_next'];
                                     in_progress = false;
@@ -413,11 +415,12 @@
 
         var form = $(this),
             emailPat = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            errors = 0;
+            errors = 0,
+            email = $('input[name="email"]', form).val();
 
         $('.error-wrap', form).removeClass('error-wrap');
 
-        if (!$('input[name="email"]', form).val() || !emailPat.test($('input[name="email"]', form).val())) {
+        if (!email || !emailPat.test(email)) {
             $('input[name="email"]', form).parent().addClass('error-wrap');
             errors = 1;
         }
@@ -427,7 +430,8 @@
                 if (response['success']) {
                     $('#forgotten-password form').trigger('reset');
                     $('#forgotten-password').modal('hide');
-                    $('#message-modal .right-col-inf-mod span').text(response['message']);
+                    $('#message-modal .go-mail-info span').text(response['message']);
+                    $('#message-modal .go-mail-info button').attr('data-url', '//' + email.split('@')[1]);
                     $('#message-modal').modal('show');
                 } else {
                     $.each(response['errors'], function (k, v) {

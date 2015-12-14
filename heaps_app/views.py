@@ -95,7 +95,6 @@ class IndexView(CelebritiesPaginatedAjaxMixin, ListView):
         email_validation_address = self.request.session.get('email_validation_address')
 
         if 'validation_sent' in self.request.GET and email_validation_address:
-            context['validation_sent'] = True
             context['message'] = _(
                 'An email validation was sent to {0}. Click the link sent to finish the authentication process.'
             ).format(email_validation_address)
