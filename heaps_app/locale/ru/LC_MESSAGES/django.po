@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-12 19:11+0200\n"
+"POT-Creation-Date: 2015-12-15 14:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,60 +27,60 @@ msgstr "Это поле обязательное"
 msgid "Search"
 msgstr "Найти"
 
-#: forms.py:24
+#: forms.py:17
 msgid "Place for link"
 msgstr "Место для ссылки"
 
-#: forms.py:30 forms.py:121
+#: forms.py:23 forms.py:123
 msgid "Firstname"
 msgstr "Имя"
 
-#: forms.py:31 forms.py:122
+#: forms.py:24 forms.py:124
 msgid "Lastname"
 msgstr "Фамилия"
 
-#: forms.py:32
+#: forms.py:25
 msgid "Nickname"
 msgstr "Псевдоним"
 
-#: forms.py:33
+#: forms.py:26
 msgid "Short description"
 msgstr "Краткое описание"
 
-#: forms.py:43 forms.py:44 forms.py:45
+#: forms.py:36 forms.py:37 forms.py:38
 msgid "One of this field must contain some value"
 msgstr "Одно из полей должно быть заполненно"
 
-#: forms.py:64 forms.py:70 forms.py:95 forms.py:99
+#: forms.py:57 forms.py:63 forms.py:88 forms.py:92
 msgid "Email"
 msgstr ""
 
-#: forms.py:65 forms.py:71 forms.py:113 forms.py:154
+#: forms.py:58 forms.py:64 forms.py:115 forms.py:151
 msgid "Password"
 msgstr "Пароль"
 
-#: forms.py:73 forms.py:114 forms.py:155
+#: forms.py:66 forms.py:116 forms.py:152
 msgid "Password repeat"
 msgstr "Повтор пароля"
 
-#: forms.py:83
+#: forms.py:76
 msgid "E-mail address is already taken"
 msgstr "E-mail адрес уже занят"
 
-#: forms.py:91 forms.py:131 forms.py:166
+#: forms.py:84 forms.py:133 forms.py:163
 msgid "Password and Password repeat not equal"
 msgstr "Поля пароля не совпадают"
 
-#: forms.py:107
+#: forms.py:100
 msgid "E-mail address not found"
 msgstr "E-mail адрес не найден"
 
-#: mail.py:7
+#: mail.py:6
 #, python-brace-format
 msgid "Validate your account {0}"
 msgstr "Для подтверждения аккаунта перейдите по ссылке: {0}"
 
-#: mail.py:9
+#: mail.py:8
 #, python-brace-format
 msgid ""
 "\n"
@@ -95,7 +95,7 @@ msgstr ""
 "Email: {0}\n"
 "Password: {1}\n"
 
-#: mail.py:16
+#: mail.py:15
 #, python-brace-format
 msgid ""
 "\n"
@@ -108,39 +108,65 @@ msgstr ""
 "Вы можете изменить его в настройках своего аккаунта.\n"
 "Ваш пароль для доступа к аккаунту: {0}\n"
 
-#: mail.py:29
+#: mail.py:21
+#, python-brace-format
+msgid ""
+"\n"
+"You have applied to address mapping {0} to your page on the website "
+"HeapsMe.\n"
+"If you did not, please ignore this letter.\n"
+"\n"
+"To complete the binding , click here:\n"
+"\n"
+"{1}\n"
+msgstr ""
+"\n"
+"Вы подали заявку на привязку адреса {0} к Вашей странице на сайте HeapsMe.\n"
+"Если Вы этого не делали, проигнорируйте это письмо.\n"
+"\n"
+"Чтобы завершить привязку, пройдите по ссылке:\n"
+"\n"
+"{1}\n"
+
+#: mail.py:37
 msgid "Validate your account"
 msgstr "Подтверждение аккаунта"
 
-#: mail.py:34
+#: mail.py:42
 msgid "Welcome to HeapsMe"
 msgstr "Добро пожаловать на HeapsMe"
 
-#: mail.py:39
+#: mail.py:47
 msgid "Reset password"
 msgstr "Восстановление пароля"
 
-#: views.py:96
+#: mail.py:51
+msgid "Binding E-Mail to the page"
+msgstr "Привязка E-Mail к странице"
+
+#: views.py:97 views.py:168
 #, python-brace-format
 msgid ""
 "An email validation was sent to {0}. Click the link sent to finish the "
 "authentication process."
 msgstr ""
-"Вам было выслано письмо на {0}. Для подтверждения перейдите по "
-"ссылке в письме."
+"Вам было выслано письмо на {0}. Для подтверждения перейдите по ссылке в "
+"письме."
 
-#: views.py:132
+#: views.py:138
 msgid "Celebrity record add."
-msgstr "Вы создали публичную страницу знаменитости. Наши модераторы проверят данные и в ближайшее время страница появится в сети HeapsMe."
+msgstr ""
+"Вы создали публичную страницу знаменитости. Наши модераторы проверят данные "
+"и в ближайшее время страница появится в сети HeapsMe."
 
-#: views.py:155
+#: views.py:166
 msgid "Account settings updated"
 msgstr "Настройки аккаунта обновлены"
 
-#: views.py:198
+#: views.py:287
 msgid "Invalid email or password."
 msgstr "Неправильный E-mail или пароль."
 
-#: views.py:249
+#: views.py:338
 msgid "To your email has been sent a letter with the recovery password."
 msgstr "На ваш E-mail отправленно письмо с новым паролем."
