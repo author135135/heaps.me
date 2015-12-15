@@ -1,7 +1,7 @@
 import hashlib
 import urllib
 from django.utils import timezone
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView
 from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import redirect, render
 from django.db.models import Q
@@ -62,7 +62,10 @@ class FormResponseMixin(object):
         response = super(FormResponseMixin, self).form_valid(form)
 
         if self.request.is_ajax():
-            return JsonResponse(self.response_data)
+            return JsonResponse({
+                'success': True,
+                'message': self.success_message
+            })
         else:
             return response
 
@@ -136,19 +139,10 @@ class AccountCelebrityAddView(FormResponseMixin, CreateView):
     template_name = 'heaps_app/account_celebrity_add.html'
     form_class = forms.CelebrityAddForm
     success_message = ugettext('Celebrity record add.')
-    response_data = dict()
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(AccountCelebrityAddView, self).dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        self.response_data = {
-            'success': True,
-            'message': self.success_message,
-        }
-
-        return super(AccountCelebrityAddView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('heaps_app:account-celebrity-add')
@@ -168,26 +162,31 @@ class AccountMySubscribes(CelebritiesPaginatedAjaxMixin, ListView):
         return models.Celebrity.public_records.filter(pk__in=self.request.user.get_my_subscribes())
 
 
-class AccountSettings(FormResponseMixin, UpdateView):
+class AccountSettings(TemplateView):
     template_name = 'heaps_app/account_settings.html'
-    form_class = forms.AccountSettingsInfoForm
-    second_form_class = forms.AccountSettingsAvatarForm
+    account_settings_info_form = forms.AccountSettingsInfoForm
+    account_settings_avatar_form = forms.AccountSettingsAvatarForm
+
     success_message = ugettext('Account settings updated')
     change_email_message = ugettext(
         'An email validation was sent to {0}. Click the link sent to finish the authentication process.')
-    response_data = dict()
+    ajax_response_data = dict()
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        if not hasattr(self, 'object'):
-            setattr(self, 'object', self.get_object())
         return super(AccountSettings, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(AccountSettings, self).get_context_data(**kwargs)
 
-        context['settings_info_form'] = context.pop('form')
-        context['settings_avatar_form'] = self.second_form_class()
+        # Set initial data
+        context['settings_info_form'] = self.account_settings_info_form(initial={
+            'first_name': self.request.user.first_name,
+            'last_name': self.request.user.last_name,
+            'email': self.request.user.email,
+        })
+
+        context['settings_avatar_form'] = self.account_settings_avatar_form()
 
         return context
 
@@ -205,38 +204,40 @@ class AccountSettings(FormResponseMixin, UpdateView):
         return super(AccountSettings, self).get(request, args, kwargs)
 
     def post(self, request, *args, **kwargs):
-        if request.POST['form_type'] == 'settings_avatar_form':
-            form_class = self.second_form_class
-        else:
-            form_class = self.form_class
+        form_class = request.POST.get('form_type')
+        relogin = False
 
-        form = self.get_form(form_class)
+        if not form_class or not hasattr(self, form_class):
+            return HttpResponseForbidden("Access denied")
+
+        form = getattr(self, form_class)(request.POST, request.FILES)
 
         if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+            user = models.User.objects.get(pk=request.user.pk)
 
-    def form_valid(self, form):
-        if isinstance(form, self.form_class):
-            self.response_data = {
-                'success': True,
-                'message': self.success_message,
-            }
+            password = 'password' in form.cleaned_data and form.cleaned_data.pop('password')
+            password_repeat = 'password_repeat' in form.cleaned_data and form.cleaned_data.pop('password_repeat')
+            email = 'email' in form.cleaned_data and form.cleaned_data.pop('email')
 
-            if form.cleaned_data['password'] and form.cleaned_data['password_repeat']:
-                email = self.request.user.email
-                password = form.cleaned_data['password']
-                user = authenticate(email=email, password=password)
+            # Check user change password
+            if password and password_repeat:
+                user.set_password(password)
+                relogin = True
 
-                login(self.request, user)
+            # Save user model attributes
+            for attr, value in form.cleaned_data.iteritems():
+                if hasattr(user, attr):
+                    setattr(user, attr, value)
 
-            elif 'email' in form.changed_data:
-                user = models.User.objects.get(pk=self.request.user.pk)
-                new_email = form.cleaned_data['email']
+            user.save()
 
-                form.instance.email = user.email
+            if relogin:
+                user_credentials = authenticate(email=user.email, password=password)
 
+                login(request, user_credentials)
+
+            # Check user change email
+            if email and email != user.email:
                 action_hash = hashlib.sha1(str(user.pk) + str(timezone.now())).hexdigest()
                 change_email_url = reverse('heaps_app:account-settings') + '?' + urllib.urlencode({
                     'action': 'account_change_email',
@@ -246,25 +247,33 @@ class AccountSettings(FormResponseMixin, UpdateView):
                 change_email_url = self.request.build_absolute_uri(change_email_url)
 
                 self.request.session['account_change_email'] = {
-                    'new_email': new_email,
+                    'new_email': email,
                     'action_hash': action_hash
                 }
 
-                mail.account_change_email_notification(new_email, change_email_url)
+                mail.account_change_email_notification(email, change_email_url)
 
-                self.response_data = {
-                    'message': self.change_email_message.format(new_email),
+                self.ajax_response_data = {
+                    'message': self.change_email_message.format(email),
                     'modal': True,
-                    'email_url': '//' + new_email.split('@')[1]
+                    'email_url': '//' + email.split('@')[1]
                 }
 
-        return super(AccountSettings, self).form_valid(form)
+            # Set default response data
+            if not self.ajax_response_data:
+                self.ajax_response_data = {
+                    'success': True,
+                    'message': self.success_message,
+                }
+        else:
+            self.ajax_response_data = {
+                'errors': form.errors,
+            }
 
-    def get_object(self, queryset=None):
-        return self.request.user
-
-    def get_success_url(self):
-        return reverse('heaps_app:account-settings')
+        if request.is_ajax():
+            return JsonResponse(self.ajax_response_data)
+        else:
+            return redirect(reverse('heaps_app:account-settings'))
 
     # User data manipulation actions
     def _account_change_email(self, new_email):

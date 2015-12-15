@@ -630,6 +630,8 @@
                 $('#message-modal .go-mail-info span').text(response['message']);
                 $('#message-modal .go-mail-info button').attr('data-url', response['email_url']);
 
+                $('input[name="password"], input[name="password_repeat"]', form).val('');
+
                 $("html, body").stop().animate({scrollTop: 0}, '1000', 'swing', function () {
                     $('#message-modal').modal('show');
                 });

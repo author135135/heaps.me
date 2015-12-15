@@ -102,27 +102,18 @@ class PasswordForgottenForm(forms.Form):
         return email
 
 
-class AccountSettingsAvatarForm(forms.ModelForm):
+class AccountSettingsAvatarForm(forms.Form):
     avatar = CroppedImageField()
-    form_type = forms.CharField(widget=forms.HiddenInput(), initial='settings_avatar_form')
-
-    class Meta:
-        model = models.User
-        fields = ('avatar',)
+    form_type = forms.CharField(widget=forms.HiddenInput(), initial='account_settings_avatar_form')
 
 
-class AccountSettingsInfoForm(forms.ModelForm):
+class AccountSettingsInfoForm(forms.Form):
+    first_name = forms.CharField(label=_('Firstname'), required=False)
+    last_name = forms.CharField(label=_('Lastname'), required=False)
+    email = forms.CharField(label=_('Email'))
     password = forms.CharField(label=_('Password'), widget=forms.PasswordInput, required=False)
     password_repeat = forms.CharField(label=_('Password repeat'), widget=forms.PasswordInput, required=False)
-    form_type = forms.CharField(widget=forms.HiddenInput(), initial='settings_info_form')
-
-    class Meta:
-        model = models.User
-        fields = ('first_name', 'last_name', 'email')
-        labels = {
-            'first_name': _('Firstname'),
-            'last_name': _('Lastname'),
-        }
+    form_type = forms.CharField(widget=forms.HiddenInput(), initial='account_settings_info_form')
 
     def clean(self):
         cleaned_data = super(AccountSettingsInfoForm, self).clean()
@@ -131,19 +122,6 @@ class AccountSettingsInfoForm(forms.ModelForm):
 
         if (password or password_repeat) and password != password_repeat:
             self.add_error('password_repeat', _('Password and Password repeat not equal'))
-
-    def save(self, commit=True):
-        user = super(AccountSettingsInfoForm, self).save(commit=False)
-        password = self.cleaned_data.get('password')
-        password_repeat = self.cleaned_data.get('password_repeat')
-
-        if password and password_repeat:
-            user.set_password(password)
-
-        if commit:
-            user.save()
-
-        return user
 
 
 # Admin forms
