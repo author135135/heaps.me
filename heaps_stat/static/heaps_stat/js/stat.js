@@ -14,6 +14,15 @@
             send_data('/heaps-stat/social-link-clicks/', data);
         });
 
+        $('.social-post-znam-page a').click(function(e){
+            var data = {};
+
+            data['social_network_name'] = $(this).parent().attr('class');
+            data['slug'] = window.location.pathname.replace(/^\/(.*)\/$/, '$1').split('/')[1];
+
+            send_data('/heaps-stat/social-link-clicks/', data);
+        });
+
         function send_data(url, data) {
             data['csrfmiddlewaretoken'] = getCookie('csrftoken');
 
