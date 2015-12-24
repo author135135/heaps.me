@@ -31,6 +31,12 @@
         }, 500);
     });
 
+    $('.subscribe-wrapper .but-remove-subscribe, .subscribe-wrapper .subscribe-remove-close').click(function(e) {
+        e.preventDefault();
+
+        $('.subscribe-wrapper').toggleClass('subscribe-wrapper-open');
+    });
+
     // Paginate
     var page = 2,
         in_progress = false,

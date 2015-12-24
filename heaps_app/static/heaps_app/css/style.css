@@ -270,29 +270,32 @@ button:focus {
     color: #313131;
     padding-top: 0px;
     font: 16px SegoeUIregular;
-    float: right;
-    margin-left: 12px;
 }
 
 .form-search input {
     float: left;
     background: transparent;
     border-radius: 0;
-    padding: 0.75em 1em 0.75em 2.2em;
-}
-
-.but-filter {
-    padding: 7px 16px;
+    padding: 0.75em 1em 0.75em 1.8em;
 }
 
 .but-filter {
     height: 100%;
+    position: relative;
     float: left;
     color: #838383;
-    border-radius: 10em;
-    margin: 3px 0 0 15px;
+    margin: 3px 0 0 1px;
+    padding: 7px 21px 7px 42px;
     text-decoration: none;
     cursor: pointer;
+    background: transparent url(../images/filter-icon.png) no-repeat 10px 11px;
+}
+
+.but-filter i {
+    position: absolute;
+    right: 0;
+    top: 11px;
+    color: #777;
 }
 
 .but-filter:hover, .but-filter.active {
@@ -310,7 +313,7 @@ input.search {
     outline: none;
     border: 0;
     background-image: url(../images/search-icon-gen.png);
-    background-position: 3px 13px;
+    background-position: 0px 14px;
     background-repeat: no-repeat;
 }
 
@@ -505,14 +508,12 @@ li.official-web a {
 a.but-subscribe {
     display: block;
     text-decoration: none;
-    padding: 12px 54px;
+    padding: 12px;
     width: 100%;
     font-size: 12px;
     font-family: SegoeUIbold;
     color: #444;
     background: #FAFAFA url(../images/chek-ic-but.png) no-repeat 10px 8px;
-    margin-top: -22px;
-    margin-bottom: 20px;
     text-align: center;
     text-transform: uppercase;
     border-radius: 2px;
@@ -538,8 +539,56 @@ a.but-remove-subscribe {
 a.but-remove-subscribe:hover, a.but-remove-subscribe:focus {
     color: #333333;
     background: none;
-    border-color: #B9B9B9;
+    border-color: #FAFAFA;
     font-family: SegoeUIbold;
+}
+
+.subscribe-wrapper {
+    margin-top: -22px;
+    height: 43px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.subscribe-wrapper-open {
+    height: auto;
+}
+
+.subscribe-wrapper i {
+    margin-left: 7px;
+}
+
+ul.subscribe-remove {
+    display: block;
+}
+
+ul.subscribe-remove li {
+    display: block;
+    float: left;
+}
+
+ul.subscribe-remove li:nth-child(1)  {
+    padding-left: 10px;
+}
+
+ul.subscribe-remove li:nth-child(2), ul.subscribe-remove li:nth-child(3) {
+    float: right;
+}
+
+ul.subscribe-remove li a {
+    display: block;
+    background-color: #E4E4E4;
+    color: #000;
+    text-decoration: none;
+    padding: 4px 14px;
+}
+
+ul.subscribe-remove li a:nth-child(1) {
+    margin-right: 2px;
+}
+
+ul.subscribe-remove li a:hover {
+    text-decoration: none;
 }
 
 ul.social-post-znam-page {

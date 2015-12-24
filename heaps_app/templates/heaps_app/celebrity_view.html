@@ -17,9 +17,14 @@
         </div>
         {% if user.is_authenticated %}
             {% if celebrity in user.celebrity_subscribe.all %}
-                <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}" class="but-subscribe but-remove-subscribe">
-                    Отписаться
-                </a>
+                <div class="subscribe-wrapper clearfix">
+                    <a href="" class="but-subscribe but-remove-subscribe">Вы подписаны<i class="fa  fa-caret-down"></i></a>
+                    <ul class="subscribe-remove">
+                        <li>Отписаться?</li>
+                        <li><a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}">Да</a></li>
+                        <li><a href="#" class="subscribe-remove-close">Нет</a></li>
+                    </ul>
+                </div>
             {% else %}
                 <a href="{% url 'heaps_app:celebrity-subscribe' slug=celebrity.slug %}" class="but-subscribe">
                     Подписаться
