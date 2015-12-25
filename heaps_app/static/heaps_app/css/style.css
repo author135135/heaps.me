@@ -113,7 +113,7 @@ button:focus {
 }
 
 .user-descrpt-sidebar {
-    background: #e4e4e4;
+    background: #F3F3F3;
     text-align: center;
 }
 
@@ -159,8 +159,8 @@ button:focus {
 
 #nav ul {
     display: block;
-    background: #FFFFFF;
-    padding-bottom: 2px;
+    background: #EAEAEA;
+    padding: 1px 0;
 }
 
 #nav ul li {
@@ -191,7 +191,7 @@ button:focus {
     outline: 0;
     border: 0;
     text-align: right;
-    background: #EAEAEA;
+    background: #F3F3F3;
     -moz-transition: 0.3s;
     -webkit-transition: 0.3s;
     -ms-transition: 0.3s;
@@ -205,7 +205,7 @@ button:focus {
 
 #nav .active {
     color: #3C3C3C;
-    background: #EAEAEA;
+    background: #F3F3F3;
     font-family: SegoeUIbold;
 }
 
@@ -560,19 +560,22 @@ a.but-remove-subscribe:hover, a.but-remove-subscribe:focus {
 
 ul.subscribe-remove {
     display: block;
+    padding: 1px 0;
 }
 
 ul.subscribe-remove li {
     display: block;
     float: left;
+    width: 40%;
 }
 
 ul.subscribe-remove li:nth-child(1)  {
-    padding-left: 10px;
+    padding: 4px 0 0 10px;
 }
 
 ul.subscribe-remove li:nth-child(2), ul.subscribe-remove li:nth-child(3) {
     float: right;
+    width: 30%;
 }
 
 ul.subscribe-remove li a {
@@ -581,6 +584,7 @@ ul.subscribe-remove li a {
     color: #000;
     text-decoration: none;
     padding: 4px 14px;
+    text-align: center;
 }
 
 ul.subscribe-remove li a:nth-child(1) {
@@ -1202,9 +1206,9 @@ span.t-social {
     margin-top: 100px;
     display: block;
     width: 100%;
-    background-color: #E7E7E7;
+    background-color: #F0F0F0;
     padding: 0 16px;
-    border-radius: 6px;
+    border-radius: 2px;
 }
 
 .modal form .head-form {
@@ -1314,7 +1318,7 @@ span.t-social {
     float: right;
     width: 100%;
     height: 16px;
-    background: #E7E7E7;
+    background: #F0F0F0;
 }
 
 .send {
@@ -1527,7 +1531,7 @@ a.link-reg-log-mod:hover {
 }
 
 .filter-wrap-category li:hover label, .filter-wrap-category li.active label {
-    background-position-y: -130px;
+    background-position-y: -98px;
     background-color: #3A3A3A;
 }
 
@@ -1564,7 +1568,7 @@ a.link-reg-log-mod:hover {
 }
 
 .filter-gen-wrapper a.bx-prev:hover, .filter-gen-wrapper a.bx-next:hover {
-    background-color: #E7E7E7;
+    background-color: #E4E4E4;
 }
 
 .filter-wrap-category .descr-link-ic {
@@ -1782,26 +1786,27 @@ a.link-reg-log-mod:hover {
 }
 
 .buttons-filter-wrapper button {
-    display: block;
+		display: block;
     float: left;
-    font-size: 16px;
-    color: #FFFFFF;
+    font-size: 14px;
+    color: #090909;
+    background-color: #FFF;
     padding: 10px 25px;
-    border: 0;
-    background-color: #545454;
-    font-family: SegoeUIregular;
+    border: 1px solid #3A3A3A;
+    font-family: SegoeUIbold;
     border-radius: 2px;
 }
 
 .buttons-filter-wrapper button:nth-child(1):hover {
-    background-color: #2B2B2B;
+		background-color: #FFFFFF;
     transition: 0.3s;
 }
 
 .buttons-filter-wrapper button:nth-child(2) {
-    color: #6E6E6E;
+		color: #6E6E6E;
     background: rgb(255, 255, 255);
     margin-left: 2px;
+    border-color: #FFF;
 }
 
 .buttons-filter-wrapper button:nth-child(2):hover {
