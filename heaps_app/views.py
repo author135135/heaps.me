@@ -22,7 +22,8 @@ class CelebritiesFilterMixin(object):
         filter_tags = self.request.GET.get('filter_tags', None)
 
         if filter_tags:
-            qs = qs.filter(filter__pk__in=self.request.GET['filter_tags'].split(',')).distinct()
+            for tag_id in self.request.GET['filter_tags'].split(','):
+                qs = qs.filter(filter__pk=tag_id).distinct()
 
         query = self.request.GET.get('query', None)
 
