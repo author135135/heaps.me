@@ -491,12 +491,28 @@ li.official-web a {
     height: auto !important;
 }
 
-/* znamenitost page */
+/*********************** PERSON PAGE ************************/
 
 .full-description {
     font-size: 17px;
     line-height: 26px;
     color: #777;
+    overflow: hidden;
+    max-height: 80px;
+}
+
+.full-description-open {
+    max-height: none;
+}
+
+.load-full-description {
+    color: #333fff;
+    text-decoration: underline;
+}
+
+.full-description-open + .load-full-description {
+    color: red;
+    text-decoration: underline;
 }
 
 .person-name-general {
@@ -923,7 +939,7 @@ span.t-social {
     padding-top: 7px;
 }
 
-/* LOAD BUTTON */
+/************************* LOAD BUTTON ************************/
 
 .but-load {
     padding-top: 40px;
@@ -960,7 +976,7 @@ span.t-social {
     background-position: center;
 }
 
-/* MODAL*/
+/************************** MODAL************************/
 
 .mod-user-photo-upload {
     display: none;
@@ -1049,7 +1065,7 @@ span.t-social {
     outline: none;
 }
 
-/* Mod-basic-info */
+/************************ Mod-basic-info *********************/
 
 .mod-basic-info {
     display: none;
@@ -1189,7 +1205,7 @@ span.t-social {
     outline: none;
 }
 
-/* Mod-EmailVerif */
+/******************* Mod-EmailVerif ***************************/
 
 .modal, .modal-EmailVerif {
     position: fixed;
@@ -1419,7 +1435,7 @@ a.link-reg-log-mod:hover {
     transition: 0.3s;
 }
 
-/* FILTER GENERAL */
+/************************** FILTER GENERAL ********************/
 
 .bx-wrapper .bx-viewport {
     border: 0;
@@ -1532,7 +1548,7 @@ a.link-reg-log-mod:hover {
 
 .filter-wrap-category li:hover label, .filter-wrap-category li.active label {
     background-position-y: -98px;
-    background-color: #3A3A3A;
+    background-color: #171717;
 }
 
 .filter-wrap-category li:hover label .descr-link-ic, .filter-wrap-category li.active label .descr-link-ic {
@@ -1754,7 +1770,7 @@ a.link-reg-log-mod:hover {
 }
 
 .filter-wrap-social li:hover label, .filter-wrap-social li.active label {
-    background-color: #3A3A3A;
+    background-color: #171717;
 }
 
 .filter-wrap-social a.bx-prev {
@@ -1938,7 +1954,7 @@ a.link-reg-log-mod:hover {
     background-color: #777;
 }
 
-/* FOOTER */
+/*************************** FOOTER *************************/
 
 footer {
     background: #F2F2F2;
@@ -1995,7 +2011,7 @@ footer li a {
     font: 18px SegoeUIbold;
 }
 
-/* 404 */
+/**************************** 404 ********************/
 
 .wrap-404 span, .wrap-404 a {
     display: block;

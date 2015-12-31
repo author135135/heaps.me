@@ -411,6 +411,18 @@
         }
     });
 
+    // Toggle celebrity description
+    if ($('.full-description').length && ($('.full-description *').height() > parseFloat($('.full-description').css('maxHeight')))) {
+        $('.full-description').after('<a href="#" class="load-full-description">Полное описание</a>');
+    }
+
+    $(document).on('click', '.load-full-description', function(e){
+        e.preventDefault();
+
+        $(this).prev().toggleClass('full-description-open');
+        $(this).text($(this).text() == 'Полное описание' ? 'Скрыть описание' : 'Полное описание');
+    });
+
     // Forgotten password form
     $('#forgotten-password').on('show.bs.modal', function (e) {
         $('#login').modal('hide');
@@ -489,7 +501,7 @@
                 }
                 reader.readAsDataURL(input.files[0]);
             } else console.log('is not image mime type');
-        } else console.log('not isset files data or files API not supordet');
+        } else console.log('not isset files data or files API not supported');
     });
 
     $('#add-celebrity').submit(function (e) {
