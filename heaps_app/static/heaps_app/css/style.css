@@ -183,7 +183,7 @@ button:focus {
 
 #nav ul li a {
     display: block;
-    padding: 15px 2em 14px 0.8em;
+    padding: 13px 2em 13px 0.8em;
     font-family: SegoeUIregular;
     font-size: 1.2em;
     color: #2A2A2A;
@@ -494,11 +494,15 @@ li.official-web a {
 /*********************** PERSON PAGE ************************/
 
 .full-description {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 26px;
     color: #777;
     overflow: hidden;
     max-height: 80px;
+}
+
+.full-description p {
+	margin-bottom: 0;
 }
 
 .full-description-open {
@@ -506,13 +510,28 @@ li.official-web a {
 }
 
 .load-full-description {
-    color: #333fff;
-    text-decoration: underline;
+		display: block;
+    color: #3E3E3E;
+    margin: 6px 0;
+    padding: 6px 10px 6px 10px;
+    background-color: #E8E8E8;
+    font-size: 14px;
+    text-decoration: none;
+    float: left;
+}
+
+.load-full-description:hover  {
+	  color: #000;
+	  text-decoration: none;
+}
+
+.load-full-description:focus {
+	text-decoration: none;
+	color: inherit;
 }
 
 .full-description-open + .load-full-description {
-    color: red;
-    text-decoration: underline;
+    color: #000;
 }
 
 .person-name-general {
@@ -603,7 +622,7 @@ ul.subscribe-remove li a {
     text-align: center;
 }
 
-ul.subscribe-remove li a:nth-child(1) {
+ul.subscribe-remove li:nth-child(1) a {
     margin-right: 2px;
 }
 
@@ -620,9 +639,9 @@ ul.social-post-znam-page {
 
 .social-post-znam-page li {
     float: left;
-    width: 15%;
+    width: 64px;
     height: 38px;
-    margin: 6px 2% 0 0;
+    margin: 6px 6px 0 0;
     display: block;
 }
 
@@ -633,12 +652,8 @@ ul.social-post-znam-page {
     border: 0;
 }
 
-.social-post-znam-page li:nth-child(6n) {
-    margin-right: 0;
-}
-
 #main-wrapper .content-similars {
-    padding-top: 80px;
+    padding-top: 40px;
     clear: both;
 }
 
@@ -648,7 +663,7 @@ ul.social-post-znam-page {
     padding: 10px 0;
     font-size: 20px;
     font-family: SegoeUIbold;
-    margin-bottom: 36px;
+    margin-bottom: 30px;
     text-transform: uppercase;
 }
 
@@ -1256,13 +1271,18 @@ span.t-social {
 }
 
 .but-close-form {
-    height: 100%;
-    width: 64px;
-    background: transparent url(../images/close-forms.png) no-repeat center;
+		height: 30px;
+    width: 30px;
+    background: transparent url(../images/close-forms.png) no-repeat;
+    background-position: 9px 9px;
     position: absolute;
-    top: -8px;
-    right: -19px;
+    top: 10px;
+    right: -6px;
     cursor: pointer;
+}
+
+.but-close-form:hover {
+    background-position: 9px -28px;
 }
 
 .input-box {

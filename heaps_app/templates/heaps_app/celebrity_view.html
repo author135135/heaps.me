@@ -1,7 +1,16 @@
 {% extends 'heaps_app/base_html.html' %}
 {% load thumbnail %}
 
-{% block title %}{{ celebrity }}{% endblock %}
+{% block title %}{{ celebrity.meta_title|default:celebrity }}{% endblock %}
+
+{% block seo %}
+    {% if celebrity.meta_description %}
+        <meta name="description" content="{{ celebrity.meta_description }}">
+    {% endif %}
+    {% if celebrity.meta_description %}
+        <meta name="keywords" content="{{ celebrity.meta_keywords }}">
+    {% endif %}
+{% endblock %}
 
 {% block content %}
     <div class="col-md-4 col-sm-6">
