@@ -22,8 +22,17 @@ class CelebritiesFilterMixin(object):
         filter_tags = self.request.GET.get('filter_tags', None)
 
         if filter_tags:
-            for tag_id in self.request.GET['filter_tags'].split(','):
-                qs = qs.filter(filter__pk=tag_id).distinct()
+            filter_tags = filter_tags.split(',')
+            filter_career = models.Filter.objects.filter(pk__in=filter_tags, filter_type='career')
+            filter_social_network = models.Filter.objects.filter(pk__in=filter_tags, filter_type='social_network')
+
+            if filter_career:
+                qs = qs.filter(filter__in=filter_career)
+
+            if filter_social_network:
+                qs = qs.filter(filter__in=filter_social_network)
+
+            qs = qs.distinct()
 
         query = self.request.GET.get('query', None)
 
