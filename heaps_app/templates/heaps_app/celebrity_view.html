@@ -59,7 +59,9 @@
                 </ul>
 
                 {% for social_network in celebrity.socialnetwork_set.all %}
-                    <div class="content-news {{ social_network.social_network }} {% if forloop.first %}active{% endif %}"></div>
+                    <div class="content-news {{ social_network.social_network }} {% if forloop.first %}active{% endif %}">
+                        <div class="load-news load-motion"></div>
+                    </div>
                 {% endfor %}
             </div>
         {% endif %}

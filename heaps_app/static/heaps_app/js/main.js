@@ -418,7 +418,7 @@
 
     // Social posts block loader
     var social_network_block_load = function() {
-        if (!$('.content-news.active *').length) {
+        if (!$('.content-news.active .head-soc-news').length) {
             var request_data = {},
                 social_network = $('.social-post-znam-page .active').attr('class').replace(/(?:^|\s)active(?!\S)/g , '');
 
@@ -426,6 +426,10 @@
             request_data['block_has_content'] = $('.content-news.' + social_network + ' *').length;
 
             $.get(window.location.href + 'social-posts-loader/', request_data, function(response){
+                if ($('.content-news.' + social_network + ' > .load-news').length) {
+                    $('.content-news.' + social_network + ' > .load-news').remove();
+                }
+
                 if (response['header']) {
                     $('.content-news.' + social_network).append(response['header']);
                 }
@@ -487,7 +491,7 @@
     });
 
     if ($('.social-post-znam-page').length) {
-        if ($('.social-post-znam-page .facebook').length) {
+        if ($('.social-post-znam-page .facebook').length && $('.social-post-znam-page .facebook').index() != 0) {
             $('.social-post-znam-page .facebook a').click();
         } else {
             social_network_block_load();

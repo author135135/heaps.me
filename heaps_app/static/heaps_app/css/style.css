@@ -924,7 +924,7 @@ a.but-go-sosial-web {
     font-family: SegoeUIbold;
 }
 
-.load-more-news {
+.load-news, .load-more-news {
     padding: 15px 15px;
     width: 100%;
     min-height: 60px;
