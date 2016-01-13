@@ -423,7 +423,7 @@
                 social_network = $('.social-post-znam-page .active').attr('class').replace(/(?:^|\s)active(?!\S)/g , '');
 
             request_data['social_network'] = social_network;
-            request_data['block_has_content'] = $('.content-news.' + social_network + ' *').length;
+            request_data['block_has_content'] = $('.content-news.' + social_network + ' .head-soc-news').length;
 
             $.get(window.location.href + 'social-posts-loader/', request_data, function(response){
                 if ($('.content-news.' + social_network + ' > .load-news').length) {
