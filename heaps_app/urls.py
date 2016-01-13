@@ -16,6 +16,7 @@ person_patterns = [
     url(r'^email-sent/$', mail.email_validation),
     url(r'^(?P<slug>[\w-]+)/$', views.CelebrityView.as_view(), name='celebrity-view'),
     url(r'^(?P<slug>[\w-]+)/subscribe/$', views.celebrity_subscribe, name='celebrity-subscribe'),
+    url(r'^(?P<slug>[\w-]+)/social-posts-loader/$', views.social_posts_loader, name='celebrity-social-posts-loader'),
 ]
 
 urlpatterns = [

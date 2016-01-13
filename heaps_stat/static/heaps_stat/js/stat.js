@@ -14,10 +14,10 @@
             send_data('/heaps-stat/social-link-clicks/', data);
         });
 
-        $('.social-post-znam-page a').click(function(e){
+        $(document).on('click', '.but-go-sosial-web, .com-soon', function(e) {
             var data = {};
 
-            data['social_network_name'] = $(this).parent().attr('class');
+            data['social_network_name'] = $('.social-post-znam-page .active').attr('class').replace(/(?:^|\s)active(?!\S)/g , '');
             data['slug'] = window.location.pathname.replace(/^\/(.*)\/$/, '$1').split('/')[1];
 
             send_data('/heaps-stat/social-link-clicks/', data);

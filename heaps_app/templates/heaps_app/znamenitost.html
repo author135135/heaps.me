@@ -1,0 +1,625 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>HeapsMe</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+</head>
+<body>
+<!-- Header -->
+<div id="header">
+    <div id="sidebarToggle"><a href="#sidebar" class="toggle"></a></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <form action="" class="form-search">
+                    <div class="search-wrap">
+                        <input id="search-input" type="text" placeholder="Найти" class="search">
+
+                        <div class="but-filter active"><i class="fa  fa-caret-down"></i><span>Фильтр</span></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="sidebar">
+    <!-- Logo -->
+    <div class="user-descrpt-sidebar clearfix">
+        <div id="logo">
+            <a href="index.html">HeapsMe</a>
+        </div>
+        <div class="descr-user-photo"><img src="assets/images/user-mart.png" alt=""></div>
+        <span>Ярослав Дарьин</span>
+    </div>
+    <!-- Nav -->
+    <nav id="nav">
+        <ul>
+            <li><a href="home.html" class="active"><span class="icon fa-users">Все</span></a></li>
+            <li><a href="my-f.html"><span class="icon fa-check-square-o">Мои подписки</span></a></li>
+            <li><a href="create-person.html"><span class="icon fa-plus">Добавить</span></a></li>
+            <li><a href="user-settings.html"><span class="icon fa-cog">Настройки</span></a></li>
+            <li><a href="index.html"><span class="icon fa-power-off">Выход</span></a></li>
+        </ul>
+    </nav>
+</div>
+<!-- Main -->
+<div id="main">
+    <div id="main-wrapper">
+        <form action="" class="form-filter-gen">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="filter-gen-wrapper">
+                            <span>Фильтр</span>
+
+                            <div class="filter-wrap-category clearfix">
+                                <ul class="bxslider">
+                                    <li class="actors"><label><span class="descr-link-ic">Актеры</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="bloggers active"><label><span class="descr-link-ic">Блогеры</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="dj"><label><span class="descr-link-ic">Диджеи</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="business"><label><span class="descr-link-ic">Бизнесмены</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="game"><label><span class="descr-link-ic">Геймеры</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="models"><label><span class="descr-link-ic">Модели</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="singers"><label><span class="descr-link-ic">Певцы</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="politicians"><label><span class="descr-link-ic">Политики</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="sport"><label><span class="descr-link-ic">Спортсмены</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="tv-radio"><label><span class="descr-link-ic">Теле Радио</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="hip-hop"><label><span class="descr-link-ic">Хип-хоп</span><input
+                                            type="checkbox"></label></li>
+                                    <li class="humor"><label><span class="descr-link-ic">Юмористы</span><input
+                                            type="checkbox"></label></li>
+                                </ul>
+                            </div>
+                            <div class="filter-wrap-social clearfix">
+                                <ul class="sl-soc-filter-gen">
+                                    <li class="ask-fm"><label for=""><input type="checkbox"></label></li>
+                                    <li class="wikipedia"><label for=""><input type="checkbox"></label></li>
+                                    <li class="vk active"><label for=""><input type="checkbox"></label></li>
+                                    <li class="github"><label for=""><input type="checkbox"></label></li>
+                                    <li class="plus-google"><label for=""><input type="checkbox"></label></li>
+                                    <li class="livejournal"><label for=""><input type="checkbox"></label></li>
+                                    <li class="instagram active"><label for=""><input type="checkbox"></label></li>
+                                    <li class="linkedin"><label for=""><input type="checkbox"></label></li>
+                                    <li class="myspace"><label for=""><input type="checkbox"></label></li>
+                                    <li class="my-mail"><label for=""><input type="checkbox"></label></li>
+                                    <li class="ok-ru"><label for=""><input type="checkbox"></label></li>
+                                    <li class="promodj"><label for=""><input type="checkbox"></label></li>
+                                    <li class="soundcloud"><label for=""><input type="checkbox"></label></li>
+                                    <li class="twitter"><label for=""><input type="checkbox"></label></li>
+                                    <li class="twitch"><label for=""><input type="checkbox"></label></li>
+                                    <li class="facebook"><label for=""><input type="checkbox"></label></li>
+                                    <li class="youtube"><label for=""><input type="checkbox"></label></li>
+                                    <li class="official-web"><label for=""><input type="checkbox"></label></li>
+                                </ul>
+                            </div>
+                            <div class="buttons-filter-wrapper clearfix">
+                                <button>Применить</button>
+                                <button>Сбросить фильтр</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="section-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="post-wrapper clearfix">
+                            <div class="layout-photo">
+                                <img src="assets/images/hloya.jpg" alt="img">
+                            </div>
+                        </div>
+                        <div class="subscribe-wrapper clearfix">
+                            <a href="" class="but-subscribe but-remove-subscribe">Вы подписаны<i
+                                    class="fa  fa-caret-down"></i></a>
+                            <ul class="subscribe-remove">
+                                <li>Отписаться?</li>
+                                <li><a href="#">Да</a></li>
+                                <li><a href="#">Нет</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-6">
+                        <div class="person-name-general">
+                            Джим Кери
+                        </div>
+                        <div class="full-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
+                            incidunt, adipisci nobis hic recusandae eos dignissimos quam reiciendis perspiciatis atque
+                            voluptas eum, aut vitae odio perferendis earum quas esse quo? Aliquid incidunt, adipisci
+                            nobis hic recusandae eos dignissimos quam reiciendis perspiciatis atque voluptas eum, aut
+                            vitae odio perferendis earum quas esse quo?
+                        </div>
+                        <a href="#" class="load-full-description">Полное описание</a>
+
+                        <div class="tabs-social-news">
+                            <ul class="social-post-znam-page">
+                                <li class="facebook active"><a href="#"></a></li>
+                                <li class="vk"><a href="#"></a></li>
+                                <li class="twitter"><a href="#"></a></li>
+                                <li class="youtube"><a href="#"></a></li>
+                            </ul>
+                            <div class="content-news  facebook active">
+                                <div class="head-soc-news">
+                                    <div class="wrapper-bg clearfix">
+                                        <div class="avatar">
+                                            <img src="assets/images/avatar.jpg" alt="">
+                                        </div>
+                                        <div class="description-social">
+                                            <span>Мартин Гаррикс</span>
+                                            <span>Последние новости Facebook</span>
+                                        </div>
+                                        <a class="but-go-sosial-web" href="#"></a>
+                                    </div>
+                                </div>
+                                <div class="wrapper-post-soc-news clearfix">
+                                    <div class="head-post-news clearfix">
+                                        <div class="avatar">
+                                            <img src="assets/images/avatar.jpg" alt="">
+                                        </div>
+                                        <div class="description-social-post">
+                                            <span>Мартин Гаррикс</span>
+                                            <span>5 января  13:45</span>
+                                        </div>
+                                        <a class="but-go-sosial-web" href="#"></a>
+                                    </div>
+                                    <div class="content-post">
+                                        <div class="message-post">
+                                            Very grateful for the amazing year we had together! Starting 2016 with such
+                                            an amazing fun show in HAPPY EARLY NEW YEAR!! ‪#‎Bouncybob‬ is out NOW for
+                                            FREE on http://martingarrix.com
+                                        </div>
+                                        <div class="media-container">
+                                            <div class="media-box">
+                                                <div class="prev-video">
+                                                    <img src="assets/images/jason_statham.jpg" alt="">
+
+                                                    <div class="play-button"></div>
+                                                </div>
+                                            </div>
+                                            <div class="media-description">
+                                                <span>Dillon Francis & Martin Garrix - Set Me Free (Official Music Video)</span>
+                                                <span>Very grateful for the amazing year we had together! Starting 2016 with such an amazing fun show</span>
+                                                <span>YOUTUBE</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wrapper-post-soc-news clearfix">
+                                    <div class="head-post-news clearfix">
+                                        <div class="avatar">
+                                            <img src="assets/images/avatar.jpg" alt="">
+                                        </div>
+                                        <div class="description-social-post">
+                                            <span>Мартин Гаррикс</span>
+                                            <span>5 января  13:45</span>
+                                        </div>
+                                        <a class="but-go-sosial-web" href="#"></a>
+                                    </div>
+                                    <div class="content-post">
+                                        <div class="message-post">
+                                            Very grateful for the amazing year we had together! Starting 2016 with such
+                                            an amazing fun show in HAPPY EARLY NEW YEAR!! ‪#‎Bouncybob‬ is out NOW for
+                                            FREE on http://martingarrix.com
+                                        </div>
+                                        <div class="media-container">
+                                            <div class="media-box">
+                                                <div class="prev-img">
+                                                    <img src="assets/images/Dwayne-Johnson.jpg" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wrapper-post-soc-news clearfix">
+                                    <div class="head-post-news clearfix">
+                                        <div class="avatar">
+                                            <img src="assets/images/avatar.jpg" alt="">
+                                        </div>
+                                        <div class="description-social-post">
+                                            <span>Мартин Гаррикс</span>
+                                            <span>5 января  13:45</span>
+                                        </div>
+                                        <a class="but-go-sosial-web" href="#"></a>
+                                    </div>
+                                    <div class="content-post">
+                                        <div class="message-post">
+                                            Very grateful for the amazing year we had together! Starting 2016 with such
+                                            an amazing fun show in HAPPY EARLY NEW YEAR!! ‪#‎Bouncybob‬ is out NOW for
+                                            FREE on http://martingarrix.com
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wrapper-post-soc-news clearfix">
+                                    <div class="head-post-news clearfix">
+                                        <div class="avatar">
+                                            <img src="assets/images/avatar.jpg" alt="">
+                                        </div>
+                                        <div class="description-social-post">
+                                            <span>Мартин Гаррикс</span>
+                                            <span>5 января  13:45</span>
+                                        </div>
+                                        <a class="but-go-sosial-web" href="#"></a>
+                                    </div>
+                                    <div class="content-post">
+                                        <div class="media-container">
+                                            <div class="media-box">
+                                                <div class="prev-img">
+                                                    <img src="assets/images/Dwayne-Johnson.jpg" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="load-more-news load-motion">
+                                    <button>Загрузить еще</button>
+                                </div>
+                            </div>
+                            <div class="content-news vk">
+                                <div class="head-soc-news">
+                                    <div class="wrapper-bg clearfix">
+                                        <a class="com-soon" href="https://vk.com/martingarrix">https://vk.com/martingarrix</a>
+                                        <a class="but-go-sosial-web" href="#"></a>
+                                    </div>
+                                </div>
+                                <div class="com-soon-box">
+                                    Скоро мы подключим и эту ленту новостей.
+                                </div>
+                            </div>
+                            <div class="content-news twitter">
+                                <div class="head-soc-news">
+                                    <div class="wrapper-bg clearfix">
+                                        <div class="avatar">
+                                            <img src="assets/images/avatar.jpg" alt="">
+                                        </div>
+                                        <div class="description-social">
+                                            <span>Мартин Гаррикс</span>
+                                            <span>Последние новости Twitter</span>
+                                        </div>
+                                        <a class="but-go-sosial-web" href="#"></a>
+                                    </div>
+                                </div>
+                                <img src="assets/images/coming-soon.png" alt="">
+                            </div>
+                            <div class="content-news youtube">
+                                <div class="head-soc-news">
+                                    <div class="wrapper-bg clearfix">
+                                        <div class="avatar">
+                                            <img src="assets/images/avatar.jpg" alt="">
+                                        </div>
+                                        <div class="description-social">
+                                            <span>Мартин Гаррикс</span>
+                                            <span>Последние новости YouTube</span>
+                                        </div>
+                                        <a class="but-go-sosial-web" href="#"></a>
+                                    </div>
+                                </div>
+                                <img src="assets/images/coming-soon.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-similars">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span>Знаменитости из похожей категории</span>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="post-wrapper clearfix">
+                                        <div class="layout-photo">
+                                            <a href=""><img src="assets/images/rihanna.jpg" alt="img"></a>
+                                            <a href="" class="name-post-container">
+                    <span class="person-name">
+                      Рианна
+                    </span>
+                    <span class="person-short-description">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias nihil reprehenderit ad, saepe doloribus.
+                    </span>
+                                            </a>
+                                        </div>
+                                        <ul class="social-post">
+                                            <li class="facebook"><a href="https://www.facebook.com/vitaldark"
+                                                                    target="_blank"></a></li>
+                                            <li class="vk"><a href="https://vk.com/jamescarrey" target="_blank"></a>
+                                            </li>
+                                            <li class="twitter"><a href="https://twitter.com/jimcarrey"
+                                                                   target="_blank"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="but-load clearfix">
+                                        <button>Загрузить еще</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/jquery.scrollzer.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="assets/js/jquery.bxslider.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/person-tabs.js"></script>
+</body>
+</html>

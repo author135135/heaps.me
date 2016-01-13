@@ -416,12 +416,120 @@
         $('.full-description').after('<a href="#" class="load-full-description">Полное описание</a>');
     }
 
+    // Social posts block loader
+    var social_network_block_load = function() {
+        if (!$('.content-news.active *').length) {
+            var request_data = {},
+                social_network = $('.social-post-znam-page .active').attr('class').replace(/(?:^|\s)active(?!\S)/g , '');
+
+            request_data['social_network'] = social_network;
+            request_data['block_has_content'] = $('.content-news.' + social_network + ' *').length;
+
+            $.get(window.location.href + 'social-posts-loader/', request_data, function(response){
+                if (response['header']) {
+                    $('.content-news.' + social_network).append(response['header']);
+                }
+
+                $('.content-news.' + social_network).append(Autolinker.link(response['content']));
+
+                if (response['has_next']) {
+                    var button_html = '<div class="load-more-news load-motion clearfix"><button value="2">Загрузить еще</button></div>'
+                    $('.content-news.' + social_network).append(button_html);
+                }
+            }, 'json');
+        }
+    };
+
+    // Social posts paginate handler
+    $(document).on('click', '.content-news.active .load-more-news button', function(e) {
+        e.preventDefault();
+
+        var request_data = {},
+            social_network = $('.social-post-znam-page .active').attr('class').replace(/(?:^|\s)active(?!\S)/g , ''),
+            page = $(this).attr('value');
+
+        $('.content-news.' + social_network + ' .load-more-news button').remove();
+
+        request_data['social_network'] = social_network;
+        request_data['block_has_content'] = 1;
+        request_data['page'] = page;
+
+        $.get(window.location.href + 'social-posts-loader/', request_data, function(response){
+            $('.content-news.' + social_network + ' .load-more-news').remove();
+            $('.content-news.' + social_network).append(Autolinker.link(response['content']));
+
+            if (response['has_next']) {
+                page++;
+
+                var button_html = '<div class="load-more-news load-motion clearfix"><button value="' + page + '">Загрузить еще</button></div>'
+                $('.content-news.' + social_network).append(button_html);
+            }
+        }, 'json');
+    });
+
+    // Social tabs
+    $('.social-post-znam-page li a').click(function(e) {
+        e.preventDefault();
+
+        var list_item = $(this).parent();
+
+        if (list_item.hasClass('active')) {
+            return false;
+        }
+
+        $('.social-post-znam-page li').removeClass('active');
+        $('.content-news').removeClass('active');
+
+        $('.content-news.' + list_item.attr('class')).addClass('active');
+        list_item.addClass('active');
+
+        social_network_block_load();
+    });
+
+    if ($('.social-post-znam-page').length) {
+        if ($('.social-post-znam-page .facebook').length) {
+            $('.social-post-znam-page .facebook a').click();
+        } else {
+            social_network_block_load();
+        }
+    }
+
     $(document).on('click', '.load-full-description', function(e){
         e.preventDefault();
 
         $(this).prev().toggleClass('full-description-open');
         $(this).text($(this).text() == 'Полное описание' ? 'Скрыть описание' : 'Полное описание');
     });
+
+    // Social posts content
+
+    // Facebook block
+    $(document).on('click', '.play-button', function(e) {
+        var media_box = $(this).parents('.media-box');
+
+        $(this).after('<iframe src="' + $('img', media_box).attr('data-url') + '"></iframe>');
+
+        $('img', media_box).remove();
+        $(this).remove();
+
+        media_box.next().addClass('left');
+    });
+
+    $(document).on('click', '.media-description .title a', function(e) {
+        var data_url = $(this).attr('data-url'),
+            media_box = $(this).parents('.media-description').prev();
+
+        if (data_url) {
+            e.preventDefault();
+
+            $('.prev-video', media_box).append('<iframe src="' + data_url + '"></iframe>');
+            $(this).removeAttr('data-url');
+
+            media_box.next().addClass('left');
+        }
+    });
+
+    // End Social posts content
 
     // Forgotten password form
     $('#forgotten-password').on('show.bs.modal', function (e) {

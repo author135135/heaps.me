@@ -1,4 +1,5 @@
 {% extends 'heaps_app/base_html.html' %}
+{% load static %}
 {% load thumbnail %}
 
 {% block title %}{{ celebrity.meta_title|default:celebrity }}{% endblock %}
@@ -46,14 +47,21 @@
     <div class="col-md-8 col-sm-6">
         <div class="person-name-general">{{ celebrity }}</div>
         <div class="full-description">{{ celebrity.description|safe }}</div>
+
         {% if celebrity.socialnetwork_set.count %}
-            <ul class="social-post-znam-page">
+            <div class="tabs-social-news">
+                <ul class="social-post-znam-page">
+                    {% for social_network in celebrity.socialnetwork_set.all %}
+                        <li class="{{ social_network.social_network }} {% if forloop.first %}active{% endif %}">
+                            <a href="#"></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
                 {% for social_network in celebrity.socialnetwork_set.all %}
-                    <li class="{{ social_network.social_network }}">
-                        <a href="{{ social_network.url }}" target="_blank"></a>
-                    </li>
+                    <div class="content-news {{ social_network.social_network }} {% if forloop.first %}active{% endif %}"></div>
                 {% endfor %}
-            </ul>
+            </div>
         {% endif %}
     </div>
     {% if celebrities %}
@@ -68,4 +76,8 @@
             </div>
         </div>
     {% endif %}
+{% endblock %}
+
+{% block additional_scripts %}
+    <script type="application/javascript" src="{% static 'heaps_app/js/Autolinker.min.js' %}"></script>
 {% endblock %}

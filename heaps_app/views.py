@@ -1,7 +1,7 @@
 import hashlib
 import urllib
 from django.utils import timezone
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView
+from django.views.generic import ListView, CreateView, DetailView, TemplateView
 from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import redirect, render
 from django.db.models import Q
@@ -180,7 +180,7 @@ class AccountSettings(TemplateView):
     success_message = ugettext('Account settings updated')
     change_email_message = ugettext(
         'An email validation was sent to {0}. Click the link sent to finish the authentication process.')
-    ajax_response_data = dict()
+    ajax_response_data = {}
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -298,7 +298,7 @@ class AccountSettings(TemplateView):
 def account_login(request):
     if request.is_ajax() and request.method == 'POST':
         form = forms.LoginForm(request.POST)
-        response_data = dict()
+        response_data = {}
 
         if form.is_valid():
             email = form.cleaned_data['email']
@@ -322,13 +322,13 @@ def account_login(request):
 
         return JsonResponse(response_data)
 
-    return HttpResponseForbidden("Access denied")
+    return HttpResponseForbidden('Access denied')
 
 
 def account_registration(request):
     if request.is_ajax() and request.method == 'POST':
         form = forms.RegistrationForm(request.POST)
-        response_data = dict()
+        response_data = {}
 
         if form.is_valid():
             email = form.cleaned_data['email']
@@ -347,13 +347,13 @@ def account_registration(request):
 
         return JsonResponse(response_data)
 
-    return HttpResponseForbidden("Access denied")
+    return HttpResponseForbidden('Access denied')
 
 
 def account_forgotten_password(request):
     if request.is_ajax() and request.method == 'POST':
         form = forms.PasswordForgottenForm(request.POST)
-        response_data = dict()
+        response_data = {}
 
         if form.is_valid():
             user = models.User.objects.get(email=form.cleaned_data['email'])
@@ -372,7 +372,7 @@ def account_forgotten_password(request):
 
         return JsonResponse(response_data)
 
-    return HttpResponseForbidden("Access denied")
+    return HttpResponseForbidden('Access denied')
 
 
 @login_required
@@ -395,6 +395,56 @@ def celebrity_subscribe(request, slug):
         request.user.celebrity_subscribe.add(celebrity)
 
     return redirect(reverse('heaps_app:celebrity-view', kwargs={'slug': slug}))
+
+
+def social_posts_loader(request, slug):
+    if request.method == 'GET' and request.is_ajax():
+        response = dict()
+        block_has_content = request.GET.get('block_has_content')
+        social_network = request.GET.get('social_network')
+
+        try:
+            celebrity = models.Celebrity.objects.get(slug=slug)
+            social_network = celebrity.socialnetwork_set.get(social_network=social_network)
+        except (models.Celebrity.DoesNotExist, models.SocialNetwork.DoesNotExist):
+            return HttpResponseNotFound()
+
+        social_network_model = getattr(celebrity, 'celebrity_{}_posts'.format(social_network.social_network), None)
+
+        header_template = get_template('heaps_app/social_post_blocks/blocks_header.html')
+
+        if social_network_model and social_network_model.exists():
+            social_network_posts = social_network_model.all()
+
+            paginator = Paginator(social_network_posts, 5)
+            page_obj = paginator.page(request.GET.get('page', 1))
+
+            content_template = get_template('heaps_app/social_post_blocks/{}.html'.format(social_network.social_network))
+
+            if not int(block_has_content):
+                response['header'] = header_template.render({
+                    'post': page_obj.object_list[0],
+                    'social_network': social_network,
+                    'has_model': True,
+                })
+
+            response['content'] = content_template.render({
+                'celebrity': celebrity,
+                'posts': page_obj.object_list
+            })
+            response['has_next'] = page_obj.has_next()
+
+        else:
+            response['header'] = header_template.render({
+                'social_network': social_network,
+                'has_model': False,
+            })
+
+            response['content'] = get_template('heaps_app/social_post_blocks/coming-soon.html').render()
+
+        return JsonResponse(response)
+
+    return HttpResponseForbidden('Access denied')
 
 
 # Custom server errors handlers

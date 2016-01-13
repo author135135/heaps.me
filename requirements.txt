@@ -4,3 +4,4 @@ Pillow
 django-ckeditor
 sorl-thumbnail
 python-social-auth
+python-dateutil

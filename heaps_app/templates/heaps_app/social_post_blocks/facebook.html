@@ -1,0 +1,100 @@
+{% for post in posts %}
+    <div class="wrapper-post-soc-news clearfix">
+        <div class="head-post-news clearfix">
+            <div class="avatar">
+                <img src="{{ post.post_avatar }}" alt="">
+            </div>
+            <div class="description-social-post">
+                <span>{{ post.post_publisher }}</span>
+                <span>{{ post.created_time|date:"j F H:i" }}</span>
+            </div>
+            {% if post.link %}
+                <a class="but-go-sosial-web" href="{{ post.post_link }}" target="_blank"></a>
+            {% endif %}
+        </div>
+        <div class="content-post">
+            {% if post.message %}
+                <div class="message-post">{{ post.message }}</div>
+            {% endif %}
+
+            {% if post.type == 'video' %}
+                <div class="media-container">
+                    {% if post.picture %}
+                        <div class="media-box">
+                            <div class="prev-video">
+                                <img src="{{ post.picture }}" data-url="{{ post.source }}">
+                                <div class="play-button"></div>
+                            </div>
+                        </div>
+                        <div class="media-description">
+                            {% if post.name %}
+                                <span class="title">
+                                    <a href="{{ post.link }}" target="_blank">{{ post.name }}</a>
+                                </span>
+                            {% endif %}
+                            {% if post.description %}
+                                <span class="descript">{{ post.description }}</span>
+                            {% endif %}
+                            {% if post.caption %}
+                                <span class="source">{{ post.caption }}</span>
+                            {% endif %}
+                        </div>
+                    {% elif 'www.facebook.com' not in post.source %}
+                        <div class="media-box"><div class="prev-video"></div></div>
+                        <div class="media-description">
+                            {% if post.name %}
+                                <span class="title">
+                                    <a href="{{ post.link }}" data-url="{{ post.source }}" target="_blank">{{ post.name }}</a>
+                                </span>
+                            {% endif %}
+                            {% if post.description %}
+                                <span class="descript">{{ post.description }}</span>
+                            {% endif %}
+                            {% if post.caption %}
+                                <span class="source">{{ post.caption }}</span>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="media-box">
+                            <div class="prev-video">
+                                <iframe src="{{ post.source }}"></iframe>
+                            </div>
+                            <span class="watermark-type">video</span>
+                        </div>
+                    {% endif %}
+                </div>
+            {% elif post.type == 'link' %}
+                <div class="media-container">
+                    {% if post.picture %}
+                        <div class="media-box">
+                            <div class="prev-video">
+                                <a href="{{ post.link }}" target="_blank"><img src="{{ post.picture }}"></a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="media-description">
+                        {% if post.name %}
+                            <span class="title">
+                                <a href="{{ post.link }}" target="_blank">{{ post.name }}</a>
+                            </span>
+                        {% endif %}
+                        {% if post.description %}
+                            <span class="descript">{{ post.description }}</span>
+                        {% endif %}
+                        {% if post.caption %}
+                            <span class="source">{{ post.caption }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% elif post.type == 'photo' %}
+                <div class="media-container">
+                    <div class="media-box">
+                        <div class="prev-img">
+                            <a href="{{ post.link|default:"#" }}" target="_blank"><img src="{{ post.picture }}" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
