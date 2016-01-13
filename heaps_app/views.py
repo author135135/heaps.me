@@ -1,6 +1,8 @@
 import hashlib
 import urllib
+from urlparse import urlparse
 from django.utils import timezone
+from django.core.cache import cache
 from django.views.generic import ListView, CreateView, DetailView, TemplateView
 from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import redirect, render
@@ -11,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
-from heaps_app import models, forms, mail
+from heaps_app import models, forms, mail, social_workers
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 
@@ -402,6 +404,7 @@ def social_posts_loader(request, slug):
         response = dict()
         block_has_content = request.GET.get('block_has_content')
         social_network = request.GET.get('social_network')
+        page = request.GET.get('page', None)
 
         try:
             celebrity = models.Celebrity.objects.get(slug=slug)
@@ -409,30 +412,44 @@ def social_posts_loader(request, slug):
         except (models.Celebrity.DoesNotExist, models.SocialNetwork.DoesNotExist):
             return HttpResponseNotFound()
 
-        social_network_model = getattr(celebrity, 'celebrity_{}_posts'.format(social_network.social_network), None)
+        worker_class = '{}Worker'.format(social_network.social_network.capitalize())
 
         header_template = get_template('heaps_app/social_post_blocks/blocks_header.html')
 
-        if social_network_model and social_network_model.exists():
-            social_network_posts = social_network_model.all()
+        if hasattr(social_workers, worker_class):
+            url_info = urlparse(social_network.url)
+            celebrity_id = url_info.path.strip('/')
 
-            paginator = Paginator(social_network_posts, 5)
-            page_obj = paginator.page(request.GET.get('page', 1))
+            cache_key = 'social_posts_{}_{}'.format(celebrity_id, social_network.social_network)
 
-            content_template = get_template('heaps_app/social_post_blocks/{}.html'.format(social_network.social_network))
+            if page:
+                page = int(page)
+                cache_key += '_{}'.format(page)
 
-            if not int(block_has_content):
-                response['header'] = header_template.render({
-                    'post': page_obj.object_list[0],
-                    'social_network': social_network,
-                    'has_model': True,
+            posts_data = cache.get(cache_key)
+
+            if not posts_data:
+                worker = getattr(social_workers, worker_class)(celebrity_id, page)
+
+                posts_data = worker.get_posts()
+                cache.set(cache_key, posts_data, 300)
+
+            if posts_data['posts']:
+                content_template = get_template('heaps_app/social_post_blocks/{}.html'.format(social_network.social_network))
+
+                if not int(block_has_content):
+                    response['header'] = header_template.render({
+                        'post': posts_data['posts'][0],
+                        'social_network': social_network,
+                        'has_model': True,
+                    })
+
+                response['content'] = content_template.render({
+                    'celebrity': celebrity,
+                    'posts': posts_data['posts']
                 })
 
-            response['content'] = content_template.render({
-                'celebrity': celebrity,
-                'posts': page_obj.object_list
-            })
-            response['has_next'] = page_obj.has_next()
+                response['has_next'] = posts_data['has_next']
 
         else:
             response['header'] = header_template.render({

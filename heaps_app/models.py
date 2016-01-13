@@ -277,20 +277,3 @@ class SocialNetwork(models.Model):
                 self.social_network = code
                 return True
         return False
-
-
-class CelebrityFacebookPosts(models.Model):
-    celebrity = models.ForeignKey(to=Celebrity, related_name='celebrity_facebook_posts')
-    post_id = models.CharField(max_length=50, unique=True)
-    post_avatar = models.URLField(max_length=300)
-    post_publisher = models.CharField(max_length=100)
-    post_link = models.URLField()
-    type = models.CharField(max_length=50)
-    message = models.TextField(blank=True, null=True)
-    picture = models.TextField(blank=True, null=True)
-    link = models.URLField(blank=True, null=True, max_length=300)
-    source = models.TextField(blank=True, null=True)
-    name = models.CharField(max_length=150, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    caption = models.TextField(blank=True, null=True)
-    created_time = models.DateTimeField()

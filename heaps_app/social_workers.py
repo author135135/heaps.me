@@ -7,8 +7,9 @@ from heaps import settings
 class FacebookWorker(object):
     access_token_url = 'https://graph.facebook.com/oauth/access_token'
     access_token = None
+    posts_paginate_by = 7
 
-    def __init__(self, user_id):
+    def __init__(self, user_id, page=None):
         response = requests.request(
             'GET', self.access_token_url,
             params={
@@ -22,16 +23,19 @@ class FacebookWorker(object):
         if response.status_code != 200:
             raise requests.HTTPError('Invalid client credentials')
 
-        # self.paging = False
+        self.page = page
         self.access_token = response.content.split('=')[1]
         self.user_id = user_id
         self.request_media_data_url = 'https://graph.facebook.com/v2.2/{}'
         self.request_posts_url = 'https://graph.facebook.com/v2.2/{user_id}/posts'.format(user_id=self.user_id)
         self.request_posts_params = {
             'access_token': self.access_token,
-            'limit': 100,
+            'limit': self.posts_paginate_by + 1,    # + 1 fix for pagination on posts
             'fields': 'id,from,type,message,picture,link,source,name,description,caption,object_id,created_time',
         }
+
+        if self.page:
+            self.request_posts_params.update({'offset': self.posts_paginate_by * self.page})
 
         user_info_data = requests.request(
             'GET',
@@ -42,19 +46,26 @@ class FacebookWorker(object):
         self.picture = user_info_data['picture']['data']['url']
 
     def get_posts(self):
-        posts = list()
+        posts_data = {
+            'posts': [],
+            'has_next': False,
+        }
 
         response_data = requests.request('GET', self.request_posts_url, params=self.request_posts_params).json()
 
         response_posts = response_data['data']
 
+        if len(response_posts) > self.posts_paginate_by:
+            response_posts.pop()
+            posts_data['has_next'] = True
+
         for post in response_posts:
             clear_post = self._build_post(post)
 
             if clear_post:
-                posts.append(clear_post)
+                posts_data['posts'].append(clear_post)
 
-        return posts
+        return posts_data
 
     def _build_post(self, data):
         post = dict()

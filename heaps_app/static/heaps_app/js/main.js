@@ -437,7 +437,7 @@
                 $('.content-news.' + social_network).append(Autolinker.link(response['content']));
 
                 if (response['has_next']) {
-                    var button_html = '<div class="load-more-news load-motion clearfix"><button value="2">Загрузить еще</button></div>'
+                    var button_html = '<div class="load-more-news load-motion clearfix"><button value="1">Загрузить еще</button></div>'
                     $('.content-news.' + social_network).append(button_html);
                 }
             }, 'json');

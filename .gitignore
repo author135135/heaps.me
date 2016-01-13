@@ -3,4 +3,5 @@
 /heaps/urls.py
 /heaps/settings.py
 /media/*
+/cache
 /static/*
