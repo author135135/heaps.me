@@ -2,15 +2,13 @@
     <div class="wrapper-post-soc-news clearfix">
         <div class="head-post-news clearfix">
             <div class="avatar">
-                <img src="{{ post.post_avatar }}" alt="">
+                <img src="{{ post.avatar }}" alt="">
             </div>
             <div class="description-social-post">
-                <span>{{ post.post_publisher }}</span>
+                <span>{{ post.publisher }}</span>
                 <span>{{ post.created_time|date:"j F H:i" }}</span>
             </div>
-            {% if post.link %}
-                <a class="but-go-sosial-web" href="{{ post.post_link }}" target="_blank"></a>
-            {% endif %}
+            <a class="but-go-sosial-web" href="{{ post.post_link }}" target="_blank"></a>
         </div>
         <div class="content-post">
             {% if post.message %}

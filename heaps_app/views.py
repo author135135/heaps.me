@@ -429,10 +429,10 @@ def social_posts_loader(request, slug):
             posts_data = cache.get(cache_key)
 
             if not posts_data:
-                worker = getattr(social_workers, worker_class)(celebrity_id, page)
+                worker = getattr(social_workers, worker_class)(celebrity_id)
 
-                posts_data = worker.get_posts()
-                cache.set(cache_key, posts_data, 1800)
+                posts_data = worker.get_posts(page)
+                cache.set(cache_key, posts_data, 3600)
 
             if posts_data['posts']:
                 content_template = get_template('heaps_app/social_post_blocks/{}.html'.format(social_network.social_network))

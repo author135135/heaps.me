@@ -1,0 +1,39 @@
+{% for post in posts %}
+    <div class="wrapper-post-soc-news clearfix">
+        <div class="head-post-news clearfix">
+            <div class="avatar">
+                <img src="{{ post.avatar }}" alt="">
+            </div>
+            <div class="description-social-post">
+                <span>{{ post.publisher }}</span>
+                <span>{{ post.created_time|date:"j F H:i" }}</span>
+            </div>
+            {% if post.link %}
+                <a class="but-go-sosial-web" href="{{ post.post_link }}" target="_blank"></a>
+            {% endif %}
+        </div>
+        <div class="content-post">
+            <div class="message-post">{{ post.text }}</div>
+
+            {% if post.media_type == 'photo' %}
+                <div class="media-container">
+                    <div class="media-box">
+                        <div class="prev-img">
+                            <img src="{{ post.photo }}" alt="">
+                        </div>
+                    </div>
+                </div>
+            {% elif post.media_type == 'video' %}
+                <div class="media-container">
+                    <div class="media-box">
+                        <div class="prev-video">
+                            <img src="{{ post.photo }}" data-url="{{ post.video }}">
+                            <div class="play-button"></div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+{% endfor %}
