@@ -18,7 +18,7 @@ class TwitterWorker(object):
         consumer = oauth2.Consumer(key=settings.SOCIAL_AUTH_TWITTER_KEY, secret=settings.SOCIAL_AUTH_TWITTER_SECRET)
         token = oauth2.Token(key=settings.TWITTER_ACCESS_TOKEN, secret=settings.TWITTER_ACCESS_TOKEN_SECRET)
 
-        self.client = oauth2.Client(consumer, token)
+        self.client = oauth2.Client(consumer, token, disable_ssl_certificate_validation=True)
 
     def get_posts(self, page=None):
         tweets_data = {
