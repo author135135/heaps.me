@@ -98,7 +98,15 @@ class TwitterWorker(object):
                 post['photo'] = data['extended_entities']['media'][0]['media_url']
             elif entities_type == 'video' or entities_type == 'animated_gif':
                 post['photo'] = data['extended_entities']['media'][0]['media_url']
-                post['video'] = data['extended_entities']['media'][0]['video_info']['variants'].pop()['url']
+                post['video'] = None
+
+                for variant in data['extended_entities']['media'][0]['video_info']['variants']:
+                    if variant['content_type'] == 'video/webm':
+                        post['video'] = variant['url']
+                        break
+
+                if post['video'] is None:
+                    post['video'] = data['extended_entities']['media'][0]['video_info']['variants'][0]['url']
 
         return post
 
