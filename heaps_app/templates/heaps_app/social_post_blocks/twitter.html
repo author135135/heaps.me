@@ -1,39 +1,115 @@
-{% for post in posts %}
+{% for tweet in data %}
     <div class="wrapper-post-soc-news clearfix">
-        <div class="head-post-news clearfix">
-            <div class="avatar">
-                <img src="{{ post.avatar }}" alt="">
+        <a class="but-go-sosial-web" href="{{ tweet.link }}"></a>
+
+        {% if tweet.retweeted_status %}
+            <div class="head-post-re-tweet">
+                <span class="name">{{ tweet.name }}</span>
+                <span>ретвитнул(а)</span>
             </div>
-            <div class="description-social-post">
-                <span>{{ post.publisher }}</span>
-                <span>{{ post.created_time|date:"j F H:i" }}</span>
+            <div class="head-post-news clearfix">
+                <div class="avatar">
+                    <img src="{{ tweet.retweeted_status.avatar }}" alt="">
+                </div>
+                <div class="description-social-post">
+                    <div class="fullname">
+                        <span class="name">{{ tweet.retweeted_status.name }}</span>
+                        <span class="user-name">@{{ tweet.retweeted_status.screen_name }}</span>
+                    </div>
+                    <span class="public-date">{{ tweet.created_time|date:"j F H:i" }}</span>
+                </div>
             </div>
-            {% if post.link %}
-                <a class="but-go-sosial-web" href="{{ post.post_link }}" target="_blank"></a>
-            {% endif %}
-        </div>
+        {% else %}
+            <div class="head-post-news clearfix">
+                <div class="avatar">
+                    <img src="{{ tweet.avatar }}" alt="">
+                </div>
+                <div class="description-social-post">
+                    <div class="fullname">
+                        <span class="name">{{ tweet.name }}</span>
+                        <span class="user-name">@ {{ tweet.screen_name }}</span>
+                    </div>
+                    <span class="public-date">{{ tweet.created_time|date:"j F H:i" }}</span>
+                </div>
+            </div>
+        {% endif %}
+
         <div class="content-post">
-            <div class="message-post">{{ post.text }}</div>
+            {% if tweet.retweeted_status %}
+                <div class="message-post">{{ tweet.retweeted_status.text|safe }}</div>
 
-            {% if post.media_type == 'photo' %}
-                <div class="media-container">
-                    <div class="media-box">
-                        <div class="prev-img">
-                            <img src="{{ post.photo }}" alt="">
+                {% if tweet.retweeted_status.media_type %}
+                    <div class="media-container">
+                        <div class="media-box">
+                            {% if tweet.retweeted_status.media_type == 'photo' %}
+                                <div class="prev-img">
+                                    <img src="{{ tweet.retweeted_status.photo }}">
+                                </div>
+                            {% elif tweet.retweeted_status.media_type == 'video' or tweet.retweeted_status.media_type == 'animated_gif' %}
+                                <div class="prev-video">
+                                    <img src="{{ tweet.retweeted_status.photo }}" data-url="{{ tweet.retweeted_status.video }}">
+                                    <div class="play-button"></div>
+                                </div>
+                                <span class="watermark-type">{{ tweet.retweeted_status.media_type }}</span>
+                            {% endif %}
                         </div>
                     </div>
-                </div>
-            {% elif post.media_type == 'video' %}
-                <div class="media-container">
-                    <div class="media-box">
-                        <div class="prev-video">
-                            <img src="{{ post.photo }}" data-url="{{ post.video }}">
-                            <div class="play-button"></div>
+                {% elif tweet.retweeted_status.quoted_status %}
+                    <div class="media-container">
+                        <div class="sub-tweet-box">
+                            {% if tweet.retweeted_status.quoted_status.media_type %}
+                                <div class="prev-img-sub">
+                                    <img src="{{ tweet.retweeted_status.quoted_status.photo }}">
+                                </div>
+                            {% endif %}
+                            <div class="sub-tweet-content">
+                                <div class="fullname">
+                                    <span class="name">{{ tweet.retweeted_status.quoted_status.name }}</span>
+                                    <span class="user-name">@{{ tweet.retweeted_status.quoted_status.screen_name }}</span>
+                                </div>
+                                <div class="message-sub-post">{{ tweet.retweeted_status.quoted_status.text|safe }}</div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
+            {% else %}
+                <div class="message-post">{{ tweet.text|safe }}</div>
+
+                {% if tweet.media_type %}
+                    <div class="media-container">
+                        <div class="media-box">
+                            {% if tweet.media_type == 'photo' %}
+                                <div class="prev-img">
+                                    <img src="{{ tweet.photo }}">
+                                </div>
+                            {% elif tweet.media_type == 'video' or tweet.media_type == 'animated_gif' %}
+                                <div class="prev-video">
+                                    <img src="{{ tweet.photo }}" data-url="{{ tweet.video }}">
+                                    <div class="play-button"></div>
+                                </div>
+                                <span class="watermark-type">{{ tweet.media_type }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% elif tweet.quoted_status %}
+                    <div class="media-container">
+                        <div class="sub-tweet-box">
+                            {% if tweet.quoted_status.media_type %}
+                                <div class="prev-img-sub">
+                                    <img src="{{ tweet.quoted_status.photo }}">
+                                </div>
+                            {% endif %}
+                            <div class="sub-tweet-content">
+                                <div class="fullname">
+                                    <span class="name">{{ tweet.quoted_status.name }}</span>
+                                    <span class="user-name">@{{ tweet.quoted_status.screen_name }}</span>
+                                </div>
+                                <div class="message-sub-post">{{ tweet.quoted_status.text|safe }}</div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             {% endif %}
-
         </div>
     </div>
 {% endfor %}

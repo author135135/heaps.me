@@ -1,5 +1,7 @@
-{% for post in posts %}
+{% for post in data %}
     <div class="wrapper-post-soc-news clearfix">
+        <a class="but-go-sosial-web" href="{{ post.post_link }}" target="_blank"></a>
+
         <div class="head-post-news clearfix">
             <div class="avatar">
                 <img src="{{ post.avatar }}" alt="">
@@ -8,7 +10,6 @@
                 <span>{{ post.publisher }}</span>
                 <span>{{ post.created_time|date:"j F H:i" }}</span>
             </div>
-            <a class="but-go-sosial-web" href="{{ post.post_link }}" target="_blank"></a>
         </div>
         <div class="content-post">
             {% if post.message %}

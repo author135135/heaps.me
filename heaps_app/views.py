@@ -432,24 +432,24 @@ def social_posts_loader(request, slug):
                 worker = getattr(social_workers, worker_class)(celebrity_id)
 
                 posts_data = worker.get_posts(page)
-                cache.set(cache_key, posts_data, 3600)
+                cache.set(cache_key, posts_data, 0)
 
-            if posts_data['posts']:
+            if posts_data['data']:
                 content_template = get_template('heaps_app/social_post_blocks/{}.html'.format(social_network.social_network))
 
                 if not int(block_has_content):
                     response['header'] = header_template.render({
-                        'post': posts_data['posts'][0],
+                        'data': posts_data['data'][0],
                         'social_network': social_network,
                         'has_model': True,
                     })
 
                 response['content'] = content_template.render({
-                    'celebrity': celebrity,
-                    'posts': posts_data['posts']
+                    'data': posts_data['data']
                 })
 
                 response['has_next'] = posts_data['has_next']
+                response['next_page_id'] = posts_data['next_page_id']
 
         else:
             response['header'] = header_template.render({

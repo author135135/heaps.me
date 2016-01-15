@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import requests
 import re
 import oauth2
@@ -7,9 +8,9 @@ from dateutil.parser import parse
 from heaps import settings
 
 
-class TwitterProcessWorker(object):
+class TwitterWorker(object):
     tweets_data_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
-    tweets_paginated_by = 7
+    tweets_paginate_by = 5
 
     def __init__(self, user_id):
         self.user_id = user_id
@@ -19,20 +20,21 @@ class TwitterProcessWorker(object):
 
         self.client = oauth2.Client(consumer, token)
 
-    def get_posts(self, last_id=None):
+    def get_posts(self, page=None):
         tweets_data = {
-            'posts': [],
+            'data': [],
             'has_next': False,
+            'next_page_id': None,
         }
 
         request_tweets_params = {
-            'count': self.tweets_paginated_by,
+            'count': self.tweets_paginate_by + 1,  # + 1 fix for pagination on tweets
             'include_rts': 1,
             'screen_name': self.user_id,
         }
 
-        if last_id:
-            request_tweets_params.update({'max_id': last_id - 1})
+        if page:
+            request_tweets_params.update({'max_id': page})
 
         request_tweets_url = '{}?{}'.format(self.tweets_data_url, urllib.urlencode(request_tweets_params))
 
@@ -43,27 +45,49 @@ class TwitterProcessWorker(object):
         else:
             return tweets_data
 
+        if len(response_data) > self.tweets_paginate_by:
+            last_tweet = response_data.pop()
+            tweets_data['has_next'] = True
+            tweets_data['next_page_id'] = last_tweet['id_str']
+
         for tweet in response_data:
-            tweets_data['posts'].append(self._build_post(tweet))
+            tweets_data['data'].append(self._build_post(tweet))
 
         return tweets_data
 
     def _build_post(self, data):
         post = dict()
 
-        post['id'] = int(data['id_str'])
+        post_id = int(data['id_str'])
+
+        # Check if retweeted
+        post['retweeted_status'] = None
+
+        if 'retweeted_status' in data:
+            post['retweeted_status'] = self._build_post(data['retweeted_status'])
+
+        # Check quote status
+        post['quoted_status'] = None
+
+        if 'quoted_status' in data:
+            post['quoted_status'] = self._build_post(data['quoted_status'])
+
         post['avatar'] = data['user']['profile_image_url']
-        post['publisher'] = data['user']['name']
-        # post['post_link'] = '' ???????????????
+        post['name'] = data['user']['name']
+        post['screen_name'] = data['user']['screen_name']
+        post['link'] = 'https://twitter.com/{}/status/{}'.format(self.user_id, post_id)
         post['created_time'] = parse(data['created_at'])
 
         # Create link in tweet text
         tweet_text = data['text']
 
         for url_info in data['entities']['urls']:
-            tweet_text.replace(url_info['url'], '<a href="{}">{}</a>'.format(url_info['url'], url_info['display_url']))
+            tweet_text = tweet_text.replace(url_info['url'],
+                                            '<a href="{}">{}</a>'.format(url_info['url'], url_info['display_url']))
 
         post['text'] = tweet_text
+
+        post['media_type'] = None
 
         # Handle additional content in tweet
         if 'extended_entities' in data:
@@ -72,7 +96,7 @@ class TwitterProcessWorker(object):
 
             if entities_type == 'photo':
                 post['photo'] = data['extended_entities']['media'][0]['media_url']
-            elif entities_type == 'video':
+            elif entities_type == 'video' or entities_type == 'animated_gif':
                 post['photo'] = data['extended_entities']['media'][0]['media_url']
                 post['video'] = data['extended_entities']['media'][0]['video_info']['variants'].pop()['url']
 
@@ -112,14 +136,15 @@ class FacebookWorker(object):
 
     def get_posts(self, page=None):
         posts_data = {
-            'posts': [],
+            'data': [],
             'has_next': False,
+            'next_page_id': None,
         }
 
         request_posts_url = self.posts_data_url.format(self.user_id)
         request_posts_params = {
             'access_token': self.access_token,
-            'limit': self.posts_paginate_by + 1,    # + 1 fix for pagination on posts
+            'limit': self.posts_paginate_by + 1,  # + 1 fix for pagination on posts
             'fields': 'id,from,type,message,picture,link,source,name,description,caption,object_id,created_time',
         }
 
@@ -133,12 +158,13 @@ class FacebookWorker(object):
         if len(response_posts) > self.posts_paginate_by:
             response_posts.pop()
             posts_data['has_next'] = True
+            posts_data['next_page_id'] = page + 1 if page else 1
 
         for post in response_posts:
             clear_post = self._build_post(post)
 
             if clear_post:
-                posts_data['posts'].append(clear_post)
+                posts_data['data'].append(clear_post)
 
         return posts_data
 

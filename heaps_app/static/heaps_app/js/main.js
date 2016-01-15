@@ -417,7 +417,8 @@
     }
 
     // Social posts block loader
-    var social_network_block_load = function() {
+    var social_posts_in_progress = false,
+        social_network_block_load = function() {
         if (!$('.content-news.active .head-soc-news').length) {
             var request_data = {},
                 social_network = $('.social-post-znam-page .active').attr('class').replace(/(?:^|\s)active(?!\S)/g , '');
@@ -437,7 +438,7 @@
                 $('.content-news.' + social_network).append(Autolinker.link(response['content']));
 
                 if (response['has_next']) {
-                    var button_html = '<div class="load-more-news load-motion clearfix"><button value="1">Загрузить еще</button></div>'
+                    var button_html = '<div class="load-more-news load-motion clearfix"><button value="' + response['next_page_id'] + '">Загрузить еще</button></div>'
                     $('.content-news.' + social_network).append(button_html);
                 }
             }, 'json');
@@ -463,13 +464,56 @@
             $('.content-news.' + social_network).append(Autolinker.link(response['content']));
 
             if (response['has_next']) {
-                page++;
-
-                var button_html = '<div class="load-more-news load-motion clearfix"><button value="' + page + '">Загрузить еще</button></div>'
-                $('.content-news.' + social_network).append(button_html);
+                $('.content-news.' + social_network).attr('data-has-next', true);
+                $('.content-news.' + social_network).attr('data-next-page-id', response['next_page_id']);
             }
         }, 'json');
     });
+
+    if ($('.social-post-znam-page').length) {
+        $(window).scroll(function (e) {
+            var request_data = {},
+                social_network = $('.social-post-znam-page .active').attr('class').replace(/(?:^|\s)active(?!\S)/g , ''),
+                social_block = $('.content-news.' + social_network);
+
+            if (!social_block[0].hasAttribute('data-has-next')) {
+                return false;
+            }
+
+            if (social_block.attr('data-has-next') != 'true') {
+                return false;
+            }
+
+            if (social_posts_in_progress) {
+                return false;
+            }
+
+            if ($(window).scrollTop() >= ($('.wrapper-post-soc-news', social_block).eq($('.wrapper-post-soc-news', social_block).length - 2).offset().top - $(window).height())) {
+                social_posts_in_progress = true;
+
+                social_block.append('<div class="load-more-news load-motion clearfix"></div>');
+
+                request_data['social_network'] = social_network;
+                request_data['block_has_content'] = 1;
+                request_data['page'] = social_block.attr('data-next-page-id');
+
+                $.get(window.location.href + 'social-posts-loader/', request_data, function(response){
+                    $('.load-more-news', social_block).remove();
+                    social_block.append(Autolinker.link(response['content']));
+
+                    if (response['has_next']) {
+                        social_block.attr('data-has-next', true);
+                        social_block.attr('data-next-page-id', response['next_page_id']);
+                    } else {
+                        social_block.attr('data-has-next', false);
+                        social_block.attr('data-next-page-id', '');
+                    }
+
+                    social_posts_in_progress = false;
+                }, 'json');
+            }
+        });
+    }
 
     // Social tabs
     $('.social-post-znam-page li a').click(function(e) {
