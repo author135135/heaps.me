@@ -1,0 +1,9 @@
+.em {
+	width: 12px;
+	height: 12px;
+	display: -moz-inline-stack;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+    background-repeat: no-repeat;
+}

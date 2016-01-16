@@ -450,6 +450,13 @@ def social_posts_loader(request, slug):
 
                 response['has_next'] = posts_data['has_next']
                 response['next_page_id'] = posts_data['next_page_id']
+            else:
+                response['header'] = header_template.render({
+                    'social_network': social_network,
+                    'has_model': False,
+                })
+
+                response['content'] = get_template('heaps_app/social_post_blocks/coming-soon.html').render()
 
         else:
             response['header'] = header_template.render({

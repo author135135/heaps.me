@@ -13,6 +13,10 @@
     {% endif %}
 {% endblock %}
 
+{% block additional_style %}
+    <link rel="stylesheet" href="{% static 'heaps_app/js/jMinEmoji/css/jMinEmoji-SVG.css' %}">
+{% endblock %}
+
 {% block content %}
     <div class="col-md-4 col-sm-6">
         <div class="post-wrapper clearfix">
@@ -82,4 +86,5 @@
 
 {% block additional_scripts %}
     <script type="application/javascript" src="{% static 'heaps_app/js/Autolinker.min.js' %}"></script>
+    <script type="application/javascript" src="{% static 'heaps_app/js/jMinEmoji/js/jMinEmoji-SVG.min.js' %}"></script>
 {% endblock %}
