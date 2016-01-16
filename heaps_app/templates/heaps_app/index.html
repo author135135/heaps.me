@@ -1,6 +1,12 @@
 {% extends 'heaps_app/base_html.html' %}
 {% load thumbnail %}
 
+{% block title %}Знаменитости и звезды в социальных сетях. Сайты знаменитостей.{% endblock %}
+
+{% block seo %}
+    <meta name="description" content="Официальные страницы звезд в социальных сетях. Последние новости знаменитостей.">
+{% endblock %}
+
 {% block content %}
     {% include 'heaps_app/_celebrities_block.html' %}
 {% endblock %}
