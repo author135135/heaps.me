@@ -436,12 +436,11 @@
                 }
 
                 var content = response['content'];
+
                 content = Autolinker.link(content);
+                content = minEmoji(content);
 
                 $('.content-news.' + social_network).append(content);
-                $('.content-news.' + social_network + ' .wrapper-post-soc-news').minEmojiSVG({
-                    svg_path: '/static/heaps_app/js/jMinEmoji/img/svg/'
-                });
 
                 if (response['has_next']) {
                     var button_html = '<div class="load-more-news load-motion clearfix"><button value="' + response['next_page_id'] + '">Загрузить еще</button></div>'
@@ -469,12 +468,11 @@
             $('.content-news.' + social_network + ' .load-more-news').remove();
 
             var content = response['content'];
-                content = Autolinker.link(content);
+
+            content = Autolinker.link(content);
+            content = minEmoji(content);
 
             $('.content-news.' + social_network).append(content);
-            $('.content-news.' + social_network + ' .wrapper-post-soc-news').minEmojiSVG({
-                svg_path: '/static/heaps_app/js/jMinEmoji/img/svg/'
-            });
 
             if (response['has_next']) {
                 $('.content-news.' + social_network).attr('data-has-next', true);
@@ -514,12 +512,11 @@
                     $('.load-more-news', social_block).remove();
 
                     var content = response['content'];
-                        content = Autolinker.link(content);
+
+                    content = Autolinker.link(content);
+                    content = minEmoji(content);
 
                     social_block.append(content);
-                    $('.wrapper-post-soc-news', social_block).minEmojiSVG({
-                        svg_path: '/static/heaps_app/js/jMinEmoji/img/svg/'
-                    });
 
                     if (response['has_next']) {
                         social_block.attr('data-has-next', true);
@@ -897,4 +894,11 @@
             $('#' + modal).modal();
         }
     }
+
+    function minEmoji(content) {
+        return $('<div/>').html(content).minEmojiSVG({
+            svg_path: '/static/heaps_app/js/jMinEmoji/img/svg/'
+        });
+    }
+
 })(jQuery);
