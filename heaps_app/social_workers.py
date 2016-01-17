@@ -132,13 +132,6 @@ class FacebookWorker(object):
         if response.status_code != 200:
             raise requests.HTTPError('Invalid client credentials')
 
-        user_info_data = requests.request(
-            'GET',
-            'https://graph.facebook.com/v2.2/{user_id}'.format(user_id=user_id),
-            params={'access_token': self.access_token, 'fields': ','.join(['picture'])}
-        ).json()
-
-        self.picture = user_info_data['picture']['data']['url']
         self.access_token = response.content.split('=')[1]
         self.user_id = user_id
 
@@ -153,7 +146,8 @@ class FacebookWorker(object):
         request_posts_params = {
             'access_token': self.access_token,
             'limit': self.posts_paginate_by + 1,  # + 1 fix for pagination on posts
-            'fields': 'id,from,type,message,picture,link,source,name,description,caption,object_id,created_time',
+            'fields': """id,from{name,picture},type,message,picture,link,source,name,description,caption,object_id,
+                      created_time""",
         }
 
         if page:
@@ -181,7 +175,7 @@ class FacebookWorker(object):
 
         # Get all post data
         post['id'] = data.pop('id')
-        post['avatar'] = self.picture
+        post['avatar'] = data['from']['picture']['data']['url']
         post['publisher'] = data.pop('from')['name']
         post['post_link'] = 'https://facebook.com/{}/posts/{}'.format(self.user_id, post['id'].split('_')[1])
         post['created_time'] = parse(data.pop('created_time'))
