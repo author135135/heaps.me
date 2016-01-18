@@ -566,9 +566,9 @@
         var wrapper = $('.social-post-znam-page');
 
         if (wrapper.hasClass('all-social-open')) {
-            $('+ li', $(this).parent()).hide();
+            $('~ li', $(this).parent()).hide();
         } else {
-            $('+ li', $(this).parent()).show();
+            $('~ li', $(this).parent()).show();
         }
 
         wrapper.toggleClass('all-social-open');
