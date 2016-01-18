@@ -435,7 +435,9 @@ def social_posts_loader(request, slug):
                 cache.set(cache_key, posts_data, 1800)
 
             if posts_data['data']:
-                content_template = get_template('heaps_app/social_post_blocks/{}.html'.format(social_network.social_network))
+                content_template = get_template(
+                    'heaps_app/social_post_blocks/{}.html'.format(social_network.social_network)
+                )
 
                 if not int(block_has_content):
                     response['header'] = header_template.render({

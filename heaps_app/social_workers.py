@@ -148,8 +148,8 @@ class FacebookWorker(object):
         request_posts_params = {
             'access_token': self.access_token,
             'limit': self.posts_paginate_by + 1,  # + 1 fix for pagination on posts
-            'fields': """id,from{name,picture},type,message,full_picture,link,source,name,description,caption,object_id,
-                      created_time""",
+            'fields': """id,from{name,picture},type,message,picture,full_picture,link,source,name,description,caption,
+                         object_id,                      created_time""",
         }
 
         if page:
@@ -185,8 +185,6 @@ class FacebookWorker(object):
         post_type = data['type']
         object_id = data.pop('object_id', None)
 
-        data['picture'] = data.get('full_picture')
-
         # Handle additional content in post
         if post_type == 'video':
             source = None
@@ -219,6 +217,9 @@ class FacebookWorker(object):
 
                 if 'www.facebook.com' in source:
                     data['picture'] = None
+
+        elif post_type == 'photo':
+            data['picture'] = data.get('full_picture')
 
         post.update(data)
 
