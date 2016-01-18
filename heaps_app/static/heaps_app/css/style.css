@@ -402,7 +402,7 @@ li.all a {
     background: url(../images/social-icons/all-ic.png) no-repeat center;
 }
 
-li.all:hover {
+li.all:hover a, .all-social-open li.all a {
     background: url(../images/social-icons/all-ic-h.png) no-repeat center;
 }
 
@@ -633,6 +633,10 @@ ul.social-post-znam-page {
     width: 100%;
     height: auto;
     float: left;
+}
+
+.all-social-open {
+    margin-bottom: 6px;
 }
 
 .social-post-znam-page li {
@@ -1094,20 +1098,23 @@ span.watermark-type {
     margin-top: -2px;
 }
 
-.content-news.twitter .head-post-re-tweet {
+.content-news.twitter .head-post-context {
     position: relative;
     padding: 0 66px 10px 50px;
     min-height: 1px;
 }
 
-.content-news.twitter .head-post-re-tweet:before {
+.content-news.twitter .head-post-context:before {
     content: "";
     position: absolute;
     width: 18px;
     height: 18px;
     left: 18px;
-    background: #77b255 url(../images/re-tweet-ic.png) no-repeat center;
     border-radius: 2px;
+}
+
+.content-news.twitter .head-post-context.re-tweet:before {
+    background: #77b255 url(../images/re-tweet-ic.png) no-repeat center;
 }
 
 .sub-tweet-box {
@@ -2629,6 +2636,12 @@ a.back-home:hover {
     footer {
         padding: 18px 2% 60px;
     }
+
+    .prev-video iframe {
+        border: none;
+        min-width: 393px;
+        min-height: 225px;
+    }
 }
 
 @media screen and (min-width: 1024px) {
@@ -2673,6 +2686,7 @@ a.back-home:hover {
     footer {
         padding: 18px 1% 60px;
     }
+
 }
 
 @media screen and (max-width: 767px) {
@@ -2865,6 +2879,12 @@ a.back-home:hover {
         font-family: SegoeUIregular;
         margin: -57px 0px 24px 30px;
         padding: 6px 30px 15px 65px;
+    }
+
+    .prev-video iframe {
+        width: 100%;
+        min-height: 225px;
+        min-width: 100px;
     }
 }
 

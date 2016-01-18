@@ -120,13 +120,15 @@ class FacebookWorker(object):
 
     def __init__(self, user_id):
         response = requests.request(
-            'GET', self.access_token_url,
+            'GET',
+            self.access_token_url,
             params={
                 'client_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
                 'client_secret': settings.SOCIAL_AUTH_FACEBOOK_SECRET,
                 'grant_type': 'client_credentials',
                 'redirect_uri': settings.FACEBOOK_REDIRECT_URI,
-            }
+            },
+            verify=False
         )
 
         if response.status_code != 200:
@@ -153,7 +155,7 @@ class FacebookWorker(object):
         if page:
             request_posts_params.update({'offset': self.posts_paginate_by * page})
 
-        response_data = requests.request('GET', request_posts_url, params=request_posts_params).json()
+        response_data = requests.request('GET', request_posts_url, params=request_posts_params, verify=False).json()
 
         response_posts = response_data['data']
 
@@ -220,7 +222,8 @@ class FacebookWorker(object):
             photo_data = requests.request(
                 'GET',
                 self.media_data_url.format(object_id),
-                params={'access_token': self.access_token, 'fields': 'source'}
+                params={'access_token': self.access_token, 'fields': 'source'},
+                verify=False
             ).json()
 
             data['picture'] = photo_data.get('source', data['picture'])

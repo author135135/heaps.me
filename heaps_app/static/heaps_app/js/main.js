@@ -533,13 +533,22 @@
     }
 
     // Social tabs
-    $('.social-post-znam-page li a').click(function(e) {
+    $(document).on('click', '.social-post-znam-page li:not(.all) a', function(e) {
         e.preventDefault();
 
-        var list_item = $(this).parent();
+        var wrapper_width = $('.social-post-znam-page').width(),
+            social_tabs_count = $('.social-post-znam-page li').length,
+            social_tab_width = $('.social-post-znam-page li').outerWidth(true),
+            visible_tabs = Math.floor(wrapper_width / social_tab_width) - 1,
+            list_item = $(this).parent();
 
         if (list_item.hasClass('active')) {
             return false;
+        }
+
+        if (list_item.index() > visible_tabs) {
+            $('.social-post-znam-page').removeClass('all-social-open').prepend(list_item);
+            social_tabs_visualization();
         }
 
         $('.social-post-znam-page li').removeClass('active');
@@ -551,7 +560,23 @@
         social_network_block_load();
     });
 
+    $(document).on('click', '.social-post-znam-page .all a', function(e) {
+        e.preventDefault();
+
+        var wrapper = $('.social-post-znam-page');
+
+        if (wrapper.hasClass('all-social-open')) {
+            $('+ li', $(this).parent()).hide();
+        } else {
+            $('+ li', $(this).parent()).show();
+        }
+
+        wrapper.toggleClass('all-social-open');
+    });
+
     if ($('.social-post-znam-page').length) {
+        social_tabs_visualization();
+
         if ($('.social-post-znam-page .facebook').length && $('.social-post-znam-page .facebook').index() != 0) {
             $('.social-post-znam-page .facebook a').click();
         } else {
@@ -846,10 +871,14 @@
 
     modal_handler();
 
-    // For mobile device fixes
+    // Response design fixes
     $(window).resize(function (e) {
         if (window.innerWidth >= 1024) {
             $('body').removeClass('header-visible');
+        }
+
+        if ($('.social-post-znam-page').length) {
+            social_tabs_visualization();
         }
     });
 
@@ -899,6 +928,23 @@
         return $('<div/>').html(content).minEmojiSVG({
             svg_path: '/static/heaps_app/js/jMinEmoji/img/svg/'
         });
+    }
+
+    function social_tabs_visualization() {
+        $('.social-post-znam-page li.all').remove();
+
+        var wrapper_width = $('.social-post-znam-page').width(),
+            social_tabs_count = $('.social-post-znam-page li').length,
+            social_tab_width = $('.social-post-znam-page li').outerWidth(true);
+
+        if (social_tabs_count * social_tab_width > wrapper_width) {
+            var visible_tabs = Math.floor(wrapper_width / social_tab_width) - 1;
+
+            $('.social-post-znam-page li:nth-child(' + visible_tabs + ')').after('<li class="all"><a href="#"></a></li>');
+
+            $('.social-post-znam-page li:gt(' + visible_tabs + ')').hide();
+            $('.social-post-znam-page li:lt(' + visible_tabs + ')').show();
+        }
     }
 
 })(jQuery);
