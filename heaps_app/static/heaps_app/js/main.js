@@ -536,18 +536,20 @@
     $(document).on('click', '.social-post-znam-page li:not(.all) a', function(e) {
         e.preventDefault();
 
-        var wrapper_width = $('.social-post-znam-page').width(),
+        var wrapper = $('.social-post-znam-page'),
             social_tabs_count = $('.social-post-znam-page li').length,
             social_tab_width = $('.social-post-znam-page li').outerWidth(true),
-            visible_tabs = Math.floor(wrapper_width / social_tab_width) - 1,
+            visible_tabs = Math.floor(wrapper.width() / social_tab_width) - 1,
             list_item = $(this).parent();
 
         if (list_item.hasClass('active')) {
             return false;
         }
 
+        wrapper.removeClass('all-social-open');
+
         if (list_item.index() > visible_tabs) {
-            $('.social-post-znam-page').removeClass('all-social-open').prepend(list_item);
+            wrapper.prepend(list_item);
             social_tabs_visualization();
         }
 
@@ -932,6 +934,7 @@
 
     function social_tabs_visualization() {
         $('.social-post-znam-page li.all').remove();
+        $('.social-post-znam-page li').show();
 
         var wrapper_width = $('.social-post-znam-page').width(),
             social_tabs_count = $('.social-post-znam-page li').length,
