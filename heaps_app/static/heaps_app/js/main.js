@@ -546,12 +546,12 @@
             return false;
         }
 
-        wrapper.removeClass('all-social-open');
-
         if (list_item.index() > visible_tabs) {
             wrapper.prepend(list_item);
-            social_tabs_visualization();
         }
+
+        wrapper.removeClass('open-social');
+        social_tabs_visualization();
 
         $('.social-post-znam-page li').removeClass('active');
         $('.content-news').removeClass('active');
@@ -567,13 +567,11 @@
 
         var wrapper = $('.social-post-znam-page');
 
-        if (wrapper.hasClass('all-social-open')) {
+        if (wrapper.hasClass('open-social')) {
             $('~ li', $(this).parent()).hide();
         } else {
             $('~ li', $(this).parent()).show();
         }
-
-        wrapper.toggleClass('all-social-open');
     });
 
     if ($('.social-post-znam-page').length) {

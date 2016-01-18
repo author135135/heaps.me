@@ -1,6 +1,6 @@
 (function ($) {
     $(document).ready(function () {
-        $(document).on('click', '.social-post a', function (e) {
+        $(document).on('click', '.social-post li:not(.all) a', function (e) {
             var link = $(this),
                 item = link.parents('.item'),
                 data = {};

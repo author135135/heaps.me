@@ -402,7 +402,7 @@ li.all a {
     background: url(../images/social-icons/all-ic.png) no-repeat center;
 }
 
-li.all:hover a, .all-social-open li.all a {
+li.all:hover a, .social-post-znam-page.open-social li.all a {
     background: url(../images/social-icons/all-ic-h.png) no-repeat center;
 }
 
@@ -487,6 +487,10 @@ li.official-web a {
 
 .open-social {
     height: auto !important;
+}
+
+.social-post-znam-page.open-social {
+    margin-bottom: 6px;
 }
 
 /*********************** PERSON PAGE ************************/
@@ -633,10 +637,6 @@ ul.social-post-znam-page {
     width: 100%;
     height: auto;
     float: left;
-}
-
-.all-social-open {
-    margin-bottom: 6px;
 }
 
 .social-post-znam-page li {
