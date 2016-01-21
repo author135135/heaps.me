@@ -3,7 +3,7 @@ import requests
 import re
 import oauth2
 import urllib
-from json import JSONDecoder
+import json
 from dateutil.parser import parse
 from heaps import settings
 
@@ -28,7 +28,7 @@ class TwitterWorker(object):
         }
 
         request_tweets_params = {
-            'count': self.tweets_paginate_by + 1,  # + 1 fix for pagination on tweets
+            # 'count': self.tweets_paginate_by + 1, Now it not work, possibly Twitter API errors
             'include_rts': 1,
             'screen_name': self.user_id,
         }
@@ -41,11 +41,12 @@ class TwitterWorker(object):
         response_headers, response_data = self.client.request(request_tweets_url, 'GET')
 
         if response_headers['status'] == '200':
-            response_data = JSONDecoder().decode(response_data)
+            response_data = json.loads(response_data)
         else:
             return tweets_data
 
         if len(response_data) > self.tweets_paginate_by:
+            response_data = response_data[:self.tweets_paginate_by + 1]
             last_tweet = response_data.pop()
             tweets_data['has_next'] = True
             tweets_data['next_page_id'] = last_tweet['id_str']
