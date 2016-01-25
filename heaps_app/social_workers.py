@@ -229,7 +229,7 @@ class FacebookWorker(object):
 
         return post
 
-
+# Now it's not working
 class InstagramTestWorker(object):
     access_token_url = 'https://www.instagram.com/oauth/authorize'
     users_search_url = 'https://api.instagram.com/v1/users/search'
