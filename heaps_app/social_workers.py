@@ -230,7 +230,7 @@ class FacebookWorker(object):
         return post
 
 
-class InstagramWorker(object):
+class InstagramTestWorker(object):
     access_token_url = 'https://www.instagram.com/oauth/authorize'
     users_search_url = 'https://api.instagram.com/v1/users/search'
     users_media_url = 'https://api.instagram.com/v1/users/{}/media/recent'
