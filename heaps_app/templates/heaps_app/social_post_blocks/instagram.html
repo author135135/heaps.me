@@ -1,0 +1,18 @@
+{% for media in data %}
+    <div class="inst-post-box {% if media.type == 'video' %}prev-video{% endif %}">
+        <a href="#" data-store-id="{{ media.id }}">
+            <img src="{{ media.picture }}">
+
+            <div class="info-about-post">
+                <div class="align-wrapper">
+                    <span>{{ media.likes_count }}</span>
+                    <span>{{ media.comments_count }}</span>
+                </div>
+            </div>
+
+            {% if media.type == 'video' %}
+                <div class="play-button"></div>
+            {% endif %}
+        </a>
+    </div>
+{% endfor %}

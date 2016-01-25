@@ -472,7 +472,7 @@
             content = Autolinker.link(content);
             content = minEmoji(content);
 
-            $('.content-news.' + social_network).append(content);
+            $('.content-news.' + social_network + ' > div:nth-child(2)').append($(content).html());
 
             if (response['has_next']) {
                 $('.content-news.' + social_network).attr('data-has-next', true);
@@ -499,7 +499,7 @@
                 return false;
             }
 
-            if ($(window).scrollTop() >= ($('.wrapper-post-soc-news', social_block).eq($('.wrapper-post-soc-news', social_block).length - 2).offset().top - $(window).height())) {
+            if ($(window).scrollTop() >= ($('> div:nth-child(2) > div', social_block).eq($('> div:nth-child(2) > div', social_block).length - 2).offset().top - $(window).height())) {
                 social_posts_in_progress = true;
 
                 social_block.append('<div class="load-more-news load-motion clearfix"></div>');
@@ -516,7 +516,7 @@
                     content = Autolinker.link(content);
                     content = minEmoji(content);
 
-                    social_block.append(content);
+                    $('> div:nth-child(2)', social_block).append($(content).html());
 
                     if (response['has_next']) {
                         social_block.attr('data-has-next', true);
@@ -594,7 +594,7 @@
     // Social posts content
 
     // Facebook block
-    $(document).on('click', '.play-button', function(e) {
+    $(document).on('click', '.media-box .play-button', function(e) {
         var media_box = $(this).parents('.media-box');
 
         $(this).after('<iframe src="' + $('img', media_box).attr('data-url') + '"></iframe>');
@@ -617,6 +617,75 @@
 
             media_box.next().addClass('left');
         }
+    });
+
+    // Instagram block
+    $(document).on('click', '.inst-post-box > a', function(e) {
+        e.preventDefault();
+
+        var request_data = {};
+
+        request_data['social_network'] = 'instagram';
+        request_data['action'] = 'get_popup_content';
+        request_data['action_params'] = [$(this).attr('data-store-id')]
+
+        $.get(window.location.href + 'social-posts-actions/', request_data, function(response){
+            if (response['status']) {
+                var html = '',
+                    autolinker = new Autolinker({twitter: false});
+
+                html += '<div id="social-blocks-modal" class="modal instagram-pop-up" role="dialog">';
+                html += '<div class="modal-dialog">';
+                html += '<div class="modal-content clearfix">';
+                html += '<div class="head-pop-post clearfix">';
+                html += '<div class="avatar"><img src="' + response['data']['avatar'] + '"></div>';
+                html += '<span class="user-name">' + response['data']['publisher'] + '</span>';
+                html += '<a href="' + response['data']['link'] + '" class="but-go-sosial-web"></a>';
+                html += '</div>';
+                html += '<div class="left-col prev-video">';
+                html += '<div class="media-box-pop">';
+
+                if (response['data']['type'] == 'video') {
+                    html += '<video poster="' + response['data']['picture'] + '" preload="none" loop>';
+                    html += '<source src="' + response['data']['video'] + '">';
+                    html += '</video>';
+                    html += '<div class="play-button"></div>';
+                } else {
+                    html += '<img src="' + response['data']['picture'] + '" alt="">';
+                }
+
+                html += '</div>';
+                html += '<div class="right-col">';
+                html += '<div class="info-pop-pst clearfix">';
+                html += '<span>' + response['data']['likes_count'] + ' отметок «Нравится»</span><span>' + response['data']['created_time'] + '</span>';
+                html += '</div>';
+                html += '<ul class="comments-content">';
+                html += '<li><span>' + response['data']['caption']['user'] + '</span> <span>' + $(minEmoji(autolinker.link(response['data']['caption']['text']))).html() + '</span></li>';
+
+                $.each(response['data']['comments'], function(k, v) {
+                    html += '<li><span>' + v['user'] + '</span> <span>' + $(minEmoji(autolinker.link(v['text']))).html() + '</span></li>';
+                });
+
+                html += '</ul></div></div></div></div></div>';
+
+                $('#social-blocks-modal').remove();
+                $('body').append(html);
+
+                $('#social-blocks-modal').modal('show');
+            }
+        }, 'json');
+    });
+
+    $(document).on('click', '.instagram-pop-up .play-button', function(e) {
+        var video_wrapper = $(this).parent();
+
+        $('video', video_wrapper)[0].play();
+        $(this).hide();
+    });
+
+    $(document).on('click', '.instagram-pop-up video', function(e) {
+        $(this)[0].pause();
+        $(this).next().show();
     });
 
     // End Social posts content
@@ -868,6 +937,30 @@
             }
         }, 'json');
     });
+
+    /*var modalVerticalCenterClass = ".modal";
+
+	function centerModals($element) {
+		var $modals;
+		if ($element.length) {
+		    $modals = $element;
+		} else {
+		    $modals = $(modalVerticalCenterClass + ':visible');
+		}
+		$modals.each( function(i) {
+		    var $clone = $(this).clone().css('display', 'block').appendTo('body');
+		    var top = Math.round(($clone.height() - $clone.find('.modal-content').height()) / 2);
+		    top = top > 0 ? top : 0;
+		    $clone.remove();
+		    $(this).find('.modal-content').css("margin-top", top);
+		});
+	}
+
+	$(modalVerticalCenterClass).on('show.bs.modal', function(e) {
+		centerModals($(this));
+	});
+
+	$(window).on('resize', centerModals);*/
 
     modal_handler();
 

@@ -13,123 +13,115 @@
     </div>
 </div>
 
-<div id="login" role="dialog" class="modal fade">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-offset-3 col-md-5 col-sm-offset-2 col-sm-8">
-                <form class="clearfix" action="{% url 'heaps_app:account-login' %}" method="post">
-                    {% csrf_token %}
-                    <div class="head-form">
-                        <span>Вход на сайт</span>
+<div id="login" class="modal fade log-in-pop-up" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content clearfix">
+            <form class="clearfix" action="{% url 'heaps_app:account-login' %}" method="post">
+                {% csrf_token %}
+                <div class="head-form">
+                    <span>Вход на сайт</span>
 
-                        <div class="but-close-form" data-dismiss="modal"></div>
+                    <div class="but-close-form" data-dismiss="modal"></div>
+                </div>
+                {% for field in login_form %}
+                    <div class="input-box">
+                        <label for="{{ field.id_for_label }}"
+                               class="ic-input {% cycle 'ic-log' 'ic-parol' %}"></label>
+                        {{ field }}
                     </div>
-                    {% for field in login_form %}
-                        <div class="input-box">
-                            <label for="{{ field.id_for_label }}"
-                                   class="ic-input {% cycle 'ic-log' 'ic-parol' %}"></label>
-                            {{ field }}
-                        </div>
-                        <div class="unrer-dec"></div>
-                    {% endfor %}
-                    <button class="send">ВОЙТИ</button>
-                    <div class="social-form-box">
-                        <div class="title-social-log-in">Или войти через:</div>
-                        <ul class="social-log-in clearfix">
-                            <li><a href="{% url 'social:begin' 'vk-oauth2' %}"></a></li>
-                            <li><a href="{% url 'social:begin' 'twitter' %}"></a></li>
-                            <li><a href="{% url 'social:begin' 'facebook' %}"></a></li>
-                            <li><a href="{% url 'social:begin' 'google-plus' %}" id="google-plus-button"></a></li>
-                            <li><a href="{% url 'social:begin' 'instagram' %}"></a></li>
-                        </ul>
-                    </div>
-                    <a class="link-forgot-log" href="#" data-toggle="modal" data-target="#forgotten-password">Напомнить
-                        пароль</a>
-                    <a class="link-reg-log-mod" href="#" data-toggle="modal" data-target="#registration">Регистрация</a>
-                </form>
-            </div>
+                    <div class="unrer-dec"></div>
+                {% endfor %}
+                <button class="send">ВОЙТИ</button>
+                <div class="social-form-box">
+                    <div class="title-social-log-in">Или войти через:</div>
+                    <ul class="social-log-in clearfix">
+                        <li><a href="{% url 'social:begin' 'vk-oauth2' %}"></a></li>
+                        <li><a href="{% url 'social:begin' 'twitter' %}"></a></li>
+                        <li><a href="{% url 'social:begin' 'facebook' %}"></a></li>
+                        <li><a href="{% url 'social:begin' 'google-plus' %}" id="google-plus-button"></a></li>
+                        <li><a href="{% url 'social:begin' 'instagram' %}"></a></li>
+                    </ul>
+                </div>
+                <a class="link-forgot-log" href="#" data-toggle="modal" data-target="#forgotten-password">Напомнить
+                    пароль</a>
+                <a class="link-reg-log-mod" href="#" data-toggle="modal" data-target="#registration">Регистрация</a>
+            </form>
         </div>
     </div>
 </div>
 
-<div id="registration" role="dialog" class="modal fade">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-offset-3 col-md-5 col-sm-offset-2 col-sm-8">
-                <form action="{% url 'heaps_app:account-registration' %}" method="post">
-                    {% csrf_token %}
-                    <div class="head-form">
-                        <span>Регистрация</span>
+<div id="registration" class="modal fade sign-up-pop-up" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content clearfix">
+            <form action="{% url 'heaps_app:account-registration' %}" method="post">
+                {% csrf_token %}
+                <div class="head-form">
+                    <span>Регистрация</span>
 
-                        <div class="but-close-form" data-dismiss="modal"></div>
+                    <div class="but-close-form" data-dismiss="modal"></div>
+                </div>
+                {% for field in registration_form %}
+                    <div class="input-box">
+                        <label for="{{ field.id_for_label }}"
+                               class="ic-input {% cycle 'ic-log' 'ic-parol' 'ic-parol' %}"></label>
+                        {{ field }}
                     </div>
-                    {% for field in registration_form %}
-                        <div class="input-box">
-                            <label for="{{ field.id_for_label }}"
-                                   class="ic-input {% cycle 'ic-log' 'ic-parol' 'ic-parol' %}"></label>
-                            {{ field }}
-                        </div>
-                        <div class="unrer-dec"></div>
-                    {% endfor %}
-                    <button class="send">ОТПРАВИТЬ</button>
-                </form>
-            </div>
+                    <div class="unrer-dec"></div>
+                {% endfor %}
+                <button class="send">ОТПРАВИТЬ</button>
+            </form>
         </div>
     </div>
 </div>
 
-<div id="forgotten-password" role="dialog" class="modal fade modal-EmailVerif">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-offset-3 col-md-5 col-sm-offset-2 col-sm-8">
-                <form action="{% url 'heaps_app:account-forgotten-password' %}" method="post">
+<div id="forgotten-password" class="modal fade input-mail-pop-up" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content clearfix">
+            <form action="{% url 'heaps_app:account-forgotten-password' %}" method="post">
+                {% csrf_token %}
+                <div class="head-form">
+                    <span>Укажите ваш email:</span>
+                </div>
+                {% for field in password_forgotten_form %}
+                    <div class="input-box">
+                        <label for="{{ field.id_for_label }}" class="ic-input ic-log"></label>
+                        {{ field }}
+                    </div>
+                    <div class="unrer-dec"></div>
+                {% endfor %}
+                <button class="send">ОТПРАВИТЬ</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if backend %}
+    <div id="email-verification" class="modal fade input-mail-pop-up" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content clearfix">
+                <form action="{% url "social:complete" backend %}" method="post">
                     {% csrf_token %}
                     <div class="head-form">
-                        <span>Укажите ваш email:</span>
+                        <span>Введите почту всего один раз для подтверждения входа.</span>
                     </div>
-                    {% for field in password_forgotten_form %}
+                    {% for field in email_verification_form %}
                         <div class="input-box">
                             <label for="{{ field.id_for_label }}" class="ic-input ic-log"></label>
                             {{ field }}
                         </div>
                         <div class="unrer-dec"></div>
                     {% endfor %}
-                    <button class="send">ОТПРАВИТЬ</button>
+                    <button type="submit" class="send">ОТПРАВИТЬ</button>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-{% if backend %}
-    <div id="email-verification" role="dialog" class="modal fade modal-EmailVerif">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-offset-3 col-md-5 col-sm-offset-2 col-sm-8">
-                    <form action="{% url "social:complete" backend %}" method="post">
-                        {% csrf_token %}
-                        <div class="head-form">
-                            <span>Введите почту всего один раз для подтверждения входа.</span>
-                        </div>
-                        {% for field in email_verification_form %}
-                            <div class="input-box">
-                                <label for="{{ field.id_for_label }}" class="ic-input ic-log"></label>
-                                {{ field }}
-                            </div>
-                            <div class="unrer-dec"></div>
-                        {% endfor %}
-                        <button type="submit" class="send">ОТПРАВИТЬ</button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
 {% endif %}
 
-<div id="message-modal" class="mod-go-mail">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
+<div id="message-modal" class="modal fade go-mail-pop-up" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content clearfix">
+            <div class="mod-go-mail">
                 <div class="wrapper clearfix">
                     <div class="img-inf-mail"></div>
                     <div class="go-mail-info">
@@ -155,7 +147,6 @@
 
         auth2.then(function () {
             var button = document.getElementById("google-plus-button");
-            console.log("User is signed-in in Google+ platform?", auth2.isSignedIn.get() ? "Yes" : "No");
 
             auth2.attachClickHandler(button, {}, function (googleUser) {
 

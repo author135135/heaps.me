@@ -185,7 +185,7 @@ button:focus {
 
 #nav ul li a {
     display: block;
-    padding: 13px 2em 13px 0.8em;
+    padding: 13px 30px;
     font-family: SegoeUIregular;
     font-size: 1.2em;
     color: #2A2A2A;
@@ -1151,6 +1151,215 @@ span.watermark-type {
     font-size: 14px;
 }
 
+/*********  Instagram tab-page ********/
+
+.content-news.instagram > div:nth-child(2) {
+    padding: 0 7px;
+    position: relative;
+    min-height: 100px;
+}
+
+.content-news.instagram > div:nth-child(2):after {
+    display: block;
+    content: "";
+    clear: both;
+}
+
+.inst-post-box {
+    width: 33.33333333%;
+    float: left;
+    padding: 15px 7px 0;
+    display: block;
+}
+
+.inst-post-box a {
+    display: block;
+    position: relative;
+}
+
+.inst-post-box a .info-about-post {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #000;
+    opacity: 0;
+    transition: 0.5s;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    z-index: 200;
+}
+
+.inst-post-box a .info-about-post span {
+    display: inline-block;
+    margin-left: 27px;
+    position: relative;
+}
+
+.inst-post-box a .info-about-post span:after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: transparent url(../images/like-inst.png) no-repeat center;
+    left: -23px;
+    top: 5px;
+}
+
+.inst-post-box a .info-about-post span:nth-child(2):after {
+    background: transparent url(../images/com-inst.png) no-repeat center;
+}
+
+.inst-post-box a:hover .info-about-post {
+    opacity: 0.5;
+    transition: 0.5s;
+}
+
+.inst-post-box img {
+    width: 100%;
+}
+
+/*********  Instagram POP_UP ********/
+
+/*.modal-open .modal.instagram-pop-up, 
+.modal-open .modal.log-in-pop-up, 
+.modal-open .modal.sign-up-pop-up,
+.modal-open .modal.input-mail-pop-up,
+.modal-open .modal.go-mail-pop-up {
+    display: flex;
+}*/
+
+.instagram-pop-up video {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.instagram-pop-up.in {
+    display: flex !important;
+}
+
+.instagram-pop-up .modal-dialog {
+    width: auto;
+    margin: auto;
+	max-width: 978px;
+}
+
+.instagram-pop-up .modal-dialog .modal-content, 
+.log-in-pop-up .modal-dialog .modal-content, 
+.sign-up-pop-up .modal-dialog .modal-content,
+.input-mail-pop-up .modal-dialog .modal-content,
+.go-mail-pop-up .modal-dialog .modal-content {
+    background-color: white;
+    margin: auto;
+    position: relative;
+    border-radius: 2px;
+    border: 1px solid rgba(180, 180, 180, 0.2);
+}
+
+.head-pop-post {
+    position: absolute;
+    right: 0;
+    width: 335px;
+    padding: 30px 30px 0 15px;
+}
+
+.head-pop-post .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    overflow: hidden;
+    float: left;
+}
+
+.head-pop-post .avatar img{
+    width: 100%;
+}
+
+.head-pop-post .user-name {
+    padding: 7px 15px;
+    display: block;
+    float: left;
+}
+
+.instagram-pop-up .modal-dialog .modal-content .left-col {
+    padding-right: 335px;
+    float: left;
+    position: relative;
+}
+
+.instagram-pop-up .modal-dialog .modal-content .left-col .play-button {
+    background: rgba(218, 218, 218, 0.2) url(../images/video-big-play.png) no-repeat center;
+}
+
+.instagram-pop-up .modal-dialog .modal-content .left-col img {
+    width: 100%;
+}
+
+.instagram-pop-up .modal-dialog .modal-content .right-col {
+    position: absolute;
+    right: 0;
+    top: 78px;
+    bottom: 0;
+    width: 335px;
+    padding: 0 30px 0 15px;
+}
+
+.info-pop-pst {
+    padding: 20px 30px 20px 15px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+
+.info-pop-pst span {
+    display: block;
+    float: left;
+    font-family: SegoeUIbold;
+}
+
+.info-pop-pst span:nth-child(2) {
+    float: right;
+    color: #A4A4A4;
+}
+
+.comments-content {
+    overflow: auto;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    top: 60px;
+    right: 0;
+    left: 0;
+    padding: 0 30px 0 15px;
+    word-break: break-word;
+}
+
+.comments-content li {
+    margin-bottom: 7px;
+}
+
+.comments-content li span:nth-child(1) {
+    color: #1058B4;
+}
+
+.media-box-pop {
+    float: left;
+    position: relative;
+    line-height: 0;
+}
+
+.head-pop-post a.but-go-sosial-web {
+    right: 0;
+    top: 5;
+    height: 66px;
+    width: 66px;
+    border: 0;
+    background: transparent url(../images/but-go-sosial-web-gray.png) no-repeat center;
+    z-index: 200;
+}
+
 /********************** START PAGE ************************/
 
 .start-content-sdb {
@@ -1474,6 +1683,14 @@ span.t-social {
 
 /************************** MODAL ************************/
 
+.log-in-pop-up .modal-dialog,
+.sign-up-pop-up .modal-dialog,
+.input-mail-pop-up .modal-dialog,
+.go-mail-pop-up .modal-dialog {
+    max-width: 460px;
+}
+
+
 .mod-user-photo-upload {
     display: none;
     position: fixed;
@@ -1637,8 +1854,6 @@ span.t-social {
 /* Mod-go-mail */
 
 .mod-go-mail {
-    display: none;
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -1648,7 +1863,6 @@ span.t-social {
 }
 
 .mod-go-mail .wrapper {
-    margin-top: 100px;
     display: block;
     width: 100%;
     background: rgb(255, 255, 255);
@@ -1715,7 +1929,6 @@ span.t-social {
 }
 
 .modal form, .modal-EmailVerif form {
-    margin-top: 100px;
     display: block;
     width: 100%;
     background-color: #F0F0F0;
@@ -2741,6 +2954,26 @@ a.back-home:hover {
         padding: 20px 20px 10px 0;
     }
 
+    .head-pop-post {
+        width: 100%;
+    }
+
+    .instagram-pop-up .modal-dialog .modal-content .left-col {
+        padding: 90px 0 0;
+    }
+
+    .instagram-pop-up .modal-dialog .modal-content .right-col {
+        position: inherit;
+        width: 100%;
+        float: left;
+        top: 0;
+    }
+
+    .comments-content {
+        position: inherit;
+        padding: 0;
+    }
+
 }
 
 #sidebarToggle {
@@ -2850,7 +3083,6 @@ a.back-home:hover {
 
     #nav {
         margin: 0 0 16px 0;
-        padding-left: 18px;
         position: relative;
         z-index: -1;
     }

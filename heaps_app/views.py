@@ -423,7 +423,6 @@ def social_posts_loader(request, slug):
             cache_key = 'social_posts_{}_{}'.format(celebrity_id, social_network.social_network)
 
             if page:
-                page = int(page)
                 cache_key += '_{}'.format(page)
 
             posts_data = cache.get(cache_key)
@@ -467,6 +466,43 @@ def social_posts_loader(request, slug):
             })
 
             response['content'] = get_template('heaps_app/social_post_blocks/coming-soon.html').render()
+
+        return JsonResponse(response)
+
+    return HttpResponseForbidden('Access denied')
+
+
+def social_posts_actions(request, slug):
+    if request.method == 'GET' and request.is_ajax():
+        response = dict()
+        social_network = request.GET.get('social_network')
+        action = request.GET.get('action', None)
+        action_params = request.GET.getlist('action_params[]')
+
+        try:
+            celebrity = models.Celebrity.objects.get(slug=slug)
+            social_network = celebrity.socialnetwork_set.get(social_network=social_network)
+        except (models.Celebrity.DoesNotExist, models.SocialNetwork.DoesNotExist):
+            return HttpResponseNotFound()
+
+        worker_class = '{}Worker'.format(social_network.social_network.capitalize())
+
+        if not hasattr(social_workers, worker_class):
+            return HttpResponseNotFound()
+
+        url_info = urlparse(social_network.url)
+        celebrity_id = url_info.path.strip('/')
+
+        worker = getattr(social_workers, worker_class)(celebrity_id)
+
+        if not action or not hasattr(worker, action):
+            return HttpResponseNotFound()
+
+        try:
+            response['data'] = getattr(worker, action)(*action_params)
+            response['status'] = True
+        except Exception:
+            response['status'] = False
 
         return JsonResponse(response)
 

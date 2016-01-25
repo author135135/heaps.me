@@ -5,6 +5,8 @@ import oauth2
 import urllib
 import json
 from dateutil.parser import parse
+from datetime import datetime
+from django.utils.dateformat import format
 from heaps import settings
 
 
@@ -154,6 +156,7 @@ class FacebookWorker(object):
         }
 
         if page:
+            page = int(page)
             request_posts_params.update({'offset': self.posts_paginate_by * page})
 
         response_data = requests.request('GET', request_posts_url, params=request_posts_params, verify=False).json()
@@ -225,3 +228,152 @@ class FacebookWorker(object):
         post.update(data)
 
         return post
+
+
+class InstagramWorker(object):
+    access_token_url = 'https://www.instagram.com/oauth/authorize'
+    users_search_url = 'https://api.instagram.com/v1/users/search'
+    users_media_url = 'https://api.instagram.com/v1/users/{}/media/recent'
+    media_data_url = 'https://api.instagram.com/v1/media/{}'
+    medial_comments_url = 'https://api.instagram.com/v1/media/{}/comments'
+    media_paginate_by = 12
+
+    def __init__(self, user_id):
+        self.user_id = user_id
+        self.client_id = settings.SOCIAL_AUTH_INSTAGRAM_KEY
+
+    def get_posts(self, page=None):
+        # Search Instagram user id
+        request_params = {
+            'client_id': self.client_id,
+            'q': self.user_id,
+        }
+
+        response_data = requests.request('GET', self.users_search_url, params=request_params).json()
+
+        if not response_data['data']:
+            raise requests.HTTPError('User not fount')
+
+        for user_data in response_data['data']:
+            if user_data['username'] == self.user_id:
+                instagram_user_id = user_data['id']
+                break
+        else:
+            raise requests.HTTPError('User not fount')
+
+
+        media_data = {
+            'data': [],
+            'has_next': False,
+            'next_page_id': None,
+        }
+
+        # Get user media
+        request_params = {
+            'client_id': self.client_id,
+            'count': self.media_paginate_by,
+        }
+
+        if page:
+            request_params.update({'max_id': page})
+
+        response_data = requests.request(
+            'GET',
+            self.users_media_url.format(instagram_user_id),
+            params=request_params
+        ).json()
+
+        if response_data['pagination']:
+            media_data['has_next'] = True
+            media_data['next_page_id'] = response_data['pagination']['next_max_id']
+
+        for media in response_data['data']:
+            media_data['data'].append(self._build_post(media))
+
+        return media_data
+
+    def get_popup_content(self, post_id):
+        response_data = requests.request('GET', self.media_data_url.format(post_id), params={
+            'client_id': self.client_id
+        }).json()
+
+        response_data = response_data['data']
+
+        post = dict()
+
+        post['id'] = response_data['id']
+        post['avatar'] = response_data['user']['profile_picture']
+        post['publisher'] = response_data['user']['username']
+        post['link'] = response_data['link']
+        post['picture'] = response_data['images']['standard_resolution']['url']
+        post['type'] = response_data['type']
+
+        if post['type'] == 'video':
+            post['video'] = response_data['videos']['standard_resolution']['url']
+
+        post['likes_count'] = self._format_counters(response_data['likes']['count'])
+        
+        # Create formated date in current locale
+        post['created_time'] = format(datetime.fromtimestamp(int(response_data['created_time'])), 'j E')
+
+        post['caption'] = {
+            'user': response_data['caption']['from']['username'],
+            'text': response_data['caption']['text'],
+        }
+
+        post['comments'] = []
+        comments = response_data['comments']['data']
+
+        # Get all comments if more then 8
+        if response_data['comments']['count'] > 8:
+            response_data = requests.request('GET', self.medial_comments_url.format(response_data['id']), params={
+                'client_id': self.client_id
+            }).json()
+
+            comments = response_data['data']
+
+        for comment in comments:
+            post['comments'].append({
+                'id': comment['id'],
+                'user': comment['from']['username'],
+                'text': comment['text'],
+            })
+
+        return post
+
+    def _build_post(self, data):
+        post = dict()
+
+        post['id'] = data['id']
+        post['avatar'] = data['user']['profile_picture']
+        post['picture'] = data['images']['low_resolution']['url']
+        post['type'] = data['type']
+
+        post['likes_count'] = self._format_counters(data['likes']['count'])
+        post['comments_count'] = self._format_counters(data['comments']['count'])
+
+        return post
+
+    def _format_counters(self, num):
+        """
+        Create string counter in instagram format
+        """
+        result = ''
+
+        if num > 9999:
+            num_parts = '{0:,}'.format(num).split(',')
+            num_parts_len = len(num_parts)
+            result = num_parts[0]
+
+            if (num_parts_len > 1 and len(num_parts[0]) < 3) and not num_parts[1].startswith('0'):
+                result += '.{}'.format(num_parts[1][0])
+
+
+            if 1 < num_parts_len < 3:
+                result += 'k'
+            elif num_parts_len >= 3:
+                result += 'm'
+        else:
+            result = '{0:,}'.format(num)
+
+        return result

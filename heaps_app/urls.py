@@ -17,6 +17,7 @@ person_patterns = [
     url(r'^(?P<slug>[\w-]+)/$', views.CelebrityView.as_view(), name='celebrity-view'),
     url(r'^(?P<slug>[\w-]+)/subscribe/$', views.celebrity_subscribe, name='celebrity-subscribe'),
     url(r'^(?P<slug>[\w-]+)/social-posts-loader/$', views.social_posts_loader, name='celebrity-social-posts-loader'),
+    url(r'^(?P<slug>[\w-]+)/social-posts-actions/$', views.social_posts_actions, name='celebrity-social-posts-actions'),
 ]
 
 urlpatterns = [
