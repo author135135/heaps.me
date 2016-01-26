@@ -10,7 +10,43 @@ from django.utils.dateformat import format
 from heaps import settings
 
 
-class TwitterWorker(object):
+# Request helpers
+class RequestsWrapper(object):
+    def make_request(self, method, url, *args, **kwargs):
+        result = None
+
+        # Change some default params
+        kwargs.update(kwargs.get('verify', {'verify': False}))
+
+        # Make request
+        response = requests.request(method, url, *args, **kwargs)
+        response.raise_for_status()
+
+        try:
+            result = response.json()
+        except ValueError:
+            result = response
+
+        return result
+
+
+class Oauth2Wrapper(object):
+    def make_request(self, client, method, url, *args, **kwargs):
+        if not isinstance(client, oauth2.Client):
+            raise ValueError('Invalid client instance')
+
+        response_headers, response_data = client.request(url, method, *args, **kwargs)
+
+        response_data = json.loads(response_data)
+
+        if response_headers['status'] != 200 and 'errors' in response_data:
+            raise requests.HTTPError('. '.join(map(lambda error: error['message'], response_data['errors'])))
+
+        return response_data
+
+
+# Workers
+class TwitterWorker(Oauth2Wrapper):
     tweets_data_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
     tweets_paginate_by = 5
 
@@ -40,12 +76,7 @@ class TwitterWorker(object):
 
         request_tweets_url = '{}?{}'.format(self.tweets_data_url, urllib.urlencode(request_tweets_params))
 
-        response_headers, response_data = self.client.request(request_tweets_url, 'GET')
-
-        if response_headers['status'] == '200':
-            response_data = json.loads(response_data)
-        else:
-            return tweets_data
+        response_data = self.make_request(self.client, 'GET', request_tweets_url)
 
         if len(response_data) > self.tweets_paginate_by:
             response_data = response_data[:self.tweets_paginate_by + 1]
@@ -114,31 +145,15 @@ class TwitterWorker(object):
         return post
 
 
-class FacebookWorker(object):
-    access_token_url = 'https://graph.facebook.com/oauth/access_token'
+class FacebookWorker(RequestsWrapper):
     media_data_url = 'https://graph.facebook.com/v2.2/{}'
     posts_data_url = 'https://graph.facebook.com/v2.2/{}/posts'
-    access_token = None
     posts_paginate_by = 5
 
     def __init__(self, user_id):
-        response = requests.request(
-            'GET',
-            self.access_token_url,
-            params={
-                'client_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
-                'client_secret': settings.SOCIAL_AUTH_FACEBOOK_SECRET,
-                'grant_type': 'client_credentials',
-                'redirect_uri': settings.FACEBOOK_REDIRECT_URI,
-            },
-            verify=False
-        )
-
-        if response.status_code != 200:
-            raise requests.HTTPError('Invalid client credentials')
-
-        self.access_token = response.content.split('=')[1]
         self.user_id = user_id
+        self.client_id = settings.SOCIAL_AUTH_FACEBOOK_KEY
+        self.client_secret = settings.SOCIAL_AUTH_FACEBOOK_SECRET
 
     def get_posts(self, page=None):
         posts_data = {
@@ -149,17 +164,17 @@ class FacebookWorker(object):
 
         request_posts_url = self.posts_data_url.format(self.user_id)
         request_posts_params = {
-            'access_token': self.access_token,
+            'access_token': '{}|{}'.format(self.client_id, self.client_secret),
             'limit': self.posts_paginate_by + 1,  # + 1 fix for pagination on posts
-            'fields': """id,from{name,picture},type,message,picture,full_picture,link,source,name,description,caption,
-                         object_id,                      created_time""",
+            'fields': """id,from{name,picture},type,message,full_picture,link,source,name,description,caption,object_id,
+                      created_time""",
         }
 
         if page:
             page = int(page)
             request_posts_params.update({'offset': self.posts_paginate_by * page})
 
-        response_data = requests.request('GET', request_posts_url, params=request_posts_params, verify=False).json()
+        response_data = self.make_request('GET', request_posts_url, params=request_posts_params)
 
         response_posts = response_data['data']
 
@@ -169,10 +184,7 @@ class FacebookWorker(object):
             posts_data['next_page_id'] = page + 1 if page else 1
 
         for post in response_posts:
-            clear_post = self._build_post(post)
-
-            if clear_post:
-                posts_data['data'].append(clear_post)
+            posts_data['data'].append(self._build_post(post))
 
         return posts_data
 
@@ -229,6 +241,7 @@ class FacebookWorker(object):
 
         return post
 
+
 # Now it's not working
 class InstagramTestWorker(object):
     access_token_url = 'https://www.instagram.com/oauth/authorize'
@@ -260,7 +273,6 @@ class InstagramTestWorker(object):
                 break
         else:
             raise requests.HTTPError('User not fount')
-
 
         media_data = {
             'data': [],
@@ -312,7 +324,7 @@ class InstagramTestWorker(object):
             post['video'] = response_data['videos']['standard_resolution']['url']
 
         post['likes_count'] = self._format_counters(response_data['likes']['count'])
-        
+
         # Create formated date in current locale
         post['created_time'] = format(datetime.fromtimestamp(int(response_data['created_time'])), 'j E')
 
@@ -368,7 +380,6 @@ class InstagramTestWorker(object):
             if (num_parts_len > 1 and len(num_parts[0]) < 3) and not num_parts[1].startswith('0'):
                 result += '.{}'.format(num_parts[1][0])
 
-
             if 1 < num_parts_len < 3:
                 result += 'k'
             elif num_parts_len >= 3:
@@ -379,7 +390,7 @@ class InstagramTestWorker(object):
         return result
 
 
-class SoundcloudWorker(object):
+class SoundcloudWorker(RequestsWrapper):
     soundclound_url = 'https://soundcloud.com/'
     api_url = 'http://api.soundcloud.com/'
 
@@ -398,17 +409,13 @@ class SoundcloudWorker(object):
         return posts
 
     def _get_oembed_content(self):
-        response = requests.request('GET', self.soundclound_url + 'oembed', params={
+        post = dict()
+
+        response_data = self.make_request('GET', self.soundclound_url + 'oembed', params={
             'format': 'json',
             'color': '#FF5510',
             'url': self.soundclound_url + self.user_id
         })
-
-        if response.status_code != 200:
-            pass
-
-        post = dict()
-        response_data = response.json()
 
         post['avatar'] = response_data['thumbnail_url']
         post['publisher'] = response_data['author_name']

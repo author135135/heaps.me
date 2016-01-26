@@ -1,5 +1,6 @@
 import hashlib
 import urllib
+from requests import HTTPError
 from urlparse import urlparse
 from django.utils import timezone
 from django.core.cache import cache
@@ -425,15 +426,17 @@ def social_posts_loader(request, slug):
             if page:
                 cache_key += '_{}'.format(page)
 
-            posts_data = cache.get(cache_key)
+            posts_data = cache.get(cache_key, {})
 
             if not posts_data:
-                worker = getattr(social_workers, worker_class)(celebrity_id)
+                try:
+                    worker = getattr(social_workers, worker_class)(celebrity_id)
+                    posts_data = worker.get_posts(page)
+                    cache.set(cache_key, posts_data, 1800)
+                except HTTPError:
+                    pass
 
-                posts_data = worker.get_posts(page)
-                cache.set(cache_key, posts_data, 1800)
-
-            if posts_data['data']:
+            if 'data' in posts_data:
                 content_template = get_template(
                     'heaps_app/social_post_blocks/{}.html'.format(social_network.social_network)
                 )
