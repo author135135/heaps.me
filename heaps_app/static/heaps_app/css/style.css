@@ -1242,11 +1242,11 @@ span.watermark-type {
 .instagram-pop-up .modal-dialog {
     width: auto;
     margin: auto;
-	max-width: 978px;
+    max-width: 978px;
 }
 
-.instagram-pop-up .modal-dialog .modal-content, 
-.log-in-pop-up .modal-dialog .modal-content, 
+.instagram-pop-up .modal-dialog .modal-content,
+.log-in-pop-up .modal-dialog .modal-content,
 .sign-up-pop-up .modal-dialog .modal-content,
 .input-mail-pop-up .modal-dialog .modal-content,
 .go-mail-pop-up .modal-dialog .modal-content {
@@ -1272,7 +1272,7 @@ span.watermark-type {
     float: left;
 }
 
-.head-pop-post .avatar img{
+.head-pop-post .avatar img {
     width: 100%;
 }
 
@@ -1352,12 +1352,19 @@ span.watermark-type {
 
 .head-pop-post a.but-go-sosial-web {
     right: 0;
-    top: 5;
+    top: 5px;
     height: 66px;
     width: 66px;
     border: 0;
     background: transparent url(../images/but-go-sosial-web-gray.png) no-repeat center;
     z-index: 200;
+}
+
+/*********  SoundCloud tab-page ********/
+
+.content-news.soundcloud iframe {
+    height: 500px;
+    width: 100%;
 }
 
 /********************** START PAGE ************************/
@@ -1689,7 +1696,6 @@ span.t-social {
 .go-mail-pop-up .modal-dialog {
     max-width: 460px;
 }
-
 
 .mod-user-photo-upload {
     display: none;
@@ -2078,16 +2084,17 @@ span.t-social {
 }
 
 .social-log-in {
-    margin: 0;
+    margin: 0 auto;
     display: block;
+    width: 80%;
 }
 
 .social-log-in li {
     display: block;
-    width: 19%;
+    width: 24%;
     height: 40px;
     float: left;
-    margin-right: 1.25%;
+    margin-right: 1.3333%;
 }
 
 .social-log-in li:nth-child(1) {
@@ -2104,10 +2111,6 @@ span.t-social {
 
 .social-log-in li:nth-child(4) {
     background: #fff url(../images/social-icons/g_plus-ic-dark.png) no-repeat center;
-}
-
-.social-log-in li:nth-child(5) {
-    background: #fff url(../images/social-icons/instagram-ic-dark.png) no-repeat center;
     margin-right: 0;
 }
 

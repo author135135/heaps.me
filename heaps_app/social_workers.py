@@ -377,3 +377,44 @@ class InstagramTestWorker(object):
             result = '{0:,}'.format(num)
 
         return result
+
+
+class SoundcloudWorker(object):
+    soundclound_url = 'https://soundcloud.com/'
+    api_url = 'http://api.soundcloud.com/'
+
+    def __init__(self, user_id):
+        self.user_id = user_id
+
+    def get_posts(self, *args, **kwargs):
+        posts = {
+            'data': [],
+            'has_next': False,
+            'next_page_id': None,
+        }
+
+        posts['data'].append(self._get_oembed_content())
+
+        return posts
+
+    def _get_oembed_content(self):
+        response = requests.request('GET', self.soundclound_url + 'oembed', params={
+            'format': 'json',
+            'color': '#FF5510',
+            'url': self.soundclound_url + self.user_id
+        })
+
+        if response.status_code != 200:
+            pass
+
+        post = dict()
+        response_data = response.json()
+
+        post['avatar'] = response_data['thumbnail_url']
+        post['publisher'] = response_data['author_name']
+        post['player_url'] = 'https://w.soundcloud.com/player/?{}'.format(urllib.urlencode({
+            'visual': 'false',
+            'url': self.soundclound_url + self.user_id
+        }))
+
+        return post
