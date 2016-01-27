@@ -1,6 +1,6 @@
 {% for tweet in data %}
     <div class="wrapper-post-soc-news clearfix">
-        <a class="but-go-sosial-web" href="{{ tweet.link }}"></a>
+        <a class="but-go-sosial-web" target="_blank" href="{{ tweet.link }}"></a>
 
         {% if tweet.retweeted_status %}
             <div class="head-post-context re-tweet">
