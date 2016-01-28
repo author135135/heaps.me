@@ -96,14 +96,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.social_auth_providers.append(provider_classes.get(item.provider, item.provider))
         return self.social_auth_providers
 
-    def get_my_subscribes(self):
-        if hasattr(self, 'my_subscribes'):
-            return self.my_subscribes
-
-        self.my_subscribes = self.celebrity_subscribe.all()
-
-        return self.my_subscribes
-
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if self.pk:
             user = User.objects.get(pk=self.pk)

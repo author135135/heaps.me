@@ -12,14 +12,14 @@ def heaps_context_data(request):
     # Get filter form and current filter tags
     context['current_tags'] = []
 
-    current_tags_pk = request.GET.get('filter_tags', '')
+    current_tags_pk = request.GET.getlist('filter_tag', None)
     filter_tags = list(models.Filter.objects.all())
 
     context['filter_tags_career'] = [item for item in filter_tags if item.filter_type == 'career']
     context['filter_tags_social_network'] = [item for item in filter_tags if item.filter_type == 'social_network']
 
     if current_tags_pk:
-        current_tags_pk = [int(item) for item in current_tags_pk.split(',')]
+        current_tags_pk = [int(item) for item in current_tags_pk]
         context['current_tags'] = [item for item in filter_tags if item.id in current_tags_pk]
 
     # Login and Register forms

@@ -100,40 +100,50 @@
         e.preventDefault();
 
         var form = $(this),
-            filter = [];
+            filters = [],
+            url_info = new Url(window.location.search);
+
+        url_info.path = form.attr('action');
 
         $('input[name="filter_tags"]:checked', form).each(function (element) {
-            filter.push(this.value);
+            filters.push(this.value);
         });
 
-        var query_string = set_query_string_param(window.location.search, 'filter_tags', filter.join(','));
+        if (filters.length) {
+            url_info.query['filter_tag'] = filters;
+        }
 
-        window.location = form.attr('action') + query_string;
+        window.location = url_info;
     });
 
     $('#filter-form button[type="reset"]').click(function (e) {
         e.preventDefault();
 
-        var query_string = set_query_string_param(window.location.search, 'filter_tags', '');
-        window.location = $('#filter-form').attr('action') + query_string;
+        var url_info = new Url(window.location.search);
+
+        url_info.path = $('#filter-form').attr('action');
+        delete url_info.query['filter_tag'];
+
+        window.location = url_info;
     });
 
     $('.filter-indicators-wrapper a').click(function (e) {
         e.preventDefault();
 
-        var current_filters = get_query_string_param('filter_tags'),
+        var url_info = new Url(window.location.search),
             remove_tag = $(this).attr('data-store-id');
 
-        current_filters = current_filters.split(',');
-        current_filters.splice(current_filters.indexOf(remove_tag), 1);
+        current_item_index = url_info.query['filter_tag'].indexOf(remove_tag);
 
-        var query_string = set_query_string_param(window.location.search, 'filter_tags', current_filters.join(','));
-
-        if (query_string) {
-            window.location.search = query_string;
-        } else {
-            window.location = window.location.pathname;
+        if (current_item_index != -1) {
+            if (url_info.query['filter_tag'] instanceof Array) {
+                url_info.query['filter_tag'].splice(current_item_index, 1)
+            } else {
+                delete url_info.query['filter_tag'];
+            }
         }
+
+        window.location = url_info;
     });
 
     if ($('.filter-wrap-category').length) {
@@ -369,7 +379,8 @@
 
         var form = $(this),
             emailPat = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            errors = 0;
+            errors = 0,
+            url_info = new Url(window.location.search);
 
         $('.error-wrap', form).removeClass('error-wrap');
 
@@ -391,7 +402,7 @@
         if (!errors) {
             $.post(form.attr('action'), form.serialize(), function (response) {
                 if (response['authenticated']) {
-                    var redirect_url = get_query_string_param('next');
+                    var redirect_url = url_info.query['next'];
 
                     if (!redirect_url) {
                         redirect_url = response['redirect_to'];
@@ -982,35 +993,9 @@
     });
 
     // Helpers
-    function get_query_string_param(name) {
-        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search)) {
-            return decodeURIComponent(name[1]);
-        } else {
-            return false;
-        }
-    }
-
-    function set_query_string_param(uri, key, value) {
-        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i"),
-            separator = uri.indexOf('?') !== -1 ? "&" : "?";
-
-        if (uri.match(re)) {
-            if (!value) {
-                return uri.replace(re, '');
-            } else {
-                return uri.replace(re, '$1' + key + "=" + value + '$2');
-            }
-        } else {
-            if (!value) {
-                return uri;
-            }
-
-            return uri + separator + key + "=" + value;
-        }
-    }
-
     function modal_handler() {
-        var modal = get_query_string_param('modal');
+        var url_info = new Url(window.location.search),
+            modal = url_info.query['modal'];
 
         if (modal) {
             $('#' + modal).modal();

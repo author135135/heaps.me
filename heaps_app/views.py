@@ -22,10 +22,9 @@ class CelebritiesFilterMixin(object):
     def get_queryset(self):
         qs = super(CelebritiesFilterMixin, self).get_queryset()
 
-        filter_tags = self.request.GET.get('filter_tags', None)
+        filter_tags = self.request.GET.getlist('filter_tag', None)
 
         if filter_tags:
-            filter_tags = filter_tags.split(',')
             filter_career = models.Filter.objects.filter(pk__in=filter_tags, filter_type='career')
             filter_social_network = models.Filter.objects.filter(pk__in=filter_tags, filter_type='social_network')
 
@@ -172,7 +171,7 @@ class AccountMySubscribes(CelebritiesPaginatedAjaxMixin, ListView):
         return super(AccountMySubscribes, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return models.Celebrity.public_records.filter(pk__in=self.request.user.get_my_subscribes())
+        return models.Celebrity.public_records.filter(pk__in=self.request.user.celebrity_subscribe.all())
 
 
 class AccountSettings(TemplateView):
