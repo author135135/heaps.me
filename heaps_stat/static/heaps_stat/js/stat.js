@@ -1,19 +1,5 @@
 (function ($) {
     $(document).ready(function () {
-        $(document).on('click', '.social-post li:not(.all) a', function (e) {
-            var link = $(this),
-                item = link.parents('.item'),
-                data = {};
-
-            data['social_network_name'] = link.parent().attr('class');
-
-            var celebrity_url = $('.name-post-container', item).attr('href');
-
-            data['slug'] = celebrity_url.replace(/^\/(.*)\/$/, '$1').split('/')[1];
-
-            send_data('/heaps-stat/social-link-clicks/', data);
-        });
-
         $(document).on('click', '.but-go-sosial-web, .com-soon', function(e) {
             var data = {};
 
