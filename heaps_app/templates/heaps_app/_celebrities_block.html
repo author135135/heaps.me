@@ -24,7 +24,7 @@
                             <li class="all"><a href="#"></a></li>
                         {% endif %}
                         <li class="{{ social_network.social_network }}">
-                            <a href="{{ social_network.url }}" target="_blank"></a>
+                            <a href="{{ celebrity.get_absolute_url }}?visible_block={{ social_network.social_network }}"></a>
                         </li>
                     {% endfor %}
                 </ul>

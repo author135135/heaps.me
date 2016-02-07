@@ -437,7 +437,7 @@
             request_data['social_network'] = social_network;
             request_data['block_has_content'] = $('.content-news.' + social_network + ' .head-soc-news').length;
 
-            $.get(window.location.href + 'social-posts-loader/', request_data, function(response){
+            $.get(window.location.pathname + 'social-posts-loader/', request_data, function(response){
                 if ($('.content-news.' + social_network + ' > .load-news').length) {
                     $('.content-news.' + social_network + ' > .load-news').remove();
                 }
@@ -475,7 +475,7 @@
         request_data['block_has_content'] = 1;
         request_data['page'] = page;
 
-        $.get(window.location.href + 'social-posts-loader/', request_data, function(response){
+        $.get(window.location.pathname + 'social-posts-loader/', request_data, function(response){
             $('.content-news.' + social_network + ' .load-more-news').remove();
 
             var content = response['content'];
@@ -519,7 +519,7 @@
                 request_data['block_has_content'] = 1;
                 request_data['page'] = social_block.attr('data-next-page-id');
 
-                $.get(window.location.href + 'social-posts-loader/', request_data, function(response){
+                $.get(window.location.pathname + 'social-posts-loader/', request_data, function(response){
                     $('.load-more-news', social_block).remove();
 
                     var content = response['content'];
@@ -588,7 +588,16 @@
     if ($('.social-post-znam-page').length) {
         social_tabs_visualization();
 
-        if ($('.social-post-znam-page .facebook').length && $('.social-post-znam-page .facebook').index() != 0) {
+        var url_info = new Url(window.location.search),
+            social_block = url_info.query['visible_block'];
+
+        if (typeof social_block != 'undefined' && $('.social-post-znam-page .' + social_block).length) {
+            if ($('.social-post-znam-page .' + social_block).index() != 0) {
+                $('.social-post-znam-page .' + social_block + ' a').click();
+            } else {
+                social_network_block_load();
+            }
+        }else if ($('.social-post-znam-page .facebook').length && $('.social-post-znam-page .facebook').index() != 0) {
             $('.social-post-znam-page .facebook a').click();
         } else {
             social_network_block_load();
