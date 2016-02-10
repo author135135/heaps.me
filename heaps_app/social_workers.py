@@ -443,16 +443,24 @@ class YoutubeWorker(RequestsWrapper):
         }
 
         # Try to get user channel info
-        response = self.make_request('GET', 'https://www.googleapis.com/youtube/v3/channels', params={
+        channel_params = {
             'key': self.key,
             'part': 'contentDetails',
             'forUsername': self.user,
             'maxResults': 1,
             'fields': 'items',
-        })
+        }
+
+        response = self.make_request('GET', 'https://www.googleapis.com/youtube/v3/channels', params=channel_params)
 
         if not len(response['items']):
-            return posts_data
+            channel_params.pop('forUsername')
+            channel_params['id'] = self.user
+
+            response = self.make_request('GET', 'https://www.googleapis.com/youtube/v3/channels', params=channel_params)
+
+            if not len(response['items']):
+                return posts_data
 
         playlist_id = response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
         google_plus_id = response['items'][0]['contentDetails']['googlePlusUserId']
@@ -475,7 +483,7 @@ class YoutubeWorker(RequestsWrapper):
         response = self.make_request('GET', 'https://www.googleapis.com/youtube/v3/playlistItems',
                                      params=playlist_items_params)
 
-        if response['nextPageToken']:
+        if 'nextPageToken' in response:
             posts_data['has_next'] = True
             posts_data['next_page_id'] = response['nextPageToken']
 
