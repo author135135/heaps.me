@@ -425,3 +425,83 @@ class SoundcloudWorker(RequestsWrapper):
         }))
 
         return post
+
+
+class YoutubeWorker(RequestsWrapper):
+    video_paginate_by = 5
+
+    def __init__(self, user):
+        self.user = user
+        self.user_info = {}
+        self.key = settings.GOOGLE_API_SERVER_KEY
+
+    def get_posts(self, page=None):
+        posts_data = {
+            'data': [],
+            'has_next': False,
+            'next_page_id': None,
+        }
+
+        # Try to get user channel info
+        response = self.make_request('GET', 'https://www.googleapis.com/youtube/v3/channels', params={
+            'key': self.key,
+            'part': 'contentDetails',
+            'forUsername': self.user,
+            'maxResults': 1,
+            'fields': 'items',
+        })
+
+        if not len(response['items']):
+            return posts_data
+
+        playlist_id = response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+        google_plus_id = response['items'][0]['contentDetails']['googlePlusUserId']
+
+        # Get user info from Google Plus
+        self.user_info = self.make_request('GET', 'https://www.googleapis.com/plus/v1/people/{}'.format(google_plus_id),
+                                           params={'key': self.key})
+
+        # Get channel video items
+        playlist_items_params = {
+            'key': self.key,
+            'part': 'snippet',
+            'maxResults': self.video_paginate_by,
+            'playlistId': playlist_id
+        }
+
+        if page:
+            playlist_items_params.update({'pageToken': page})
+
+        response = self.make_request('GET', 'https://www.googleapis.com/youtube/v3/playlistItems',
+                                     params=playlist_items_params)
+
+        if response['nextPageToken']:
+            posts_data['has_next'] = True
+            posts_data['next_page_id'] = response['nextPageToken']
+
+        for post in response['items']:
+            posts_data['data'].append(self._build_post(post))
+
+        return posts_data
+
+    def _build_post(self, data):
+        post = dict()
+
+        post['avatar'] = self.user_info['image']['url']
+        post['publisher'] = self.user_info['displayName']
+        post['video_url'] = 'https://www.youtube.com/watch?v={}'.format(data['snippet']['resourceId']['videoId'])
+        post['created_time'] = parse(data['snippet']['publishedAt'])
+
+        post['title'] = data['snippet']['title']
+        post['description'] = data['snippet']['description']
+
+        if 'maxres' in data['snippet']['thumbnails']:
+            post['thumb'] = data['snippet']['thumbnails']['maxres']['url']
+        elif 'standart' in data['snippet']['thumbnails']:
+            post['thumb'] = data['snippet']['thumbnails']['standard']['url']
+        else:
+            post['thumb'] = data['snippet']['thumbnails']['high']['url']
+
+        post['video_src'] = 'https://www.youtube.com/embed/{}'.format(data['snippet']['resourceId']['videoId'])
+
+        return post

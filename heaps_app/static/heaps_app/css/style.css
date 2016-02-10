@@ -99,7 +99,7 @@ button:focus {
 }
 
 .modal-content {
-		border-radius: 2px;
+    border-radius: 2px;
 }
 
 #sidebar {
@@ -511,11 +511,11 @@ li.official-web a {
     margin-bottom: 0;
 }
 
-.full-description-open {
-    max-height: none;
+.full-open {
+    max-height: none !important;
 }
 
-.load-full-description {
+.load-full {
     display: block;
     color: #3E3E3E;
     margin: 6px 0;
@@ -526,17 +526,17 @@ li.official-web a {
     float: left;
 }
 
-.load-full-description:hover {
+.load-full:hover {
     color: #000;
     text-decoration: none;
 }
 
-.load-full-description:focus {
+.load-full:focus {
     text-decoration: none;
     color: inherit;
 }
 
-.full-description-open + .load-full-description {
+.full-open + .load-full {
     color: #000;
 }
 
@@ -993,7 +993,8 @@ a.but-go-sosial-web {
     display: block;
 }
 
-.media-description span.title a {
+.media-description span.title a,
+.content-news.youtube .content-post span {
     font-family: SegoeUIbold;
     font-size: 20px;
     color: #000;
@@ -1058,21 +1059,22 @@ span.watermark-type {
     border-radius: 0 2px 0 0;
 }
 
+/************************************  TAB-PAGES ******************/
 /*********  Facebook tab-page ********/
 
-.content-news.facebook .description-social-post span {
-    display: block;
-    margin-top: -2px;
-}
-
-.content-news.facebook .description-social-post span:nth-child(1) {
+.content-news .description-social-post span:nth-child(1) {
     font-family: SegoeUIbold;
     color: #3b5998;
 }
 
-.content-news.facebook .description-social-post span:nth-child(2) {
+.content-news .description-social-post span:nth-child(2) {
     font-size: 14px;
     color: #b2b2b2;
+}
+
+.content-news .description-social-post span {
+    display: block;
+    margin-top: -2px;
 }
 
 /*********  Twitter tab-page ********/
@@ -1224,16 +1226,6 @@ span.watermark-type {
     width: 100%;
 }
 
-/*********  Instagram POP_UP ********/
-
-/*.modal-open .modal.instagram-pop-up, 
-.modal-open .modal.log-in-pop-up, 
-.modal-open .modal.sign-up-pop-up,
-.modal-open .modal.input-mail-pop-up,
-.modal-open .modal.go-mail-pop-up {
-    display: flex;
-}*/
-
 .instagram-pop-up video {
     width: 100% !important;
     height: auto !important;
@@ -1373,6 +1365,18 @@ span.watermark-type {
 .content-news.soundcloud iframe {
     height: 700px;
     width: 100%;
+}
+
+/*********  YouTube tab-page ********/
+
+.content-news.youtube iframe {
+    width: 100%;
+    height: 356px;
+}
+
+.content-news.youtube .message-post {
+    max-height: 46px;
+    overflow: hidden;
 }
 
 /********************** START PAGE ************************/

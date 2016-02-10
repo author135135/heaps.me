@@ -424,7 +424,7 @@
 
     // Toggle celebrity description
     if ($('.full-description').length && ($('.full-description *').height() > parseFloat($('.full-description').css('maxHeight')))) {
-        $('.full-description').after('<a href="#" class="load-full-description">Полное описание</a>');
+        $('.full-description').after('<a href="#" class="load-full">Полное описание</a>');
     }
 
     // Social posts block loader
@@ -604,10 +604,10 @@
         }
     }
 
-    $(document).on('click', '.load-full-description', function(e){
+    $(document).on('click', '.load-full', function(e){
         e.preventDefault();
 
-        $(this).prev().toggleClass('full-description-open');
+        $(this).prev().toggleClass('full-open');
         $(this).text($(this).text() == 'Полное описание' ? 'Скрыть описание' : 'Полное описание');
     });
 
@@ -706,6 +706,17 @@
     $(document).on('click', '.instagram-pop-up video', function(e) {
         $(this)[0].pause();
         $(this).next().show();
+    });
+
+    // Youtube block
+    $(document).on('click', '.youtube .play-button', function(e){
+        var wrap = $(this).parent();
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('src', $(this).prev().attr('data-url') + '?autoplay=1')
+        iframe.setAttribute('frameborder', 0);
+        iframe.setAttribute('allowfullscreen', '');
+
+        wrap.empty().append(iframe);
     });
 
     // End Social posts content

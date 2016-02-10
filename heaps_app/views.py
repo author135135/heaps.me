@@ -418,7 +418,7 @@ def social_posts_loader(request, slug):
 
         if hasattr(social_workers, worker_class):
             url_info = urlparse(social_network.url)
-            celebrity_id = url_info.path.strip('/')
+            celebrity_id = url_info.path.strip('/').split('/')[-1]
 
             cache_key = 'social_posts_{}_{}'.format(celebrity_id, social_network.social_network)
 
@@ -435,7 +435,7 @@ def social_posts_loader(request, slug):
                 except HTTPError:
                     pass
 
-            if 'data' in posts_data:
+            if posts_data['data']:
                 content_template = get_template(
                     'heaps_app/social_post_blocks/{}.html'.format(social_network.social_network)
                 )

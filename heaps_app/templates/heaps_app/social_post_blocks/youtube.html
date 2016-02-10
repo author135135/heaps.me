@@ -1,0 +1,27 @@
+{% for video in data %}
+    <div class="wrapper-post-soc-news clearfix">
+        <a class="but-go-sosial-web" href="{{ video.video_url }}"></a>
+
+        <div class="head-post-news clearfix">
+            <div class="avatar">
+                <img src="{{ video.avatar }}" alt="">
+            </div>
+            <div class="description-social-post">
+                <span>{{ video.publisher }}</span>
+                <span>{{ video.created_at|date:"j F H:i" }}</span>
+            </div>
+        </div>
+        <div class="content-post">
+            <div class="media-container">
+                <div class="prev-video">
+                    <img src="{{ video.thumb }}" data-url="{{ video.video_src }}">
+                    <div class="play-button"></div>
+                </div>
+            </div>
+            <span>{{ video.title }}</span>
+
+            <div class="message-post">{{ video.description }}</div>
+            <a href="#" class="load-full">Полное описание</a>
+        </div>
+    </div>
+{% endfor %}
